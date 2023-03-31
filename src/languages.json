@@ -1,0 +1,213 @@
+{
+    "languages": [
+      {
+        "name": "English",
+        "nativeName": "English",
+        "region": "Worldwide",
+        "speakers": "1.5 billion"
+      },
+      {
+        "name": "Mandarin Chinese",
+        "nativeName": "普通话 (Pǔtōnghuà)",
+        "region": "China, Taiwan, Singapore",
+        "speakers": "1.1 billion"
+      },
+      {
+        "name": "Hindi",
+        "nativeName": "हिन्दी (Hindī)",
+        "region": "India, Nepal",
+        "speakers": "600 million"
+      },
+      {
+        "name": "Spanish",
+        "nativeName": "Español",
+        "region": "Spain, Latin America",
+        "speakers": "500 million"
+      },
+      {
+        "name": "Arabic",
+        "nativeName": "العربية (al-ʻarabiyyah)",
+        "region": "Middle East, North Africa",
+        "speakers": "420 million"
+      },
+      {
+        "name": "Bengali",
+        "nativeName": "বাংলা (Bangla)",
+        "region": "Bangladesh, India",
+        "speakers": "300 million"
+      },
+      {
+        "name": "Russian",
+        "nativeName": "Русский язык (Russkiy yazyk)",
+        "region": "Russia, Belarus, Kazakhstan",
+        "speakers": "260 million"
+      },
+      {
+        "name": "Portuguese",
+        "nativeName": "Português",
+        "region": "Portugal, Brazil",
+        "speakers": "220 million"
+      },
+      {
+        "name": "French",
+        "nativeName": "Français",
+        "region": "France, Canada, Switzerland",
+        "speakers": "220 million"
+      },
+      {
+        "name": "German",
+        "nativeName": "Deutsch",
+        "region": "Germany, Austria, Switzerland",
+        "speakers": "100 million"
+      },
+      {
+        "name": "Japanese",
+        "nativeName": "日本語 (Nihongo)",
+        "region": "Japan",
+        "speakers": "128 million"
+      },
+      {
+        "name": "Korean",
+        "nativeName": "한국어 (Hangugeo)",
+        "region": "North Korea, South Korea",
+        "speakers": "77 million"
+      },
+      {
+        "name": "Italian",
+        "nativeName": "Italiano",
+        "region": "Italy, Switzerland",
+        "speakers": "85 million"
+      },
+      {
+        "name": "Turkish",
+        "nativeName": "Türkçe",
+        "region": "Turkey, Cyprus",
+        "speakers": "85 million"
+      },
+      {
+        "name": "Polish",
+        "nativeName": "Polski",
+        "region": "Poland",
+        "speakers": "45 million"
+      },
+      {
+        "name": "Dutch",
+        "nativeName": "Nederlands",
+        "region": "Netherlands, Belgium",
+        "speakers": "24 million"
+      },
+      {
+        "name": "Swedish",
+        "nativeName": "Svenska",
+        "region": "Sweden, Finland"
+    },
+    {
+      "name": "Indonesian",
+      "nativeName": "Bahasa Indonesia",
+      "region": "Indonesia",
+      "speakers": "43 million"
+    },
+    {
+      "name": "Czech",
+      "nativeName": "Čeština",
+      "region": "Czech Republic",
+      "speakers": "10 million"
+    },
+    {
+      "name": "Thai",
+      "nativeName": "ไทย (Phasa Thai)",
+      "region": "Thailand",
+      "speakers": "20 million"
+    },
+    {
+      "name": "Finnish",
+      "nativeName": "Suomi",
+      "region": "Finland",
+      "speakers": "5 million"
+    },
+    {
+      "name": "Norwegian",
+      "nativeName": "Norsk",
+      "region": "Norway",
+      "speakers": "5 million"
+    },
+    {
+      "name": "Danish",
+      "nativeName": "Dansk",
+      "region": "Denmark",
+      "speakers": "6 million"
+    },
+    {
+      "name": "Greek",
+      "nativeName": "Ελληνικά (Elliniká)",
+      "region": "Greece, Cyprus",
+      "speakers": "13 million"
+    },
+    {
+      "name": "Hungarian",
+      "nativeName": "Magyar",
+      "region": "Hungary",
+      "speakers": "13 million"
+    },
+    {
+      "name": "Romanian",
+      "nativeName": "Română",
+      "region": "Romania, Moldova",
+      "speakers": "25 million"
+    },
+    {
+      "name": "Hebrew",
+      "nativeName": "עברית (Ivrit)",
+      "region": "Israel",
+      "speakers": "9 million"
+    },
+    {
+      "name": "Ukrainian",
+      "nativeName": "Українська (Ukrayins'ka)",
+      "region": "Ukraine",
+      "speakers": "37 million"
+    },
+    {
+      "name": "Slovak",
+      "nativeName": "Slovenčina",
+      "region": "Slovakia",
+      "speakers": "5 million"
+    },
+    {
+      "name": "Bulgarian",
+      "nativeName": "Български (Bălgarski)",
+      "region": "Bulgaria",
+      "speakers": "10 million"
+    },
+    {
+      "name": "Croatian",
+      "nativeName": "Hrvatski",
+      "region": "Croatia",
+      "speakers": "5 million"
+    },
+    {
+      "name": "Serbian",
+      "nativeName": "Српски (Srpski)",
+      "region": "Serbia",
+      "speakers": "9 million"
+    },
+    {
+      "name": "Lithuanian",
+      "nativeName": "Lietuvių kalba",
+      "region": "Lithuania",
+      "speakers": "3 million"
+    },
+    {
+      "name": "Latvian",
+      "nativeName": "Latviešu valoda",
+      "region": "Latvia",
+      "speakers": "2 million"
+    },
+    {
+      "name": "Estonian",
+      "nativeName": "Eesti keel",
+      "region": "Eston"
+    }
+    ]
+}
+  

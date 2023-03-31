@@ -1,0 +1,30 @@
+import { NavLink,
+    Outlet } from "react-router-dom"
+import { FaStar,FaFire } from "react-icons/fa"
+import { useState } from "react"
+import Coins from "./Coins"
+import Portfolio from "./Portfolio"
+
+export default function CoinNavbar({handlePortfolio,pfolio,newcoins, coins}){
+    const [isActive,setIsActive] = useState(false)
+   
+ 
+    return<>
+
+<ul className='relative pb-5 h-10 border-b-[1px]  border-neutral-400
+ gap-5 top-24 flex' >
+    <FaStar className="text-yellow-400"/>
+     <li onClick={handlePortfolio}  className={`${pfolio ? 'border-b-2 -mb-5 ' :'hover:border-b-2  cursor-pointer -mb-5 border-cyan-100'} cursor-pointer` }>Portfolio</li>
+   <li   onClick={handlePortfolio}  className={`${coins ?'border-b-2 -mb-5 ' :"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100"} cursor-pointer`}>Coins</li>
+    <li onClick={handlePortfolio}className={`${newcoins ?'border-b-2 -mb-5 ' :"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100"} cursor-pointer`}>New Coins</li>
+   <li onClick={handlePortfolio}  className={`${isActive ? 'border-b-2 -mb-5 ' :"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100"} cursor-pointer` }>Gainer &amp; Losers</li>
+  <li  onClick={handlePortfolio} className={`${isActive ? 'border-b-2 -mb-5 ' :'"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100'} cursor-pointer` }>Avalanche Ecosystem</li><FaFire className="text-red-900"/>
+   <li onClick={handlePortfolio}  className={`${isActive ? 'border-b-2 -mb-5 ' :'"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100'} cursor-pointer` }>Polygon Ecosystem</li><FaFire className="text-red-900"/>
+   <li  onClick={handlePortfolio} className={`${isActive ? 'border-b-2 -mb-5 ' :'"hover:border-b-2  cursor-pointer -mb-5 border-cyan-100'} cursor-pointer` }>Ethereum Ecosystem</li><FaFire className="text-red-900"/>
+
+</ul> 
+
+
+
+    </>
+}
