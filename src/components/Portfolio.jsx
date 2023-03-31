@@ -1,14 +1,65 @@
+import { FaBell, FaChartBar, FaChartLine } from "react-icons/fa"
 import Footer from "./Footer"
 
 const Portfolio =()=>{
 return<>
 
 
-<section className={` relative top-32 w-full`}>
+<main className={` relative top-32 w-full`}>
+<section className="grid grid-cols-2">
+    <div>
+        <h1 className="font-bold mt-10 text-4xl w-2/3">
+        Free &amp; Powerful Crypto Portfolio Tracker
+        </h1>
+        <h3 className="text-neutral-400 w-3/4 mt-6">Track your crypto earnings like a pro, with a user-friendly and reliable portfolio tracker that you can rely on
 
-<h3>This is the portfolio page</h3>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat quam debitis tenetur, hic, reprehenderit neque possimus ipsam labore corrupti velit illo quasi et? Ipsa officia, ullam beatae sit dolorem saepe magni non error, eligendi quisquam provident tenetur nisi. Fugiat, incidunt cupiditate! Minima ex debitis dicta praesentium magni placeat at saepe aut veniam ab recusandae mollitia hic optio vero modi autem quae illum amet, consequuntur accusamus officia sit maiores quia magnam! Saepe alias magnam eum et fugiat totam mollitia animi corporis quas distinctio ducimus rerum numquam, laboriosam voluptates aut cumque modi. Laborum ab voluptate sint? Repudiandae consectetur in natus dolores deserunt iusto sunt culpa animi, odio dolorem! Cumque ullam molestias amet, ipsam doloribus unde optio libero eos aliquid, quidem et fuga dolore repellendus voluptas praesentium minima ex corporis? Modi neque eum in debitis laudantium facere adipisci maiores possimus tenetur incidunt, nesciunt, rerum itaque molestiae magnam. Eos itaque saepe ut quaerat maiores, sed est placeat autem, explicabo dignissimos eum quidem aspernatur quibusdam obcaecati accusamus nulla perspiciatis voluptatem odio optio eius amet ad. Tenetur reprehenderit aliquam ea cupiditate consectetur at culpa magnam quo, praesentium sit minima earum unde ullam tempore sint fuga veniam repellendus sunt temporibus amet corporis numquam ipsa. Vero placeat quae perspiciatis sunt eaque quo aliquam impedit eius, consequatur, quidem debitis labore iste temporibus facilis, vitae blanditiis harum distinctio animi qui asperiores similique. Ea sit nihil laborum tenetur inventore possimus explicabo, blanditiis illum alias esse animi quo, sint, magni saepe laudantium numquam autem suscipit eius ad consequuntur qui accusamus eveniet exercitationem. Nihil consequatur ut mollitia ex sunt, a fugit illum beatae error sit accusamus provident, velit enim minus est perferendis libero hic quia voluptates quo quidem animi aliquam. Iure cupiditate error praesentium quaerat quod ea quos id officiis unde! Modi doloribus doloremque voluptatum nulla, natus ea culpa, facilis ducimus delectus, itaque sequi ut voluptas dolor ipsa vel dolore laboriosam expedita consequuntur dicta. Excepturi cum laborum in dolores, sequi impedit temporibus laudantium modi doloribus? Hic quo tempore pariatur minima iusto excepturi qui fugit. Consequuntur qui officia quasi quos nemo debitis, maxime odio ad ex quas sed dolore necessitatibus, veniam doloribus voluptatibus est repellat asperiores itaque! Ipsa magni quibusdam explicabo tenetur quod dicta voluptatem incidunt nobis quis fugiat voluptate ea qui quo numquam, ipsum dolores natus itaque omnis rem nemo molestiae voluptates nihil, praesentium dolorem. Sint, eaque perferendis. Eos suscipit, veritatis odit rem tempora placeat deserunt dolor hic facilis deleniti. Soluta explicabo necessitatibus doloribus minus quasi aut corrupti dolor ad dolore dignissimos repellat consequuntur cumque quam molestias amet, consequatur deleniti ipsam reprehenderit dolorem. A accusantium accusamus fuga sequi veniam ut in laboriosam atque maiores excepturi et sint porro labore ab sunt voluptatibus, corporis modi laudantium eaque dicta earum. Facere et a beatae libero molestias quas reprehenderit nulla autem error saepe, impedit odio modi quidem, accusamus sapiente, minus excepturi magnam repellat. Velit deserunt reiciendis, rem temporibus perferendis mollitia sequi eius fugiat aspernatur voluptatem quaerat repellendus necessitatibus, inventore nam molestias! Laborum in doloremque deleniti facere. Consequatur animi soluta dolores nesciunt alias itaque officia aliquam quos!</p>
- </section>
+        </h3>
+        <button className="bg-green-600 rounded px-6 py-2 mt-10 hover:bg-green-900 text-cyan-50">
+            SIGN UP
+        </button>
+        <button className="border-cyan-50 rounded border-[1px] ml-8 py-2 px-6 hover:border-green-600 ">
+            LOG IN
+        </button>
+        <h3 className="text-neutral-400 mt-8">
+        Start your portfolio now!
+        </h3>
+    </div>
+    <div>
+        <img src="src/assets/simage.webp" alt="phone-img" /><img src="" alt="" />
+    </div>
+</section>
+<section className="grid mt-20 grid-cols-3">
+    <div>
+        <h1 className="font-semibold text-xl">📈Real-time Price Data (11,000+ coins)</h1>
+        <p className="font-light text-xl">From the world's largest independent cryptocurrency data agreegator</p>
+    </div>
+    <div>
+<h1 className="font-semibold text-xl">📲Synced across Web &amp; Mobile App</h1>
+<p   className="font-light text-xl">Porfolio tracking at your fingertips -anytime,anywhere</p>
+    </div>
+    <div>
+        <h1 className="font-semibold text-xl">
+        📊 Create multiple Portfolios
+        </h1>
+        <p  className="font-light text-xl">
+            Cover all strategies - conservative,risky,long term HODL,DeFi,low-cap gems, high risk positions and more!
+        </p>
+    </div>
+</section>
+<section className="grid gap-x-32 grid-cols-2">
+    <img src="src/assets/pimage.webp" alt="" />
+    <div className="relative top-1/4">
+        <h1 className='text-3xl mt- place font-bold'>
+        Bring it to the next level with mobile app
+        </h1>
+        <div className="mt-8 ml-8">
+            <p className="inline">🔄Synced Portfolios</p>
+            <p className="ml-10 inline">🔔Price Alerts</p>
+            <p className="ml-10 inline">💰Price Widgets</p>
+        </div>
+    </div>
+</section>
+</main>
  <Footer/>
 </>
 }

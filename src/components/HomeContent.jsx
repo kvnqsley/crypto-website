@@ -16,19 +16,6 @@ const HomeContent =()=>{
   const [gainers,setGainers]=useState(false)
   
 
-//   const reducer =(state,action)=>{
-
-
-//     switch (action) {
-//       case 'highlightPortfolio':
-        
-//         break;
-    
-//       default:
-//         break;
-//     }
-//   }
-// const [activeContent,dispatch] = useReducer(inital, reducer)
 
 
   const handlePortfolio = (e)=>{
@@ -43,7 +30,7 @@ const HomeContent =()=>{
       setNewcoins(false)
       break;
 
-      
+
     case 'New Coins':
 
      setComponent(<NewCoins/>) 

@@ -41,8 +41,8 @@ const CurrencyDropDown=({currencyDDActive,handleCurrencyClick})=>{
 Bitcoin Units <span className="bg-yellow-400 rounded-md text-xs pl-2 pr-2">New</span>
             </h3>
            <div className="mt-4 grid grid-cols-2 w-[30rem]  place-items-start  ">
-           <h3 className="w-28  ml-6"><span className="inline-block  mr-4 text-gray-700">BITS</span>Bits</h3>
-            <h3 className="w-28 ml-6 "><span className="inline-block  mr-4 text-gray-700">SATS</span>Satoshi</h3>
+           <h3 className="w-28 hover:bg-orange-100 px-4 rounded hover:text-green-400 cursor-pointer ml-6"><span className="inline-block  mr-4 text-gray-700">BITS</span>Bits</h3>
+            <h3 className="w-30 ml-6  hover:bg-orange-100 px-4  rounded hover:text-green-400 cursor-pointer"><span className="inline-block  mr-4 text-gray-700">SATS</span>Satoshi</h3>
 
            </div>
             <h3 className="mt-8 text-xl text-gray-800">
