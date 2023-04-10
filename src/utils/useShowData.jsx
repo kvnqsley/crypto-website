@@ -1,18 +1,42 @@
 import {useState,useEffect} from 'react'
+import { useDispatch,useSelector} from 'react-redux'
+import { hideLanguages,hideCurrency } from './LangSlice'
 
-const useShowData =(setActiveState,elementRef) =>{
+const useShowData =(elementRef) =>{
+   const dispatch = useDispatch()
+const hide=()=>{
+  
+}
+
    useEffect(()=>{
-    document.body.addEventListener('click',(e)=>{
-        if (!elementRef.current.contains(e.target)) {
-           setActiveState(true)
-        }
-           /* 
-           I'll confirm if this is good practice
-           */
-        
-             })  
+      const root = document.getElementById('root')
+      if (window.screen.width >= 900) {
+         root.addEventListener('click',(e)=>{
+            try {
+               if (!elementRef.current.contains(e.target)) {
+      
+                  if (elementRef.current.id === ':r3:') {
+                     dispatch(hideLanguages())
+                  }
+                  if (elementRef.current.id === ':r2:') {
+                     dispatch(hideCurrency())
+                  }
+               
+                       /* 
+                       I'll confirm if this is good practice
+                       */
+                    
+                         }
+                
+            } catch (error) {
+                console.log(error);;
+            }
+           
+         })
+      }
    },[])
+  
 
-    return[setActiveState,elementRef]
+    return[elementRef]
 }
 export default useShowData

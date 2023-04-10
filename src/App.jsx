@@ -1,4 +1,3 @@
-
 import Header from './components/Header'
 import HomeContent from './components/HomeContent'
 import Loading from '/src/utils/Loading'

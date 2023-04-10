@@ -2,17 +2,17 @@
 import {FaMoon,FaCaretDown,FaSearch, FaLevelDownAlt} from 'react-icons/fa'
 import axios from 'axios'
 import SearchBar from '../utils/SearchBar'
-import {useEffect,useReducer,useState,useRef} from 'react'
+import {useEffect,useReducer,useState,useRef, useId} from 'react'
 import Loading from '../utils/Loading'
 import CurrencyDropDown from './CurrencyDropDown'
 import useShowData from '../utils/useShowData'
 import LanguagesDropDown from './LanguagesDropDown'
 import { NavLink, Outlet } from 'react-router-dom'
-import {useQuery,useQueryClient} from '@tanstack/react-query'
+import {useQuery} from '@tanstack/react-query'
 import { useDispatch } from 'react-redux'
 import { openSidebar } from '../utils/Sidebarslice'
-import { togggleLanguages } from '../utils/LangSlice'
-
+import { togggleLanguages,hideLanguages} from '../utils/LangSlice'
+import {toggleCurrency} from '../utils/Sidebarslice'
 export default function Header({isActive,handleToggle}) {
 const dispatch = useDispatch()
     
@@ -24,17 +24,11 @@ const [currency, setCurrency] = useState('USD')
    const currencyRef = useRef('')
    const languageRef = useRef('')
 
-const [] = useShowData(setCurrencyDDActive,currencyRef)
-// useShowData(setLanguagesDDActive,languageRef)
 
-const showCurrencies=()=>{
-setCurrencyDDActive(value=>!value);
+ const currencyId=useId()
 
-}
-const showLanguages=()=>{
-setLanguagesDDActive(value=>!value);
-console.log(languageDDActive);
-}
+const lang=useId()
+
 
 const handleCurrencyClick =(e)=>{
     const value =e.target.textContent.trim()
@@ -54,13 +48,20 @@ const {isError,data,error,isLoading }=useQuery(['market value'],()=> axios.get(a
   
 // }
 
+
+    if (window.screen.availWidth >= 900) {
+        useShowData(currencyRef)
+        useShowData(languageRef)
+     }
+
+
 useEffect(()=>{
 setIsSmallScreen(window.innerWidth < 641)
 window.addEventListener('resize',()=>{
     setIsSmallScreen(window.innerWidth < 641)
    
 })
- 
+
 
 },[])
 
@@ -69,7 +70,8 @@ window.addEventListener('resize',()=>{
    <header  className="">
        {isError && <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
            <h1 className='text-red-800'>Please Check your Newtwork</h1></marquee>}
-{isLoading ?  <Loading/> : <ul className=' hidden  md:flex mb-6 justify-around'>
+{isLoading ?  <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
+           <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1></marquee> : <ul className=' hidden  md:flex mb-6 justify-around'>
  <li>Exchanges: <span className='text-amber-50'>{data.data.markets}</span></li>
      <li>Coins: <span className='text-amber-50'>{data.data.active_cryptocurrencies
 }</span></li>
@@ -142,14 +144,15 @@ window.addEventListener('resize',()=>{
     <li className='cursor-pointer'><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" fontSize="2rem" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12 6a3.939 3.939 0 0 0-3.934 3.934h2C10.066 8.867 10.934 8 12 8s1.934.867 1.934 1.934c0 .598-.481 1.032-1.216 1.626a9.208 9.208 0 0 0-.691.599c-.998.997-1.027 2.056-1.027 2.174V15h2l-.001-.633c.001-.016.033-.386.441-.793.15-.15.339-.3.535-.458.779-.631 1.958-1.584 1.958-3.182A3.937 3.937 0 0 0 12 6zm-1 10h2v2h-2z"></path><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path></svg></li>
 </ul>
 <ul className='flex min-w-[10rem] gap-4 '>
-    <li className='cursor-pointer' ref={languageRef}>
-    <div className='cursor-pointer'>EN<FaCaretDown onClick={()=>dispatch(togggleLanguages())} className='inline'/>
+    <li className='cursor-pointer' id=
+    {lang} onClick={()=>dispatch(togggleLanguages())} ref={languageRef}>
+    <div className='cursor-pointer'>EN<FaCaretDown  className='inline'/>
         <LanguagesDropDown
         languageDDActive={languageDDActive}
         /></div>
     </li>
-    <li ref={currencyRef} className='cursor-pointer'>
-    <div className='cursor-pointer'>{currency} <FaCaretDown onClick={showCurrencies} className='inline'/></div>
+    <li ref={currencyRef} id={currencyId} onClick={()=> dispatch(toggleCurrency())} className='cursor-pointer'>
+    <div className='cursor-pointer'>{currency} <FaCaretDown  className='inline'/></div>
     <CurrencyDropDown 
    currencyDDActive={currencyDDActive}
    setCurrencyDDActive={setCurrencyDDActive}

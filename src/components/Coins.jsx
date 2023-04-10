@@ -10,7 +10,10 @@ export default function Coins() {
    const [data,setData] =useState([]);
    const [isActive,setIsActive] = useState(true)
    const [isCoin,setIsCoin] = useState(false)
-
+const [favourite,setFavourite] =  useState(false)
+   const selectFavourite=()=>{
+      setFavourite(prev=>!prev)
+   }
    const api='https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
    const getMarketData=()=>{
       axios.get(api).then(
@@ -87,7 +90,7 @@ export default function Coins() {
            
            </div>
            {data.map(coin=><div key={coin.market_cap_rank} className=" grid mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center">
-            <h3 className="-ml-10 border-spacing-x-96"><FaStar className="inline mr-4 md:mr-0 text-sky-800 outline-green-100"/>{coin.market_cap_rank}</h3>
+            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
             <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
             <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
             </h3>

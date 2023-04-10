@@ -1,21 +1,26 @@
 import { useSelector,useDispatch } from "react-redux"
-import {FaCaretDown,FaStar,FaGift,FaMoon} from 'react-icons/fa'
-import React from 'react'
+import {FaCaretDown,FaStar,FaGift,FaMoon,FaUser,FaUserCircle, FaCaretUp} from 'react-icons/fa'
+import React, { useEffect } from 'react'
 import { useState} from 'react'
-import { closeSidebar } from "./Sidebarslice"
-import {togggleLanguages} from './LangSlice'
+import { closeSidebar,openSignup,  toggleSidebarCurrency  } from "./Sidebarslice"
+import {togggleSidebarLanguages} from './LangSlice'
+import Signup from '../components/Signup'
 import LanguagesDropDown from "../components/LanguagesDropDown"
+import CurrencyDropDown from "../components/CurrencyDropDown"
  function SideNavbar() {
 
     const isSidebarActive = useSelector(state=>state.sideBarActive.value)
+    const isCurrencyActive = useSelector(state=>state.sideBarActive.currencies)
     const isLangActive = useSelector(state=>state.language.value)
+    const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
     const dispatch =useDispatch()
 const [showDropdown,setShowDropdown] = useState({
     cryptocurrencies:false,
     exchanges:false,
     nft:false,
     products:false,
-    learn:false
+    learn:false,
+    account:false
 })
 const showCryptocurrencies=()=>{
     setShowDropdown(prev=>
@@ -62,13 +67,38 @@ const showLearn=()=>{
         }
     })
 }
-
+const showAccount=()=>{
+    setShowDropdown(prev=>
+        {
+        return {
+            ...prev,
+        account: !showDropdown.account
+        }
+    })
+}
+const[component,setComponent] = useState({
+    language:'',
+    currencies:'',
+    signup:''
+})
+useEffect(()=>{
+    if (window.innerWidth <= 900) {
+     setComponent((prev =>{
+         return{
+             ...prev,
+             language:<LanguagesDropDown/>,
+             currencies:<CurrencyDropDown/>,
+             signup:<Signup/>
+         }
+     }))
+    }
+},[isLangActive,isCurrencyActive])
 
 
     return(<>
     <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ease-in duration-200 bg-sky-700 absolute -translate-y-32 z-10   w-full min-h-screen`}>
        
-    <div onClick={()=>dispatch(closeSidebar()) } className="px-2 w-18 inline-block h-10">
+    <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
     <div className='w-6 bg-slate-900 mt-1 h-1 ml-2 translate-y-6 rotate-45'></div>
    
    <div className='w-6 bg-slate-900 mt-1 ml-2 h-1  translate-y-4 -rotate-45'></div>
@@ -84,7 +114,7 @@ const showLearn=()=>{
     <h4 className='inline text-xl '>CRYPTONITE</h4>
 </div>
        <div className="pl-3">
-        <h4 className="border-b  border-neutral-400 py-4" onClick={showCryptocurrencies}>   Cryptocurrencies<FaCaretDown className="inline absolute right-8"/></h4> 
+        <h4 className="border-b  border-neutral-400 py-4" onClick={showCryptocurrencies}>   Cryptocurrencies{!showDropdown.cryptocurrencies ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4> 
            <ul className={`${showDropdown.cryptocurrencies ? 'block' : 'hidden' } py-3 pl-5` }>
                <li>By Market Cap</li>
                <li> New Cryptocurrencies</li>
@@ -101,7 +131,7 @@ const showLearn=()=>{
            </ul>
        </div>
        <div className="pl-3">
-           <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges<FaCaretDown className="inline-block absolute right-8"/></h4>
+           <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges{!showDropdown.exchanges ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3` }>
            <li>Crypto Exchanges</li>
            <li>Decentalized Exchanges</li>
@@ -109,14 +139,14 @@ const showLearn=()=>{
            </ul>
            </div>
        <div className="pl-3">
-           <h4   className="border-y border-neutral-400 py-4" onClick={showNft} >NFT<FaCaretDown className="inline-block absolute right-8"/></h4>
+           <h4   className="border-y border-neutral-400 py-4" onClick={showNft} >NFT{!showDropdown.nft ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.nft ? 'block' : 'hidden' } py-3` }>
            <li>NFT Floor Price</li>
            <li>NFT Related Coins</li>
            </ul>
            </div>
        <div className="pl-3">
-             <h4 className="border-y border-neutral-400 py-4"  onClick={showLearn}>Learn Crypto<FaCaretDown className="inline-block absolute right-8"/></h4>
+             <h4 className="border-y border-neutral-400 py-4"  onClick={showLearn}>Learn Crypto{!showDropdown.learn ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.learn ? 'block' : 'hidden' } py-3 pl-5` }>
            <li>All Crypto Articles </li>
            <li>Analysis</li>
@@ -132,7 +162,7 @@ const showLearn=()=>{
            </ul>
            </div>
        <div className="pl-3"> 
-             <h4 className="border-y border-neutral-400 py-4"  onClick={showProducts}>Products<FaCaretDown className="inline-block absolute right-8"/></h4>
+             <h4 className="border-y border-neutral-400 py-4"  onClick={showProducts}>Product{!showDropdown.products ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.products ? 'block' : 'hidden' } py-3 pl-4` }>
            <li>Nite Terminal <span className="text-teal-800 font-semibold bg-green-400 text-sm rounded px-2"> Real-time charts</span></li>
            <li>Cryptonnite Research</li>
@@ -144,18 +174,32 @@ const showLearn=()=>{
            <li >Cryptonnite Store</li>
            </ul>
            </div>
-           <h4 className="border-y pl-3 py-3"><FaStar className="text-yellow-400 inline-block mr-1" />My Portfolio</h4>
-           <h4 className="border-y pl-3 py-3"><FaGift className="inline-block  text-rose-500"/> My Rewards</h4>
+      
+           <h4 className="border-y ml-2 pl-3 py-3"><FaStar className="text-yellow-400 inline-block mr-1" />My Portfolio</h4>
+           <h4 className="border-y  ml-2 pl-3 py-3"><FaGift className="inline-block  text-rose-500"/> My Rewards</h4>
+           <div className="pl-3"> 
+             <h4 className="border-y border-neutral-400  py-4"  onClick={showAccount}><FaUserCircle className='inline-block mr-2'/>My Account{!showDropdown.account ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
+           <ul className={`${showDropdown.account ? 'block' : 'hidden' } py-3 pl-4` }>
+          <li>Price Alert</li>
+           <li>Login and Security</li>
+           <li> Crypto Porttfolio</li>
+           <li>Subscription</li>
+           <li>Sign Out</li>
+           
+           </ul>
+           </div>
    <ul className="grid-cols-3 grid gap-x-4  ml-3 w-[100% - 24px] text-center mt-8 mr-3 ">
-       <li className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
+       <li onClick={()=>dispatch(openSignup())} className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
        <li className="border-green-600 border col-span-3 mt-4  p-3  text-green-600">Login</li>
-       <li className='border-sky-800   mt-4  p-3 border' onClick={()=>dispatch(togggleLanguages())}> EN</li>
-       <li className='border-sky-800  mt-4  p-3 border'>EUR</li>
+       <li className='border-sky-800   mt-4  p-3 border' onClick={()=>dispatch(togggleSidebarLanguages())}> EN</li>
+       <li className='border-sky-800  mt-4  p-3 border' onClick={()=>dispatch(  toggleSidebarCurrency ())}> EUR</li>
        <li className='border-sky-800  mt-4  p-3 border'><FaMoon className="inline-block"/></li>
    </ul>
    
     </aside>
-    {isLangActive && <LanguagesDropDown/>}
+    {isLangActive &&  component.language}
+    {isCurrencyActive && component.currencies}
+    {isSignupOpen && component.signup}
 
     </>)
 }
