@@ -1,4 +1,3 @@
-import Navbar from './components/Navbar'
 import Header from './components/Header'
 import HomeContent from './components/HomeContent'
 import Loading from '/src/utils/Loading'
@@ -16,7 +15,7 @@ setIsActive(prev=>!prev)
 }
 const router = createBrowserRouter([
   {
-    element:<Navbar  isActive={isActive}
+    element:<Header  isActive={isActive}
     handleToggle={handleToggle}/>,
 path:'/',
 children:[
@@ -37,7 +36,7 @@ children:[
   }
 ])
   return <>
-<RouterProvider router={router} />
+<RouterProvider  router={router} />
 
   </>
   
