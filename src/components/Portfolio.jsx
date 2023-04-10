@@ -25,7 +25,7 @@ return<>
         </h3>
     </div>
     <div>
-        <img src="src/assets/simage.webp" alt="phone-img" /><img src="" alt="" />
+        <img src="/simage.webp" alt="phone-img" /><img src="" alt="" />
     </div>
 </section>
 <section className="grid mt-20 grid-cols-3">
@@ -47,7 +47,7 @@ return<>
     </div>
 </section>
 <section className="grid gap-x-32 grid-cols-2">
-    <img src="src/assets/pimage.webp" alt="" />
+    <img src="/pimage.webp" alt="" />
     <div className="relative top-1/4">
         <h1 className='text-3xl mt- place font-bold'>
         Bring it to the next level with mobile app

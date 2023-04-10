@@ -5,16 +5,21 @@ import CoinNavbar from './CoinNavbar'
 import Coins from './Coins'
 import Portfolio from './Portfolio'
 import { useState,useContext,createContext,useReducer } from 'react'
+import Gainers from './Gainers'
+import SideNavbar from '../utils/SideNavbar.jsx'
+import {useDispatch} from 'react-redux'
+import { showPortfolio,hidePortfolio } from '../utils/subNavSlice'
 
 const HomeContent =()=>{
   // const PortfolioContext=createContext('')
   // console.log(PortfolioContext);
   const [component,setComponent] = useState(<Coins/>)
-  const [pfolio,setPfolio]=useState(false)
+  // const [pfolio,setPfolio]=useState(false)
   const [coins,setCoins]=useState(true)
   const [newcoins,setNewcoins]=useState(false)
   const [gainers,setGainers]=useState(false)
   
+  const dispatch=useDispatch()
 
 
 
@@ -25,7 +30,8 @@ const HomeContent =()=>{
   switch (e.target.textContent) {
     case 'Portfolio':
      setComponent(<Portfolio/>) 
-      setPfolio(true)
+      // setPfolio(true)
+      dispatch(showPortfolio)
       setCoins(false)
       setNewcoins(false)
       break;
@@ -34,14 +40,14 @@ const HomeContent =()=>{
     case 'New Coins':
 
      setComponent(<NewCoins/>) 
-     setPfolio(false);
+     
      setCoins(false)
      setNewcoins(true)
       break;
 
     case 'Gainer & Losers':
 
-   setComponent(<Coins/>) 
+   setComponent(<Gainers/>) 
      setPfolio(false);
      setCoins(false)
      setNewcoins(false)
@@ -54,10 +60,7 @@ const HomeContent =()=>{
     setNewcoins(false)
      setPfolio(false) ;
      break;
-    // case 'New Coins':
-
-    //  return setActivePortfolio(true)
-    //   setPfolio(false) ;
+   
    
   
     default:
@@ -65,11 +68,13 @@ const HomeContent =()=>{
      
   }
 }
+
 return <>
-  <main className='w-[calc(100% - 32rem)] -z-10 ml-16  mr-16 min-h-[100vh]'>
+  <main className='sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] -z-10 sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-[100vh]'>
 {/* <CoinRoot/> */}
+<SideNavbar/>
 <CoinNavbar
-pfolio={pfolio}
+
 coins={coins}
 newcoins={newcoins}
 handlePortfolio={handlePortfolio}/>

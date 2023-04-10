@@ -53,9 +53,9 @@ Bitcoin Units <span className="bg-yellow-400 rounded-md text-xs pl-2 pr-2">New</
             <div className="flex   justify-start  items-center gap-x-16">
                
             <ul className="w-40">
-                <li  onClick={handleCurrencyClick} className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" > <span className="inline-block  mr-4 text-gray-700">USD</span>US Dollar</li>
-                <li onClick={handleCurrencyClick}  className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer"  className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer"> <span className="inline-block  mr-4 text-gray-700">EURO</span>Euro</li>
-                <li onClick={handleCurrencyClick}  className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" > <span className="inline-block  mr-4 text-gray-700">RUB</span>Russian Ruble</li>
+                <li  onClick={handleCurrencyClick}  className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" > <span className="inline-block  mr-4 text-gray-700">USD</span>US Dollar</li>
+                <li onClick={handleCurrencyClick}   className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" > <span className="inline-block  mr-4 text-gray-700">EURO</span>Euro</li>
+                <li onClick={handleCurrencyClick}   className=" mb-5 hover:bg-orange-100 px-4 w-52 rounded  hover:text-green-400 cursor-pointer" > <span className="inline-block  mr-4 text-gray-700">RUB</span>Russian Ruble</li>
                 
             </ul>
 
