@@ -20,12 +20,6 @@ const SidebarSlice= createSlice({
                 value: false
             }
         }),
-        toggleSidebarCurrency : (state => {
-            return {
-                ...state,
-                currencies: !state.currencies
-            }
-        }),
         toggleCurrency : (state => {
             return {
                 ...state,
@@ -39,10 +33,11 @@ const SidebarSlice= createSlice({
                 signUp: !state.signUp
             }
         }),
+        
     },
        
     
 })
 const sidebarReducer = SidebarSlice.reducer
-export const {openSidebar,openSignup,closeSidebar,toggleSidebarCurrency,     toggleCurrency} = SidebarSlice.actions
+export const {openSidebar,openSignup,closeSidebar, toggleCurrency} = SidebarSlice.actions
 export default sidebarReducer

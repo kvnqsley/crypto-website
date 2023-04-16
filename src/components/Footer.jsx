@@ -1,6 +1,7 @@
 import { useState,useReducer } from "react"
-import { FaApple, FaAppStore, FaAppStoreIos, FaCaretDown, FaGooglePay, FaGooglePlay } from "react-icons/fa"
-
+import {  FaCaretDown,  } from "react-icons/fa"
+import DownloadStore from "../utils/DownloadStores"
+import { useSelector } from "react-redux"
 
 
 const Footer =()=>{
@@ -10,6 +11,7 @@ const Footer =()=>{
     const [isAbout, setIsAbout]= useState(false)
     const [isCommunity, setIsCommunity]= useState(false)
 
+    const theme = useSelector(state=>state.theme.mytheme)
 
     const handleResources =()=>{
         setIsResources(prev=>!prev)
@@ -27,7 +29,7 @@ const Footer =()=>{
         setIsSupport(prev=>!prev)
     }
     return<>
-    <footer className="h-screen relative font-light mt-40">
+    <footer className={` ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative font-light mt-24`}>
 
     <div className="flex flex-col md:flex-row justify-between ">
         <div className="w-1/2" >
@@ -37,7 +39,7 @@ const Footer =()=>{
       <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
     
     </div>
-    <h4 className=' inline font-semibold '>CRYPTONITE</h4>
+    <h4 className=' inline font-semibold '>CoinMamba</h4>
       <p className="min-w-[375px]  md:w-full mt-4">
       CoinGecko provides a fundamental analysis of the crypto market. In addition to tracking price, volume and market capitalisation, CoinGecko tracks community growth, open-source code development, major events and on-chain metrics.
       </p>
@@ -70,7 +72,7 @@ const Footer =()=>{
         <li className={`${isSupport ? `block` : 'hidden'} md:block`} >FAQ</li>
     </ul>
         <ul>
-            <li className="font-semibold relative cursor-pointer border-neutral-400 border-t md:border-0 md:p-0 py-3" onClick={handleAbout}>About CRYPTONNITE<FaCaretDown className="cursor-pointer md:hidden absolute right-0 inline-block" onClick={handleAbout}/></li>
+            <li className="font-semibold relative cursor-pointer border-neutral-400 border-t md:border-0 md:p-0 py-3" onClick={handleAbout}>About CoinMamba<FaCaretDown className="cursor-pointer md:hidden absolute right-0 inline-block" onClick={handleAbout}/></li>
             <li className={`${isAbout ? `block` : 'hidden'} md:block`}>About Us</li>
             <li className={`${isAbout ? `block` : 'hidden'} md:block`}>Careers <span className="text-teal-900 bg-green-600 rounded-md text-xs pl-2 pr-1"><a href="">Join Us</a></span></li>
             <li className={`${isAbout ? `block` : 'hidden'} md:block`}>Company Blog</li>
@@ -113,34 +115,12 @@ const Footer =()=>{
        </div>
 <div className="flex  flex-col md:flex-row mt-4 items-center justify-between">
 <h6 className="flex-grow">
-       © 2023 CRYPTONITE. All Rights Reserved.
+       © 2023 CoinMamba. All Rights Reserved.
        </h6>
 
-       <div className="bg-stone-900 md:translate-x-0 -translate-x-24 rounded h-12 pl-4 w-40 mr-4 text-neutral-100">
-      <a  className="-mt-1 block" href="http://Googleplay.com" target="_blank" rel="noopener noreferrer">
-
-      <FaGooglePlay className="inline mt-3 text-2xl" />
-            <p className="inline text-xs text-neutral-400 ">GET IT ON </p>
-      
-       <h3 className="ml-6 -mt-4 text-xl">
-          
-           Google Play
-       </h3>
-      </a>
-       </div>
-       <div className="bg-stone-900 md:translate-x-0 md:translate-y-0 -translate-y-12 translate-x-24  md:relative h-12 pl-4 rounded w-40 text-neutral-100">
-         
-             <a className="-mt-1 block" href="http://apple.com" target="_blank" rel="noopener noreferrer">
-             <FaApple className="inline left-0 top-2 absolute text-3xl"
-                />     
-                      <p className="inline ml-4 text-neutral-400 text-xs  ">
-               Download on the
-           </p>
-           <h3 className="ml-6 -mt-2 text-xl">App Store</h3>
-             </a>
-       </div>
+     <DownloadStore/>
 </div>
-    <h5 className="mt-4">
+    <h5 className="mt-4 h-full">
    <span className="font-semibold text-neutral-400"> IMPORTANT DISCLAIMER:</span> All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms (“Site”) is for your general information only, procured from third party sources. We make no warranties of any kind in relation to our content, including but not limited to accuracy and updatedness. No part of the content that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyse and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.
     </h5>
     </footer>

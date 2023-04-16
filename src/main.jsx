@@ -12,7 +12,9 @@ import './App.css'
 
 
 const queryClient = new QueryClient;
-ReactDOM.createRoot(document.getElementById('root')).render(
+const root =document.getElementById('root')
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
   <Provider store={store}>
   <QueryClientProvider client={queryClient}>

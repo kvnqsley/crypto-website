@@ -3,18 +3,18 @@ const LangSlice = createSlice({
     name:'language',
     initialState:{
         value: false,
-        currency:false,
+        currency: false
        
     },
     reducers:{
-        togggleLanguages : (state=>{
+        toggleLanguages : (state=>{
             return{
                 ...state,
                 value : !state.value,
              
             }
         }),
-        togggleSidebarLanguages : (state=>{
+        toggleSidebarLanguages : (state=>{
             return{
                 ...state,
                 value : !state.value
@@ -31,16 +31,29 @@ const LangSlice = createSlice({
                 ...state,
                 currency :!state.currency
             }
+            
         }),
        hideCurrency : (state=>{
             return{
                 ...state,
                 currency : false
             }
+        }),
+       showCurrency : (state=>{
+            return{
+                ...state,
+                currency : true
+            }
+        }),
+       showLanguages : (state=>{
+            return{
+                ...state,
+                value : true
+            }
         })
     }
 })
 
 const langReducer = LangSlice.reducer
-export const { togggleLanguages,hideLanguages,togggleSidebarLanguages,toggleCurrency,hideCurrency} =LangSlice.actions
+export const { toggleLanguages,hideLanguages,showLanguages,toggleSidebarLanguages,toggleCurrency,hideCurrency,showCurrency  } =LangSlice.actions
 export default langReducer

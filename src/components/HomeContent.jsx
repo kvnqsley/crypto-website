@@ -7,10 +7,10 @@ import Portfolio from './Portfolio'
 import { useState,useContext,createContext,useReducer } from 'react'
 import Gainers from './Gainers'
 import SideNavbar from '../utils/SideNavbar.jsx'
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import { showPortfolio,hidePortfolio } from '../utils/subNavSlice'
-
-const HomeContent =()=>{
+import {useEffect} from 'react'
+const HomeContent =({theme})=>{
   // const PortfolioContext=createContext('')
   // console.log(PortfolioContext);
   const [component,setComponent] = useState(<Coins/>)
@@ -19,9 +19,23 @@ const HomeContent =()=>{
   const [newcoins,setNewcoins]=useState(false)
   const [gainers,setGainers]=useState(false)
   
+  useEffect(()=>{
+    const root = document.getElementById('root')
+
+    const setLight=()=>{
+    root.classList.remove('bg-black')
+    root.classList.add('bg-sky-700')
+  }
+    const setDark=()=>{
+    root.classList.add('bg-black')
+    root.classList.remove('bg-sky-700')
+  }
+    {theme ? setDark() : setLight()}
+  
+  },[theme])
   const dispatch=useDispatch()
 
-
+  const themeLight =useSelector(state=>state.theme.mytheme)
 
   const handlePortfolio = (e)=>{
       
@@ -31,7 +45,7 @@ const HomeContent =()=>{
     case 'Portfolio':
      setComponent(<Portfolio/>) 
       // setPfolio(true)
-      dispatch(showPortfolio)
+      dispatch(showPortfolio())
       setCoins(false)
       setNewcoins(false)
       break;
@@ -40,7 +54,7 @@ const HomeContent =()=>{
     case 'New Coins':
 
      setComponent(<NewCoins/>) 
-     
+     dispatch(hidePortfolio())
      setCoins(false)
      setNewcoins(true)
       break;
@@ -49,6 +63,7 @@ const HomeContent =()=>{
 
    setComponent(<Gainers/>) 
      setPfolio(false);
+     dispatch(hidePortfolio())
      setCoins(false)
      setNewcoins(false)
       break;
@@ -57,6 +72,7 @@ const HomeContent =()=>{
 
     setComponent(<Coins/>)
     setCoins(true)
+    dispatch(hidePortfolio())
     setNewcoins(false)
      setPfolio(false) ;
      break;
@@ -70,12 +86,13 @@ const HomeContent =()=>{
 }
 
 return <>
-  <main className='sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] -z-10 sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-[100vh]'>
+  <main className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] -z-10 sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-max`}>
 {/* <CoinRoot/> */}
-<SideNavbar/>
+<SideNavbar theme={theme}/>
 <CoinNavbar
 
 coins={coins}
+theme={theme}
 newcoins={newcoins}
 handlePortfolio={handlePortfolio}/>
 {component}

@@ -1,19 +1,20 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "../utils/SearchBar";
 import { FaArrowLeft } from "react-icons/fa";
-import { toggleSidebarCurrency } from "../utils/Sidebarslice";
+import { toggleCurrency } from "../utils/CurrencySlice";
 
 const CurrencyDropDown=({handleCurrencyClick})=>{
-
- const isCurrencyActive = useSelector(state=>state.sideBarActive.currencies)
+    const theme = useSelector(state=>state.theme.mytheme)
+ const isCurrencyActive = useSelector(state=>state.currency.value)
    const dispatch = useDispatch()
+  
 
     return<>
   
-  <div className={`${isCurrencyActive  ? 'block' : 'hidden' } z-20 md:z-0 w-[100%] md:w-[60%] absolute md:left-[35%] min-h-screen top-0 left-0  md:top-14 border bg-sky-700  border-sky-900`} >
-  <h3 className='mt-4 ml-2 md:hidden  text-lg font-semibold'><FaArrowLeft onClick={()=>dispatch(toggleSidebarCurrency ())} className='inline-block text-[1.3rem]  text-slate-50 mr-32'/>Currrencies</h3>
-  <SearchBar/>
+  <div  className={`${ isCurrencyActive  ? 'block' : 'hidden' } z-20 ${ theme ? 'bg-black text-white' :'bg-sky-700'} md:z-0 w-[100%] md:w-[60%] absolute md:left-[35%] min-h-screen top-0 left-0  md:top-14 border   border-sky-900`} >
+  <h3 className='mt-4 ml-2 md:hidden  text-lg font-semibold'><FaArrowLeft onClick={()=>dispatch(toggleCurrency())} className='inline-block text-[1.3rem]  text-slate-50 mr-32'/>Currrencies</h3>
+  <SearchBar theme={theme}/>
         <div className=" mr-8 ml-2 md:ml-8 w-[calc(100% - 4rem)] ">
             <h3 className="text-xl mt-4 text-gray-800">
                 Cryptocurrencies

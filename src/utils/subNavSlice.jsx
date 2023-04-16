@@ -6,10 +6,20 @@ const subNavSlice=createSlice({
         value:false
     },
     reducers:{
-  showPortfolio : (state=>state.value =true),
-  hidePortfolio : (state=>state.value =false)
+  showPortfolio : (state=>{
+    return{
+      ...state,
+      value :true
     }
-  })
+    }),
+  hidePortfolio : (state=>{
+    return{
+      ...state,
+      value :false
+    }
+    })
+  }
+})
 export const {showPortfolio,hidePortfolio} =subNavSlice.actions
 const subNavReducer = subNavSlice.reducer
   export default subNavReducer
