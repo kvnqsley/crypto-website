@@ -4,17 +4,33 @@ import React, { useEffect } from 'react'
 import { useState} from 'react'
 import { closeSidebar,openSignup,   } from "./Sidebarslice"
 import {toggleSidebarLanguages} from './LangSlice'
-import Signup from '../components/Signup'
+import Auth from '../components/Auth'
 import LanguagesDropDown from "../components/LanguagesDropDown"
 import CurrencyDropDown from "../components/CurrencyDropDown"
 import { handleTheme } from './themeSlice'
 import {toggleCurrency} from './CurrencySlice'
+import { handleSignup } from '../utils/SignUpslice'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from "../utils/firebase.config"
+import { signOut } from 'firebase/auth'
+
+
+
+
+
+
+
+
+
  function SideNavbar({theme}) {
+     const authState = useAuthState(auth)
 
     const isSidebarActive = useSelector(state=>state.sideBarActive.value)
     const isCurrencyActive = useSelector(state=>state.currency.value)
     const isLangActive = useSelector(state=>state.language.value)
-    const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
+    // const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
+    const isSignupOpen = useSelector(state=>state.signup.value)
+
     const dispatch =useDispatch()
 const [showDropdown,setShowDropdown] = useState({
     cryptocurrencies:false,
@@ -24,6 +40,12 @@ const [showDropdown,setShowDropdown] = useState({
     learn:false,
     account:false
 })
+
+const handleSignOut=()=>{
+    signOut(auth);
+  
+}
+
 const showCryptocurrencies=()=>{
     setShowDropdown(prev=>
         {
@@ -90,15 +112,16 @@ useEffect(()=>{
              ...prev,
              language:<LanguagesDropDown/>,
              currencies:<CurrencyDropDown/>,
-             signup:<Signup theme={theme}/>
+             signup:<Auth theme={theme}/>
          }
      }))
     }
 },[isLangActive,isCurrencyActive])
 
 
+
     return(<>
-    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200  absolute -translate-y-32 z-10   w-full min-h-screen`}>
+    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}    w-full min-h-screen`}>
        
     <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
     <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
@@ -187,13 +210,20 @@ useEffect(()=>{
            <li>Login and Security</li>
            <li> Crypto Porttfolio</li>
            <li>Subscription</li>
-           <li>Sign Out</li>
+           <li className="py-3" onClick={()=>{
+               handleSignOut();
+               dispatch(closeSidebar())}}>Sign Out</li>
            
            </ul>
            </div>
    <ul className="grid-cols-3 grid gap-x-4  ml-3 w-[100% - 24px] text-center mt-8 mr-3 ">
-       <li onClick={()=>dispatch(openSignup())} className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
-       <li className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li>
+    {
+        !authState[0]?.emailVerified  ? <>
+           <li onClick={()=>dispatch(handleSignup())} className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
+    
+    <li className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li></>
+    : null
+}
        <li className='border-sky-800 rounded  mt-4  p-3 border' onClick={()=>dispatch(toggleSidebarLanguages())}> EN</li>
        <li className='border-sky-800  rounded mt-4  p-3 border' onClick={()=>dispatch( toggleCurrency ())}> EUR</li>
        <li 
@@ -205,7 +235,7 @@ useEffect(()=>{
  </aside>
     {isLangActive &&  component.language}
     {isCurrencyActive && component.currencies}
-    {isSignupOpen && component.signup}
+    {/* {isSignupOpen && component.signup} */}
 
     </>)
 }

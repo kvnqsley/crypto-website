@@ -1,4 +1,4 @@
-import {FaFire,FaStar} from 'react-icons/fa'
+import {FaFire,FaStar,FaArrowUp} from 'react-icons/fa'
 import NewCoins from './NewCoins'
 import { NavLink,createBrowserRouter,RouterProvider } from 'react-router-dom'
 import CoinNavbar from './CoinNavbar'
@@ -10,16 +10,37 @@ import SideNavbar from '../utils/SideNavbar.jsx'
 import {useDispatch,useSelector} from 'react-redux'
 import { showPortfolio,hidePortfolio } from '../utils/subNavSlice'
 import {useEffect} from 'react'
+import Auth from './Auth'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from "../utils/firebase.config"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const HomeContent =({theme})=>{
-  // const PortfolioContext=createContext('')
-  // console.log(PortfolioContext);
+ 
+
+const authState= useAuthState(auth)
+
   const [component,setComponent] = useState(<Coins/>)
   // const [pfolio,setPfolio]=useState(false)
   const [coins,setCoins]=useState(true)
   const [newcoins,setNewcoins]=useState(false)
   const [gainers,setGainers]=useState(false)
-  
+  const [scrollValue, setScrollValue]= useState(null)
+ 
   useEffect(()=>{
+
     const root = document.getElementById('root')
 
     const setLight=()=>{
@@ -32,7 +53,13 @@ const HomeContent =({theme})=>{
   }
     {theme ? setDark() : setLight()}
   
-  },[theme])
+
+    window.addEventListener('scroll',()=>{
+      (window.scrollY >= 450) ? setScrollValue(true) : setScrollValue(false)
+        
+      }
+     )
+  },[theme,scrollValue])
   const dispatch=useDispatch()
 
   const themeLight =useSelector(state=>state.theme.mytheme)
@@ -85,8 +112,19 @@ const HomeContent =({theme})=>{
   }
 }
 
+
+
+
+const  SCROLL_TO_TOP=()=>{
+  window.scrollTo({
+     top:0,
+     behavior:'smooth'
+  })
+  
+ }
+ const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
 return <>
-  <main className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] -z-10 sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-max`}>
+  <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
 {/* <CoinRoot/> */}
 <SideNavbar theme={theme}/>
 <CoinNavbar
@@ -95,8 +133,11 @@ coins={coins}
 theme={theme}
 newcoins={newcoins}
 handlePortfolio={handlePortfolio}/>
+<Auth/>
 {component}
-
+<div onClick={SCROLL_TO_TOP} className={`${scrollValue ? 'block' : 'hidden'} fixed bottom-16 cursor-pointer right-12 rounded-full  z-50 bg-neutral-400 h-12 w-12`}>
+   <FaArrowUp className={`text-center animate-bounce absolute left-1/4 top-3 text-2xl translate-y-1/2`}/>
+   </div>
 </main>
 </>
 }

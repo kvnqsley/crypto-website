@@ -1,11 +1,27 @@
 import axios from "axios"
-import { useEffect,useState,useRef } from "react"
-import {FaLevelUpAlt,FaArrowUp, FaLevelDownAlt,FaQuestionCircle, FaStar } from "react-icons/fa"
+import { useEffect,useState,useRef, useReducer } from "react"
+import {FaLevelUpAlt,FaArrowUp,FaCalendarPlus,FaSearch, FaLevelDownAlt,FaQuestionCircle, FaStar, FaListAlt } from "react-icons/fa"
 import ToggleIcon from "../utils/Togglecon"
 import Categories from "./Categories";
-import useShowData from "../utils/useShowData";
+import useShowData from "../utils/useShowModal";
 import Footer from "./Footer";
 import { useSelector } from "react-redux";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default function Coins() {
    const [data,setData] = useState({
       market: [],
@@ -18,13 +34,26 @@ export default function Coins() {
    })
   
    const [isCoin,setIsCoin] = useState(false)
+   const [trending,setTrending] = useState({
+      coins: [],
+      exchanges:[],
+      stat:false,
+      trend2:true
+   })
+
+   let btc =data.market.find(coin=>coin.id=='bitcoin')
+
+  let  btcStandardPrice = btc?.current_price
+
 const [favourite,setFavourite] =  useState(false)
    const selectFavourite=()=>{
       setFavourite(prev=>!prev)
    }
      const theme = useSelector(state=>state.theme.mytheme)
    const api1 = 'https://api.coingecko.com/api/v3/global'
-   const api2='https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+   const api2='https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=%201h%2C%2024h%2C%207d%2C%2014d%2C%2030d%2C%20200d%2C%201y&locale=en'
+  const api3 = 'https://api.coingecko.com/api/v3/search/trending'
+  
    const getMarketData=()=>{
       axios.get(api2).then(
          res=>{
@@ -35,10 +64,30 @@ const [favourite,setFavourite] =  useState(false)
                   market: res.data
                }
             }))
+       
          }
-        
-      )
-      
+     
+      ).catch(err=>console.log(err))
+     
+   }
+
+//  axios.get('https://api.coingecko.com/api/v3/coins/pepe?sparkline=true').then(
+//     res=>{
+//        if (res.status == 200) {
+//           console.log(res.data);
+//        }
+//     }
+//  )
+
+ 
+   const getTrendingCoins =()=>{
+      axios.get(api3).then(res=> setTrending(prev=>{
+         return {
+            coins:res.data.coins,
+          exchanges:res.data.exchanges
+         }
+      })
+         ).catch(err=>console.log(err))
    }
    const getHeaderData=()=>{
       axios.get(api1).then(
@@ -60,7 +109,7 @@ const [favourite,setFavourite] =  useState(false)
             }
          }
         
-      )
+      ).catch(err=>console.log(err))
       
    }
    const allCategoriesRef = useRef() 
@@ -75,19 +124,98 @@ const [favourite,setFavourite] =  useState(false)
 
    getMarketData();
 getHeaderData()
- 
+getTrendingCoins()
 
    },[])
-   
+
    const handleCategoriesClick =() =>{
       setIsActive(prev=>!prev)
  
       
    }
+const nextTrendingStat=()=>{
+   setTrending(prev=>{
+      return {
+         ...prev,
+         stat:true,
+         trend2:false
+      }
+   })
+}
+const prevTrendingStat=()=>{
+   setTrending(prev=>{
+      return {
+         ...prev,
+         stat:false,
+         trend2:true
+      }
+   })
+}
+const pageReducer=(state,action)=>{
+switch (action.type) {
+   case 'GO_TO_PAGE_1':
+
+     return {
+      page1:true,
+      page2:false,
+      page3:false
+     }
   
-  const  SCROLL_TO_TOP=()=>{
-     window.scrollTo(0,0)
-  }
+ 
+   case 'GO_TO_PAGE_2':
+      return {
+         page1:false,
+         page2:true,
+         page3:false
+        }
+   case 'GO_TO_PAGE_3':
+      return {
+         page1:false,
+         page2:false,
+         page3:true
+        }
+      
+   case 'GO_TO_PREV':
+      if (state.page1 === true ) {
+         return;
+      }
+      if (state.page2 === true){
+         return {
+            page1:true,
+            page2:false,
+            page3:false
+           }
+        
+      }
+      if (state.page3 ==true){
+         return {
+            page1:false,
+            page2:true,
+            page3:false
+           }
+      }
+      break;
+
+   default:
+      console.log('Pagination completed');
+      break;
+}
+}
+const initialState= {
+   page1:true,
+   page2:false,
+   page3:false
+}
+const [pageNumber,dispatch]= useReducer(pageReducer,initialState)
+//  const GO_TO_PREV=()=>{
+// if (pageNumber.page1 === true ) {
+//    return;
+// }
+// if (pageNumber.page2 === true ) {
+//    state.
+  
+// }
+//  }
 
    const isSidebarActive = useSelector(state=>state.sideBarActive.value)
    return<>
@@ -113,7 +241,7 @@ className="text-sm  max-w-4xl mt-4">The global cryptocurrency market cap today i
 
 
  { showStats.statsData && <div
-  className={`   ${showStats.statsActive ? 'block' : 'hidden' }  grid min-h-max gap-x-2 gap-y-1 mt-10 md:mt-6  pb-2  w-full md:grid-cols-4 md:grid-rows-1 grid-rows-4`}>
+  className={`   ${showStats.statsActive ? 'block' : 'hidden' }  grid min-h-max gap-x-2 gap-y-2 mt-10 md:mt-6  pb-2  w-full md:grid-cols-4 md:grid-rows-1 grid-rows-4`}>
 <div 
 className={` ${ data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'} ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  min-h-max w-full`}>
 <h3 className="mt-4 text-lg font-semibold"> &euro;{ data.header.data.updated_at.toLocaleString()} <span 
@@ -135,7 +263,7 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
 
 </div>
 <div className={` border-l-[6px]  shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-t-transparent border-l-neutral-400 h-24  w-full`}>
-<h3 className="mt-4 text-lg font-semibold"> { data.header.data.active_cryptocurrencies} </h3>
+<h3 className="mt-4 text-lg font-semibold"> { data.header.data.active_cryptocurrencies.toLocaleString()} </h3>
    <h3 className="font-sm mt-4  text-neutral-400"># of Coins</h3>
 
  
@@ -176,25 +304,150 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
           
            
            </div>
-           {data.market.map(coin=><div key={coin.market_cap_rank} className=" grid mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center">
+           {data.market.slice(0,100).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page1 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
             <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
             <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
             <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
             </h3>
             <h3 className="">${coin.current_price.toLocaleString()}</h3>
             <h3 className="hidden md:block">-</h3>
-            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h<0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h.toFixed(1)
-}%</h3>
+            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
             <h3  className="hidden md:block">-</h3>
             <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
             <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
-            <div className="hidden md:block"><img className="w-10" src="https://www.coingecko.com/coins/7598/sparkline.svg" alt="photo" /></div>
+            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
             
-         </div>)}    
+         </div>)}  
+         {data.market.slice(100,200).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page2 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
+            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
+            <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
+            <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
+            </h3>
+            <h3 className="">${coin.current_price.toLocaleString()}</h3>
+            <h3 className="hidden md:block">-</h3>
+            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
+            <h3  className="hidden md:block">-</h3>
+            <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
+            <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
+            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
+            
+         </div>)}   
+         {data.market.slice(200,250).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page3 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
+            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
+            <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
+            <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
+            </h3>
+            <h3 className="">${coin.current_price.toLocaleString()}</h3>
+            <h3 className="hidden md:block">-</h3>
+            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
+            <h3  className="hidden md:block">-</h3>
+            <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
+            <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
+            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
+            
+         </div>)}   
    
- 
+ <span className="inline-block w-full">
+    <div className="w-[53%] md:w-1/4 md:mx-auto md:my-0 place-items-center grid grid-cols-9 border h-8">
+<span   className=" w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
+   &lt;
+   </span>
+   <span onClick={()=>dispatch({type:'GO_TO_PAGE_1'})} className={`${pageNumber.page1 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+      1
+   </span>
+   <span onClick={()=>dispatch({type:'GO_TO_PAGE_2'})} className={`${pageNumber.page2 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+      2
+   </span>
+   <span onClick={()=>dispatch({type:'GO_TO_PAGE_3'})}className={`${pageNumber.page3 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+      3
+   </span>
+   <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer" >
+      4
+   </span>
+   <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
+      5
+      </span>
+      <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
+      ...
+      </span>
+      <span className="border-l w-full  h-full hover:bg-green-700 cursor-pointer">
+         108
+      </span>
+      <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">&gt;</span>
+ </div>
+ </span>
    </section>
-   <section className="mt-48 w-full">
+   <section className="mt-40">
+  <div className="flex justify-around items-center  gap-4">
+  <h2 className="font-semibold flex-grow  text-2xl">
+      Trending Coins
+      </h2>
+      <h2 className=" md:hidden">
+         {trending.stat ? 2 : 1}/2
+      </h2>
+      <span onClick={prevTrendingStat} className="w-8 h-8 md:hidden rounded-full text-center text-xl border-neutral-400 cursor-pointer  border">
+         &lt;
+         </span>
+         <span onClick={nextTrendingStat} className="w-8 h-8 md:hidden rounded-full text-center text-xl border-neutral-400 cursor-pointer border">
+            &gt;
+         </span>
+  </div>
+
+
+      <div className="grid md:grid-rows-3 md:grid-cols-5 grid-cols-1 gap-4 grid-rows-5">
+      {trending.coins.slice(0,5).map(coin=><div className={`${!trending.stat ? 'block' : 'hidden'} ease-in mt-8 cursor-pointer    md:min-h-24 pb-4 md:border-none shadow-lg  `} key={coin.item.id}>
+         <img src={coin.item.small} alt="" className="h-12 mr-4 float-left" />
+         <p className="text-neutral-400 text-sm font-bold">{coin.item.name}</p>
+          <p>&euro; {(coin.item.price_btc * btcStandardPrice).toFixed(10)}</p>
+          
+          <img src={`https://www.coingecko.com/coins/${coin.item.coin_id}/sparkline.svg`} className="hidden md:block" alt="" />
+   
+    
+      </div>)}
+   
+      {trending.coins.slice(5).map(coin=><div className={`${trending.stat ? 'block' : 'hidden'} md:block ease-in mt-8 cursor-pointer    md:min-h-24 pb-4 md:border-none shadow-lg  `} key={coin.item.id}>
+         <img src={coin.item.small} alt="" className="h-12 mr-4 float-left" />
+         <p className="text-neutral-400 text-sm font-bold">{coin.item.name}</p>
+          <p>&euro; {(coin.item.price_btc * btcStandardPrice).toFixed(10)}</p>
+          
+          <img src={`https://www.coingecko.com/coins/${coin.item.coin_id}/sparkline.svg`} className="hidden md:block" alt="" />
+   
+         
+      </div>)}
+      <div  className={`${trending.stat ? 'block' : 'hidden'} ease-in mt-8 cursor-pointer md:hidden p-3 text-neutral-400    md:min-h-24 pb-4 md:border-none shadow-lg  `}>
+<FaSearch className='inline-block mr-4'/>
+         More Coins
+       
+      </div>
+     
+      <div className={`${trending.stat ? 'block' : 'hidden'} ease-in mt-8 cursor-pointer  md:hidden p-3 text-neutral-400   md:min-h-24 pb-4 md:border-none shadow-lg  `}><FaListAlt className="inline-block mr-4"/> Categories
+      </div>
+     
+      <div  className={`${trending.stat ? 'block' : 'hidden'} ease-in mt-8 cursor-pointer md:hidden p-3 text-neutral-400    md:min-h-24 pb-4 md:border-none shadow-lg  `}>
+         <FaCalendarPlus className='inline-block mr-4'/>Recently Added</div>
+     
+
+
+
+      <a className=" hidden md:inline-block p-3 cursor-pointer text-neutral-100 bg-contain bg-left-top bg-origin-border bg-no-repeat h-full w-full bg-[url('https://static.coingecko.com/s/more_coins_bg_image-0a368fca5478fcab5133f19ab08675800bf7b916db394f865b590a82e649a0a4.png')]">
+      <div className="md:h-24">
+<FaSearch className='inline-block mr-4'/>
+         More Coins
+       
+      </div>
+      </a>
+      <a className=" hidden md:inline-block p-3 cursor-pointer text-neutral-100 bg-contain bg-left-top bg-origin-border bg-no-repeat h-full w-full bg-[url('https://static.coingecko.com/s/top_categories_bg-6972db9c971f4682ce537a14f6b27eee5bcd43e64da9b7d039d539a3936c0075.png')]">
+      <div className=""><FaListAlt className="inline-block mr-4"/> Categories
+      </div>
+      </a>
+
+      <a className=" hidden md:inline-block p-3 cursor-pointer text-neutral-100 bg-contain bg-left-top bg-origin-border bg-no-repeat h-full w-full bg-[url('https://static.coingecko.com/s/recently_added_bg-5d0819d31cca2c427e7633bb5ef933896813d8d65f78e7d0fc9fc0b5d77fa045.png')]">
+      <div><FaCalendarPlus className='inline-block mr-4'/>Recently Added</div>
+      </a>
+         </div>
+      
+   </section>
+   <section className="mt-28 w-full">
 <h4 className="text-lg font-semibold">
 What is Crypto Market Cap?
 
@@ -250,12 +503,11 @@ What is 24h Volume in the Table Above?
 <p className="font-light">
 The 24h trading volume refers to the amount a cryptocurrency has been bought and sold on all exchanges within the last 24 hours on the spot market. For instance, if the 24h volume for Ethereum is $15 billion, it means that $15 billion worth of Ether had changed hands across all exchanges in the last 24 hours.
 </p>
+
    </section>
    <Footer theme={theme}/>
    </div>
-   <div onClick={SCROLL_TO_TOP} className={`fixed bottom-16 right-12 rounded-full  z-50 bg-neutral-400 h-12 w-12`}>
-   <FaArrowUp className={`text-center  absolute left-1/4 top-1/5 text-2xl translate-y-1/2`}/>
-   </div>
+ 
    </> 
-
+   
 }

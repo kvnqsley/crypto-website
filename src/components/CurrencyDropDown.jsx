@@ -12,7 +12,7 @@ const CurrencyDropDown=({handleCurrencyClick})=>{
 
     return<>
   
-  <div  className={`${ isCurrencyActive  ? 'block' : 'hidden' } z-20 ${ theme ? 'bg-black text-white' :'bg-sky-700'} md:z-0 w-[100%] md:w-[60%] absolute md:left-[35%] min-h-screen top-0 left-0  md:top-14 border   border-sky-900`} >
+  <div  className={`${ isCurrencyActive  ? 'block' : 'hidden' } z-20 ${ theme ? 'bg-black text-white' :'bg-sky-700'} md:z-50 w-[100%] md:w-[60%] absolute md:left-[35%] min-h-screen top-0 left-0  md:top-10 border   border-sky-900`} >
   <h3 className='mt-4 ml-2 md:hidden  text-lg font-semibold'><FaArrowLeft onClick={()=>dispatch(toggleCurrency())} className='inline-block text-[1.3rem]  text-slate-50 mr-32'/>Currrencies</h3>
   <SearchBar theme={theme}/>
         <div className=" mr-8 ml-2 md:ml-8 w-[calc(100% - 4rem)] ">

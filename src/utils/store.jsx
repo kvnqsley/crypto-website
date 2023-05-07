@@ -4,7 +4,8 @@ import sidebarReducer from './Sidebarslice'
 import langReducer from './LangSlice'
 import themeReducer from './themeSlice'
 import currencyReducer from './CurrencySlice'
-
+import searchboxReducer from './Searchslice'
+import signupReducer from './SignUpslice'
 
  const store = configureStore({
      reducer:{
@@ -12,7 +13,9 @@ import currencyReducer from './CurrencySlice'
          sideBarActive : sidebarReducer,
          language:langReducer,
          theme: themeReducer,
-         currency:currencyReducer
+         currency:currencyReducer,
+         searchbox: searchboxReducer,
+         signup:signupReducer
      }
  })
 export default store
