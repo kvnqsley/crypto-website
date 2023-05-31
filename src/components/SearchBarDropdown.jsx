@@ -5,7 +5,15 @@ import { useEffect } from "react"
 import { useState,useRef } from "react"
 import axios from "axios"
 import {showSearchDD, hideSearchDD } from "../utils/Searchslice"
+import { nanoid } from 'nanoid'
+
+
+
+
+
 const SearchboxDropdown =()=>{
+
+    const id = nanoid()
     const dispatch = useDispatch()
     const theme = useSelector(state=>state.theme.mytheme)
    const isSearchboxOpen = useSelector(state=>state.searchbox.value)
@@ -36,9 +44,13 @@ const SearchboxDropdown =()=>{
          })).catch(err=>console.log(err))
      }
 
+    
+
      const categoryArray= trending.categories?.map(category=>category.name)
 const shuffled = categoryArray?.sort(()=>Math.random() -0.5)
 const sorted = shuffled?.slice(0,6)
+// console.log(sorted);
+// console.log(trending.coins)
      useEffect(()=>{
          getTrendingCoins()
          getTrendingCategories();
@@ -83,14 +95,15 @@ const sorted = shuffled?.slice(0,6)
 <input  onFocus={()=>dispatch(showSearchDD())} className={` ${theme ? 'bg-neutral-900 text-white' :'bg-sky-600'} ml-8 text-center block sm:inline-block mt-8 h-12 rounded-lg w-[90%] sm:w-56 pl-10 sm:pl-4 border   z-50 border-sky-900`} type="search" placeholder="Search..." name="" id="" />
      
 </div>
-    <div className={`h-screen  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute   overflow-y-scroll  md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border   z-50 border-sky-900`}>
+    <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border  no-scrollbar   z-50 border-sky-900`}>
     <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/><span className="inline-block md:hidden absolute right-5 bg-slate-400 rounded p-1 translate-y-3 ml-1">Clear</span>
 <input  type="search" name="" className={`w-full h-16 pl-6  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
-   <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
+  <div className="  no-scrollbar">
+  <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
        Trending Search 🔥
    </p>
    <ul>
-       {trending.coins?.map(element=><li key={element.index} className="mt-4  pl-2 text-neutral-400"> <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name}
+       {trending.coins?.map(element=><li key={trending.coins.indexOf(element)} className="mt-4  pl-2 text-neutral-400"> <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name}
        <p className="float-right text-neutral-300 font-light text-xs mr-4">#{element.item.market_cap_rank}</p>
        </li>
        )}
@@ -102,8 +115,9 @@ const sorted = shuffled?.slice(0,6)
    Trending Categories✨
    </p>
    <ul>
-       {sorted?.map(el=><li key={el.index} className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
+       {sorted?.map(el=><li key={sorted.indexOf(el)} className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
    </ul>
+  </div>
     </div>
     </div>
     

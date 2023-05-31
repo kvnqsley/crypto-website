@@ -3,28 +3,29 @@ import {FaMoon,FaCaretDown,FaQuestionCircle,FaSearch, FaLevelDownAlt,FaLevelUpAl
 import axios from 'axios'
 import SearchBar from '../utils/SearchBar'
 import {useEffect,useReducer,useState,useRef, useId, useContext} from 'react'
-import Loading from '../utils/Loading'
+
 import CurrencyDropDown from './CurrencyDropDown'
-import useShowModal from '../utils/useShowModal'
 import LanguagesDropDown from './LanguagesDropDown'
-import { NavLink, Outlet } from 'react-router-dom'
+import {Link, NavLink, Outlet } from 'react-router-dom'
 import {useQuery} from '@tanstack/react-query'
 import { useDispatch,useSelector } from 'react-redux'
 import { openSidebar } from '../utils/Sidebarslice'
 import { toggleLanguages,hideLanguages,showLanguages} from '../utils/LangSlice'
-import {hideCurrency,showCurrency,toggleCurrency} from '../utils/CurrencySlice'
-import { handleSignup } from '../utils/SignUpslice'
+import {hideCurrency,setCurrency,showCurrency,toggleCurrency} from '../utils/CurrencySlice'
+import { handleSignup, openLogin } from '../utils/AuthSlice'
 import { handleTheme } from '../utils/themeSlice'
 import SearchboxDropdown from './SearchBarDropdown'
 import { auth,Provider } from "../utils/firebase.config"
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+import currencySymbol from '../utils/currencySymbol'
 
 
-
-export default function Header({isActive,handleToggle,theme}) {
+export default function Header({setPages,pages,theme}) {
   const authState =   useAuthState(auth)
   const [banner,setBanner]= useState(false)
+
 const handleSignOut=()=>{
     signOut(auth);
     setBanner(true)
@@ -33,7 +34,7 @@ const handleSignOut=()=>{
 
 const dispatch = useDispatch()
     
-const [currency, setCurrency] = useState('USD')
+
    
    const[currencyDDActive, setCurrencyDDActive ] =useState(true)
    const[languageDDActive, setLanguagesDDActive ] =useState(true)
@@ -41,7 +42,7 @@ const [currency, setCurrency] = useState('USD')
    const currencyRef = useRef('')
    const languageRef = useRef('')
  
-   const isSearchboxOpen = useSelector(state=>state.searchbox.value)
+   const currency = useSelector(state=>state.currency.currency)
  
 
  const currencyId=useId()
@@ -51,8 +52,10 @@ const lang=useId()
 
 const handleCurrencyClick =(e)=>{
     const value =e.target.textContent.trim()
-const currency =value.slice(0,3)
-setCurrency(currency)
+const filtered =value.slice(0,3)
+
+dispatch(setCurrency(filtered))
+
 
 }
 const {isError,data,error,isLoading }=useQuery(['market value'],()=> axios.get(api).then(res=>{
@@ -100,17 +103,21 @@ useEffect(()=>{
             setRootClicked(false)
             rootClicked ? dispatch(showLanguages()) : null
           }
+          if (currencyRef.current.contains(e.target)) {
+            setRootClicked(false)
+            rootClicked ? dispatch(showCurrency()) : null
+          }
             if (!currencyRef.current.contains(e.target)) {
                 setRootClicked(true)
                 rootClicked ? dispatch(hideCurrency()) : null
             
                 
           } ;
-          if (currencyRef.current.contains(e.target)) {
+          if (  e.target.textContent =='USD') {
             setRootClicked(false)
            rootClicked ? dispatch(showCurrency()) : null
           }
-           
+   
        
         
       //               /* 
@@ -126,14 +133,134 @@ useEffect(()=>{
          
        
        })
+
+       return ()=>(root.removeEventListener('click',(e)=>{
+        try {
+        
+          
+           if (!languageRef.current.contains(e.target)) {
+               setRootClicked(true)
+               rootClicked ? dispatch(hideLanguages()) : null
+           
+               
+         } ;
+         if (languageRef.current.contains(e.target)) {
+           setRootClicked(false)
+           rootClicked ? dispatch(showLanguages()) : null
+         }
+           if (!currencyRef.current.contains(e.target)) {
+               setRootClicked(true)
+               rootClicked ? dispatch(hideCurrency()) : null
+           
+               
+         } ;
+         if (currencyRef.current.contains(e.target)) {
+           setRootClicked(false)
+          rootClicked ? dispatch(showCurrency()) : null
+         }
+          
+      
+       
+     //               /* 
+     //               I'll confirm if this is good practice
+     //               */
+                
+                   
+    
+            
+       } catch (error) {
+           console.log(error);
+        }
+      }))
    }
 
 
 
 },[rootClicked,currencyClicked]) 
 
+const symbol = currencySymbol()
+const navigate=useNavigate()
 
+const navigateMenu = (e)=>{
+    
 
+    switch (e.target.textContent) {
+        
+      case 'Portfolio':
+      
+  
+        
+        setPages(state=>{
+          return {
+            ...state,
+            portfolio:true,
+            coins:false,
+           newcoins:false,
+           category:false,
+        
+          }
+        })
+        break;
+  
+  
+      case 'New Cryptocurrencies':
+        navigate('/')
+    
+       setPages(state=>{
+        return {
+          ...state,
+          coins:false,
+          newcoins:true,
+          category:false,
+          portfolio:false,
+       
+        }
+      })
+        break;
+  
+      case 'Categories':
+  
+        navigate('/')
+      
+     
+       setPages(state=>{
+        return {
+          ...state,
+          coins:false,
+          newcoins:false,
+          category:true,
+          portfolio:false,
+       
+        }
+      })
+        break;
+  
+      case 'By Market Cap':
+   
+        navigate('/')
+   
+   
+  
+      setPages(state=>{
+        return {
+          ...state,
+          coins:true,
+          newcoins:false,
+          category:false,
+          portfolio:false,
+       
+        }
+      })
+       break;
+     
+     
+    
+      default:
+       return ;
+       
+    }
+  
+  }
 
 
 
@@ -158,7 +285,7 @@ useEffect(()=>{
  <li>Exchanges: <span className='text-green-500'>{data?.data.markets}</span></li>
      <li>Coins: <span className='text-green-500'>{data?.data.active_cryptocurrencies
 }</span></li>
-     <li className='w-96'>Market Cap: <span className=' text-blue-200'>&euro; {data?.data.updated_at.toLocaleString()}<span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
+     <li className='w-96'>Market Cap: <span className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}<span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
      </span>
      </span>
      <div>
@@ -180,9 +307,9 @@ useEffect(()=>{
     onClick={()=> dispatch(toggleCurrency())}
     className='cursor-pointer h-full w-full'>{currency} <FaCaretDown  className='inline'/></div>
     <CurrencyDropDown
-    theme={theme} 
-   currencyDDActive={currencyDDActive}
-   setCurrencyDDActive={setCurrencyDDActive}
+  //   theme={theme} 
+  //  currencyDDActive={currencyDDActive}
+  //  setCurrencyDDActive={setCurrencyDDActive}
    handleCurrencyClick={handleCurrencyClick} />
     </li>
     <li 
@@ -250,16 +377,16 @@ useEffect(()=>{
     </ul></li>
     <li className='cursor-pointer group'>CRYPTOCURRENCY
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
-        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>By Market Cap</li>
-        <li className='mt-4  px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 border-b pb-4 '>New Cryptocurrencies</li>
-        <li className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Categories<span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Watchlists</li>
-        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Gainers &amp; Losers</li> 
-        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 pb-4 border-b'>High Volume</li>
-        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>All coins</li>
-        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Compare Coins <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Converter <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Global Chart</li>
+        <li onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>By Market Cap</li>
+        <li  onClick={navigateMenu} className='mt-4  px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 border-b pb-4 '>New Cryptocurrencies</li>
+        <li  onClick={navigateMenu} className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><h6 className='inline-block'>Categories</h6><span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li  onClick={navigateMenu}   className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Watchlists</li>
+        <li  onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Gainers &amp; Losers</li> 
+        <li  onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 pb-4 border-b'>High Volume</li>
+        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/all-cryptocurrencies'}>All coins</Link></li>
+        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Compare Coins <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Converter <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Global Chart</li>
     </ul>
     </li>
     <li className='cursor-pointer group'>PRODUCTS
@@ -302,7 +429,9 @@ useEffect(()=>{
     
     </div> : 
    <>
-    <li className='cursor-pointer'>LOGIN</li>
+    <li  onClick={()=>{dispatch(openLogin ())}
+  
+        } className='cursor-pointer'>LOGIN</li>
     <li onClick={
         ()=>{dispatch(handleSignup ());
     showAsModal()

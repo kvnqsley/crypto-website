@@ -1,11 +1,20 @@
 import axios from "axios"
 import { useEffect,useState,useRef, useReducer } from "react"
-import {FaLevelUpAlt,FaArrowUp,FaCalendarPlus,FaSearch, FaLevelDownAlt,FaQuestionCircle, FaStar, FaListAlt } from "react-icons/fa"
+import {FaLevelUpAlt,FaArrowUp,FaCalendarPlus,FaSearch, FaLevelDownAlt,FaQuestionCircle, FaStar, FaListAlt, FaPlus, FaCheck } from "react-icons/fa"
 import ToggleIcon from "../utils/Togglecon"
 import Categories from "./Categories";
 import useShowData from "../utils/useShowModal";
-import Footer from "./Footer";
-import { useSelector } from "react-redux";
+import PortfolioPopup from "../utils/PortfolioPopup";
+import { useSelector,useDispatch } from "react-redux";
+import { auth,Provider } from "../utils/firebase.config"
+import {useAuthState} from 'react-firebase-hooks/auth'
+import { openLogin } from "../utils/AuthSlice";
+import CoinTable from "../components/CoinTable";
+import { useCallback } from "react";
+// import Cookies from 'universal-cookie'
+import Cookies from 'js-cookie'
+import { stringify,parse } from "flatted";
+import { updateMarketData } from "../utils/DataSlice";
 
 
 
@@ -19,19 +28,21 @@ import { useSelector } from "react-redux";
 
 
 
+export default function Coins({data,setData,setFavouriteCoin}) {
+   
+const dispatcH =useDispatch()
+   const authState= useAuthState(auth)
 
+   
 
-
-export default function Coins() {
-   const [data,setData] = useState({
-      market: [],
-      header: []
-   });
    const [isActive,setIsActive] = useState(true)
-   const [showStats,setStats] = useState({
-      statsActive : false,
+   const storedStats = JSON.parse(localStorage.getItem('stats'))
+    
+   const [showStats,setStats] = useState(storedStats ? storedStats : {
+      statsActive :false,
       statsData : false
-   })
+   }
+   )
   
    const [isCoin,setIsCoin] = useState(false)
    const [trending,setTrending] = useState({
@@ -45,10 +56,219 @@ export default function Coins() {
 
   let  btcStandardPrice = btc?.current_price
 
-const [favourite,setFavourite] =  useState(false)
-   const selectFavourite=()=>{
-      setFavourite(prev=>!prev)
+
+const [addToPortfolio,setAddPortfolio] = useState({
+   addPortfolio :false,
+translateTab :null,
+coinAdded :false ,
+showpopup:false,
+removeCoin:null,
+coinName:'',
+coinImage: '',
+tradeBtn:null
+})
+const [favourite,setFavourite] =  useState({
+   selected:false,
+   target: null ,
+   list:[]
+})
+
+const [convertedSVGToJSON,updateJSON] =useState('')
+function convertSVGPathElementToJson(svgPathElement) {
+   const { d, id, classList } = svgPathElement;
+   const extractedData = {
+     d,
+     id,
+     classList: Array.from(classList),
+   };
+ 
+   return JSON.stringify(extractedData);
+ }
+ const shuffleData=()=>{
+   const sortedData= data.market.sort(()=>Math.random() - 0.5)
+   setData(state=>{
+      return {
+         ...state,
+         market:sortedData
+      }
+   })
+
+ }
+
+
+
+
+useEffect(()=>{
+   // Cookies.set('favourite', convertedSVGToJSON)
+    // Usage
+//  const svgPathElement = document.querySelectorAll('path');
+if (favourite.target) {
+   const json = convertSVGPathElementToJson(favourite.target)
+   updateJSON(json)
+
+}
+
+if (addToPortfolio.addPortfolio) {
+   const tab = document.querySelector('.portfolio-tab')
+  
+   tab.style.top =addToPortfolio.translateTab + 50  + 'px'
+
+}
+
+
+},[addToPortfolio.addPortfolio])
+
+
+
+ const fetchData = useCallback(async () => {
+   getMarketData();
+   getHeaderData()
+
+ }, []);
+
+ const setCookies = useCallback(()=>{
+  localStorage.setItem('stats',JSON.stringify(showStats))
+  
+   localStorage.setItem("coinsData",JSON.stringify(data),{
+      secure:true,
+      
+      path:'/'
+   } );
+
+   
+},[data.market,favourite,showStats])
+
+useEffect(()=>{
+ setCookies();
+
+
+},[setCookies])
+
+ useEffect(() => {
+  if (!data.market.length) {
+     fetchData()
+  }
+  if (!data.header.length) {
+     fetchData()
+  }
+  
+ }, [fetchData])
+
+
+
+
+
+
+   const openFavourite= async (e)=>{
+      
+     const coinText = e.target.closest('.closestEl').children[1].innerText.split('\n')
+    const coinImage =  e.target.closest('.closestEl').children[1].children[0].children[0].attributes[0].nodeValue
+   
+    const tradeBtn =e.target.closest('.closestEl').cells[2]?.firstChild
+  
+
+      setAddPortfolio(prev=>{
+     return    {
+            ...prev,
+         addPortfolio: true,
+         coinName :  coinText[0],
+         coinImage:coinImage,
+         tradeBtn: tradeBtn,
+         translateTab :path.top
+         }
+      })
+      if (!authState[0]?.emailVerified) {
+         dispatcH(openLogin())
+      }
+      
+const path = e.target.getBoundingClientRect()
+
+       setFavourite(state=>{
+         return{
+            ...state,
+           target:e.target
+         }
+      }) 
+
+
+      if (e.target.style.fill ==  'yellow' ) {
+         setAddPortfolio(state=>{
+            return{
+               ...state,
+              coinAdded:true,
+            }
+         }) 
+      }
+      else{
+         setAddPortfolio(state=>{
+            return{
+               ...state,
+              coinAdded:false,
+            }
+         }) 
+      }
+    
+
+  
+      }
+
+
+      const handlePortfolio =()=>{
+      
+         setFavourite(state=>{
+            return{
+               ...state,
+              selected:true,
+              list:data.market?.filter(el=>el.market_cap_rank  == favourite.target.closest('.closestEl').cells[0].innerText)
+            }
+         }) 
+ 
+         setAddPortfolio(state=>{
+            return{
+               ...state,
+              coinAdded:true,
+              addPortfolio: false,
+              showpopup:true
+            }
+         }) 
+     favourite.target ?  favourite.target.style.fill =' yellow' : null
+       
+ 
+
+
+   setTimeout(() => {
+      setAddPortfolio(state=>{
+         return{
+            ...state,
+        showpopup:false
+         }
+      })
+   }, 5000);
+     
+
+   addToPortfolio.tradeBtn.classList.remove('opacity-0')
+
+      }
+
+useEffect(()=>{
+   setData(state=>{
+      return {
+         ...state,
+         favourite:favourite.list
+      }
+   })
+},[favourite])
+
+      const removeCoin =()=>{
+setAddPortfolio(state=>{
+   return{
+      ...state,
+      removeCoin:true
    }
+
+   
+})
+      }
      const theme = useSelector(state=>state.theme.mytheme)
    const api1 = 'https://api.coingecko.com/api/v3/global'
    const api2='https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=%201h%2C%2024h%2C%207d%2C%2014d%2C%2030d%2C%20200d%2C%201y&locale=en'
@@ -64,20 +284,16 @@ const [favourite,setFavourite] =  useState(false)
                   market: res.data
                }
             }))
-       
+           
          }
      
-      ).catch(err=>console.log(err))
+      ).then(()=>setCookies())
+      .then(res =>dispatch(updateMarketData(res.data))).catch(err=>console.log(err))
      
    }
+   
 
-//  axios.get('https://api.coingecko.com/api/v3/coins/pepe?sparkline=true').then(
-//     res=>{
-//        if (res.status == 200) {
-//           console.log(res.data);
-//        }
-//     }
-//  )
+
 
  
    const getTrendingCoins =()=>{
@@ -89,6 +305,7 @@ const [favourite,setFavourite] =  useState(false)
       })
          ).catch(err=>console.log(err))
    }
+  
    const getHeaderData=()=>{
       axios.get(api1).then(
          res=>{
@@ -112,6 +329,7 @@ const [favourite,setFavourite] =  useState(false)
       ).catch(err=>console.log(err))
       
    }
+
    const allCategoriesRef = useRef() 
    const coinRef = useRef() 
 
@@ -120,13 +338,27 @@ const [favourite,setFavourite] =  useState(false)
 
     useShowData(setIsCoin,coinRef)
   
-   useEffect(()=>{
 
-   getMarketData();
-getHeaderData()
+    const handleCallback = useCallback(()=>{
+      const dialog = document.querySelector('.portfolio-modal')
+      if (addToPortfolio.removeCoin) {
+         dialog.showModal()
+      }
+      else{
+         dialog.close()
+      }
+     },[addToPortfolio.removeCoin])
+
+   
+  
+
+   useEffect(()=>{
+      
+ 
 getTrendingCoins()
 
-   },[])
+handleCallback()
+   },[handleCallback])
 
    const handleCategoriesClick =() =>{
       setIsActive(prev=>!prev)
@@ -207,15 +439,7 @@ const initialState= {
    page3:false
 }
 const [pageNumber,dispatch]= useReducer(pageReducer,initialState)
-//  const GO_TO_PREV=()=>{
-// if (pageNumber.page1 === true ) {
-//    return;
-// }
-// if (pageNumber.page2 === true ) {
-//    state.
-  
-// }
-//  }
+
 
    const isSidebarActive = useSelector(state=>state.sideBarActive.value)
    return<>
@@ -224,13 +448,13 @@ const [pageNumber,dispatch]= useReducer(pageReducer,initialState)
 <h3 className="  max-w-md m-0 inline text-3xl mr-4">Cryptocurrency Prices by Market Cap
 </h3>
 <div 
-className={` ${ showStats.statsData ? 'block' : 'hidden'} md:inline md:relative md:top-0 translate-y-24`}>
+className={` ${ showStats.statsData  ? 'block' : 'hidden'} md:inline md:relative md:top-0 translate-y-24`}>
 <ToggleIcon setStats={setStats}/>
        <h3 className=" inline ml-4" >Show Stats </h3>
       
 </div>
 
-{ showStats.statsData && <div > <h3 
+{ showStats.statsData  && <div > <h3 
 className="text-sm  max-w-4xl mt-4">The global cryptocurrency market cap today is $1.21 Trillion, a
  <span className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} `}> {data.header.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data.header.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
 </span> change in the last 24 hours. <span className="underline text-xs md:text-sm cursor-pointer">Read More</span> </h3>
@@ -240,7 +464,7 @@ className="text-sm  max-w-4xl mt-4">The global cryptocurrency market cap today i
 }
 
 
- { showStats.statsData && <div
+ { showStats.statsData  && <div
   className={`   ${showStats.statsActive ? 'block' : 'hidden' }  grid min-h-max gap-x-2 gap-y-2 mt-10 md:mt-6  pb-2  w-full md:grid-cols-4 md:grid-rows-1 grid-rows-4`}>
 <div 
 className={` ${ data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'} ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  min-h-max w-full`}>
@@ -249,7 +473,7 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
 { data.header.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
 </span>
 </h3>
-   <h3 className="font-sm mt-4  text-neutral-400">Market Capitilization</h3>
+   <h3 className="font-sm mt-4  text-neutral-400">Market Capitalization</h3>
 
 </div>
 <div className={`${ data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'}  ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg  border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  h-24  w-full`}>
@@ -291,64 +515,63 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
               
           
                  </div>
-         <div className="sticky mt-6     top-0 grid mb-4 place-items-center h-16 grid-cols-3 md:grid-cols-10 ">
-           <h3 className="justify-self-start">#</h3>
-           <h3 className="md:-ml-16 md:justify-self-end justify-self-start ">Coin</h3>
-           <h3  className="md:ml-52 md:justify-self-center justify-self-end col-span-1">Price</h3>
-           <h3 className="ml-56 hidden md:block">1h</h3>
-           <h3 className="ml-[15rem] hidden md:block">24h</h3>
-           <h3 className="ml-[16rem] hidden md:block">7d</h3>
-           <h3 className="ml-[17rem] hidden md:block w-32">24h volume</h3>
-           <h3 className="ml-[18rem] hidden md:block w-32">Mkt Cap</h3>
-           <h3 className="ml-[20rem] hidden md:block w-32">Last 7 days</h3>
-          
-           
-           </div>
-           {data.market.slice(0,100).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page1 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
-            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
-            <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
-            <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
-            </h3>
-            <h3 className="">${coin.current_price.toLocaleString()}</h3>
-            <h3 className="hidden md:block">-</h3>
-            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
-            <h3  className="hidden md:block">-</h3>
-            <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
-            <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
-            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
-            
-         </div>)}  
-         {data.market.slice(100,200).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page2 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
-            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
-            <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
-            <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
-            </h3>
-            <h3 className="">${coin.current_price.toLocaleString()}</h3>
-            <h3 className="hidden md:block">-</h3>
-            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
-            <h3  className="hidden md:block">-</h3>
-            <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
-            <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
-            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
-            
-         </div>)}   
-         {data.market.slice(200,250).map(coin=><div key={coin.market_cap_rank} className={`${pageNumber.page3 ? 'grid' : 'hidden'} mb-4 border-t place-items-center border-neutral-400 gap-x-8 h-16 grid-cols-4 md:grid-cols-10 items-center`}>
-            <h3 className="-ml-10 border-spacing-x-96"><FaStar onClick={selectFavourite} className={`inline ${favourite ? 'text-yellow-400' : 'text-sky-800'} mr-4 md:mr-0  outline-green-100`}/>{coin.market_cap_rank}</h3>
-            <img src={coin.image} className="w-4 h-4    -ml-16 "  alt="" /><h3 className="-ml-32 w-24 pl-0 "> {coin.name}
-            <p className="uppercase md:inline  text-md font-thin ml-0 md:ml-4">{coin.symbol}</p>
-            </h3>
-            <h3 className="">${coin.current_price.toLocaleString()}</h3>
-            <h3 className="hidden md:block">-</h3>
-            <h3 className={`w-3 hidden md:block ${coin.price_change_percentage_24h <0 ? 'text-red-600':'text-green-600'}`}>{coin.price_change_percentage_24h?.toFixed(1)}%</h3>
-            <h3  className="hidden md:block">-</h3>
-            <h3 className="hidden md:block">${coin.total_volume.toLocaleString()}</h3>
-            <h3 className="hidden md:block">${coin.market_cap.toLocaleString()}</h3>
-            <div className="hidden md:block"><img className="w-16 h-16" src={`https://www.coingecko.com/coins/${coin.market_cap_rank}}/sparkline.svg`} alt="photo" /></div>
-            
-         </div>)}   
+    
+     {addToPortfolio.addPortfolio &&     <PortfolioPopup
+         addToPortfolio={addToPortfolio}
+         setAddPortfolio={setAddPortfolio}
+         handlePortfolio={handlePortfolio}
+         removeCoin={removeCoin}
+         theme={theme}
+         />}
+         
+         <dialog   className={`portfolio-modal ease-in-out duration-100 delay-200 backdrop:opacity-20 top-0 backdrop:bg-sky-600 backdrop-blur-lg ` } >
+         <div onClick={()=>setAddPortfolio(state=>{
+   return{
+      ...state,
+      removeCoin:false
+   }
+}) } className="px-2 cursor-pointer  w-18 inline-block h-10">
+    <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
    
+   <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 ml-2 h-1  translate-y-4 -rotate-45`}></div>
+    
+    </div>
+            <h3 className="font-semibold text-xl">
+            Remove Coin
+            </h3>
+            <p className="mt-8">
+            
+         Are you sure want to remove this coin?</p>
+         <p>
+
+         Any transactions associated with this coin will also be removed.
+         <button className="border-cyan-50 rounded border-[1px] ml-8 py-2 max-w-[40%] px-6 hover:border-green-600">
+            No</button>
+            <button className="bg-green-600 rounded px-6 py-2 mt-10 max-w-[40%] ml-6 hover:bg-green-900 text-cyan-50">
+               Yes
+            </button>
+                     </p>
+         </dialog>
+
+
+        <CoinTable
+        shuffleData={shuffleData}
+         data={data}
+        favourite={favourite.selected}
+      openFavourite={openFavourite}
+         pageNumber={pageNumber}
+         />
+
+   <div className={`${addToPortfolio.showpopup ? 'block' : 'hidden ' } fixed bottom-24 z-50 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} shadow-lg rounded py-4 px-2 min-h-max w-[93vw] md:w-[40vw] `}>
+   <img src={addToPortfolio.coinImage} alt="coin-logo" className="h-8 w-8 mt-2 mr-2 float-left" />
+    <p className="text-neutral-400">
+    {addToPortfolio.coinName} added to Portfolio - <span className='font-semibold text-sm'> My Portfolio </span>
+     </p>
+      <p className="text-green-500">Start you portfolio - Add a transaction!</p>
+   </div>
+
  <span className="inline-block w-full">
-    <div className="w-[53%] md:w-1/4 md:mx-auto md:my-0 place-items-center grid grid-cols-9 border h-8">
+    <div className="w-[53%] md:w-1/4 md:mx-auto md:my-0 place-items-center grid grid-cols-5 mt-8 border h-8">
 <span   className=" w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
    &lt;
    </span>
@@ -361,18 +584,7 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
    <span onClick={()=>dispatch({type:'GO_TO_PAGE_3'})}className={`${pageNumber.page3 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
       3
    </span>
-   <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer" >
-      4
-   </span>
-   <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
-      5
-      </span>
-      <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
-      ...
-      </span>
-      <span className="border-l w-full  h-full hover:bg-green-700 cursor-pointer">
-         108
-      </span>
+   
       <span className="border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer">&gt;</span>
  </div>
  </span>
@@ -505,7 +717,7 @@ The 24h trading volume refers to the amount a cryptocurrency has been bought and
 </p>
 
    </section>
-   <Footer theme={theme}/>
+ 
    </div>
  
    </> 

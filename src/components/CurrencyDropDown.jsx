@@ -1,4 +1,4 @@
-import { useId, useRef } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "../utils/SearchBar";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,7 +8,7 @@ const CurrencyDropDown=({handleCurrencyClick})=>{
     const theme = useSelector(state=>state.theme.mytheme)
  const isCurrencyActive = useSelector(state=>state.currency.value)
    const dispatch = useDispatch()
-  
+ 
 
     return<>
   

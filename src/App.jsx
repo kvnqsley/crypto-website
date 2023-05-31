@@ -6,9 +6,11 @@ import './index.css'
 import { useState,useContext,createContext } from 'react'
 import { useSelector } from 'react-redux'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import NFT from './components/NFT'
-
-import ErrorPage from './components/ErrorPag'
+import NFT from './pages/NFT'
+import Root from './components/Root'
+import ErrorPage from './pages/ErrorPag'
+import Home from './pages/Home'
+import AllCrypto from './pages/AllCryptocurrencies'
 
 
 function App() {
@@ -20,33 +22,49 @@ function App() {
 const handleToggle=()=>{
 setIsActive(prev=>!prev)
 }
+const savedState  =localStorage.getItem('main-page')
 
+const [pages,setPages]= useState(savedState ? JSON.parse(savedState) : {
+    coins:true,
+    newcoins:false,
+    category:false,
+    portfolio:false,
+  })
 
 const router = createBrowserRouter([
   {
     element:
-      <Header  isActive={isActive}
-      theme={theme}
-      handleToggle={handleToggle}/>,  
+    <Home
+    theme={theme}
+    isActive={isActive}
+    handleToggle={handleToggle}
+    pages={pages}
+    setPages={setPages}
+    />  ,  
 path:'/',
 children:[
+
   {
-    element:
-      <HomeContent
-      theme={theme} />,
-    index:true,
-      },
+    element:<HomeContent
+    theme={theme}
+    pages={pages}
+    setPages={setPages}
+    />,
+ index:true
+  },
   {
-    element:<NFT/>,
-    path:'nft'
+    element:<AllCrypto/>,
+    path:'/all-cryptocurrencies'
   },
   {
     element:<ErrorPage/>,
     path:'*'
 
   }
-]
-  }
+],
+
+  },
+ 
 ])
   return <>
 <RouterProvider  router={router} />

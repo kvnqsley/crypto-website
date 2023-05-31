@@ -2,6 +2,7 @@ import { useState,useReducer } from "react"
 import {  FaCaretDown,  } from "react-icons/fa"
 import DownloadStore from "../utils/DownloadStores"
 import { useSelector } from "react-redux"
+import { Outlet } from "react-router-dom"
 
 
 const Footer =()=>{
@@ -29,10 +30,10 @@ const Footer =()=>{
         setIsSupport(prev=>!prev)
     }
     return<>
-    <footer className={` ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative font-light mt-24`}>
+    <footer className={` ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative md:px-10 px-4 font-light mt-24`}>
 
     <div className="flex flex-col md:flex-row justify-between ">
-        <div className="w-1/2" >
+        <div className="md:w-[45%]" >
         <div className='mr-4 inline-block '>
     <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
       <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
@@ -45,7 +46,7 @@ const Footer =()=>{
       </p>
        
         </div>
-        <div className=" md:grid md:gap-8 grid-cols-4">
+        <div className=" md:grid mt-6 md:mt-0 md:gap-8 grid-cols-4">
         <ul>
             <li className="font-semibold relative  cursor-pointer border-neutral-400 border-t md:border-0 md:p-0 py-3 " onClick={handleResources}>Resources <FaCaretDown className="cursor-pointer md:hidden absolute right-0 inline-block" onClick={handleResources}/> </li>
             <li className={`${isResources ? `block` : 'hidden'} md:block`}>Perpetuals</li>
@@ -55,7 +56,7 @@ const Footer =()=>{
             <li className={`${isResources ? `block` : 'hidden'} md:block`}>Crypto Api</li>
 
             <ul>
-            <li className="font-semibold relative  cursor-pointerborder-neutral-400 md:mt-8 border-t md:border-0 md:p-0 py-3" onClick={handleDonations}>Donations<FaCaretDown className="cursor-pointer  md:hidden absolute right-0 inline-block" onClick={handleDonations}/></li>
+            <li className="font-semibold relative  cursor-pointer border-neutral-400 md:mt-8 border-t md:border-0 md:p-0 py-3" onClick={handleDonations}>Donations<FaCaretDown className="cursor-pointer  md:hidden absolute right-0 inline-block" onClick={handleDonations}/></li>
             <li className={`${isDonations ? `block` : 'hidden'} md:block`}>Bitcoin </li>
             <li className={`${isDonations ? `block` : 'hidden'} md:block`}>Ethereum</li>
            
@@ -96,7 +97,7 @@ const Footer =()=>{
         </ul>
         </div>
     </div>
-    <div className="flex border-t-[1px] md:flex-row flex-col ml-4 md:m-0 w-[calc(100% -2rem)]   py-6 items-center md:min-w-max border-neutral-400 justify-between mt-10">
+    <div className="flex border-y md:flex-row flex-col ml-4 md:m-0 w-[calc(100% -2rem)]   py-6 items-center md:min-w-max border-neutral-700 justify-between mt-10">
        <div>
        <h4 className="font-semibold">
        Interested to stay up-to-date with cryptocurrencies?
@@ -123,7 +124,9 @@ const Footer =()=>{
     <h5 className="mt-4 h-full">
    <span className="font-semibold text-neutral-400"> IMPORTANT DISCLAIMER:</span> All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms (“Site”) is for your general information only, procured from third party sources. We make no warranties of any kind in relation to our content, including but not limited to accuracy and updatedness. No part of the content that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyse and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.
     </h5>
+ 
     </footer>
+   
     </>
 }
 export default Footer

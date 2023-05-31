@@ -1,21 +1,41 @@
 import {configureStore} from '@reduxjs/toolkit'
-import subNavReducer from './subNavSlice'
 import sidebarReducer from './Sidebarslice'
 import langReducer from './LangSlice'
 import themeReducer from './themeSlice'
 import currencyReducer from './CurrencySlice'
 import searchboxReducer from './Searchslice'
-import signupReducer from './SignUpslice'
+import authReducer from './AuthSlice'
+import DataSliceReducer from './DataSlice'
+import storage from 'redux-persist/lib/storage'
+import {persistStore, persistReducer} from 'redux-persist'
+ 
+const currencyConfig ={
+    key: 'root',
+    storage
+}
+const themeConfig ={
+    key: 'root',
+    storage
+}
 
- const store = configureStore({
+
+const persistedReducer1 =persistReducer(currencyConfig,currencyReducer)
+const persistedReducer2 =persistReducer(themeConfig,themeReducer)
+
+const store = configureStore({
      reducer:{
-         subnavigation :subNavReducer,
+     
          sideBarActive : sidebarReducer,
          language:langReducer,
-         theme: themeReducer,
-         currency:currencyReducer,
+         theme: persistedReducer2,
+         currency:persistedReducer1,
          searchbox: searchboxReducer,
-         signup:signupReducer
+         auth:authReducer,
+         data:DataSliceReducer
      }
  })
+
+
+ 
+  export const persistor= persistStore(store)
 export default store

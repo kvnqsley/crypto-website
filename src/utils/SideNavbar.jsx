@@ -9,7 +9,7 @@ import LanguagesDropDown from "../components/LanguagesDropDown"
 import CurrencyDropDown from "../components/CurrencyDropDown"
 import { handleTheme } from './themeSlice'
 import {toggleCurrency} from './CurrencySlice'
-import { handleSignup } from '../utils/SignUpslice'
+import { handleSignup,openLogin } from './AuthSlice'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from "../utils/firebase.config"
 import { signOut } from 'firebase/auth'
@@ -29,7 +29,7 @@ import { signOut } from 'firebase/auth'
     const isCurrencyActive = useSelector(state=>state.currency.value)
     const isLangActive = useSelector(state=>state.language.value)
     // const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
-    const isSignupOpen = useSelector(state=>state.signup.value)
+    const isSignupOpen = useSelector(state=>state.auth.signup)
 
     const dispatch =useDispatch()
 const [showDropdown,setShowDropdown] = useState({
@@ -221,7 +221,7 @@ useEffect(()=>{
         !authState[0]?.emailVerified  ? <>
            <li onClick={()=>dispatch(handleSignup())} className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
     
-    <li className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li></>
+    <li  onClick={()=>dispatch(openLogin())} className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li></>
     : null
 }
        <li className='border-sky-800 rounded  mt-4  p-3 border' onClick={()=>dispatch(toggleSidebarLanguages())}> EN</li>

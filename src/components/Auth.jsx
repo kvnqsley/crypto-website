@@ -1,9 +1,8 @@
 
-import { useCallback, useLayoutEffect } from 'react'
 import { useState,useEffect,useRef } from 'react'
 import {FaEye,FaApple, FaRocket, FaGoogle } from 'react-icons/fa'
 import { useSelector,useDispatch } from 'react-redux'
-import { handleSignup,closeSignup } from '../utils/SignUpslice'
+import { handleSignup,closeSignup, openLogin } from '../utils/AuthSlice'
 import { auth,Provider } from "../utils/firebase.config";
 import {signInWithPopup} from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -27,7 +26,7 @@ const authState = useAuthState (auth)
    const handleSubmit = (e)=>{
        e.preventDefault()
    }
-   const toggleDialog = useSelector(state=>state.signup.value)
+   const toggleDialog = useSelector(state=>state.auth.signup)
     const [email,setEmail] = useState('')
     const [pwd,setPwd] = useState('')
     
@@ -50,16 +49,7 @@ const authState = useAuthState (auth)
     }
     const [ rootClicked,setRootClicked] = useState(false)
     
-  useEffect(()=>{
-   if (toggleDialog) {
-    const dialog =document.querySelector('.dialog')
-    dialog.addEventListener('click',(e)=>{
-   
-    })
-   }
-
   
-  },[toggleDialog])
     
   if(authState[0]?.emailVerified ){
     dispatch(closeSignup())
@@ -76,8 +66,8 @@ const authState = useAuthState (auth)
 
     return<>
   {  toggleDialog &&
-  <section className={`md:block w-full md:mr-0 md:px-0  h-full fixed md:overflow-auto  -top-20 left-0  md:top-0 md:py-3 md:bg-opacity-30   md:bg-red-100 z-50 `}>
-  <dialog  ref={dialogRef}   open={true} onClose={()=>dispatch(closeSignup())} className={`${theme ? 'bg-black text-white' :'bg-sky-700'}  min-h-full dialog   w-full px-4  mt-16 md:top-2 md:mt-2  md:w-2/6 absolute  } `}>
+  <section className={`md:block w-full md:mr-0 md:px-0 min-h-screen  md:h-full fixed md:overflow-auto  -top-20 left-0  md:top-0 md:py-3 md:bg-opacity-30   md:bg-red-100 z-50 no-scrollbar  `}>
+  <dialog  ref={dialogRef}   open={true} onClose={()=>dispatch(closeSignup())} className={`${theme ? 'bg-black text-white' :'bg-sky-700'}  h-full dialog overflow-auto no-scrollbar  w-full px-4  mt-16 md:top-2 md:mt-2  md:w-2/6 absolute  } `}>
     <div onClick={()=>dispatch(closeSignup())}  className={`cursor-pointer  w-18 inline-block h-10 `}>
     <div className={` ${theme && 'bg-white'} w-6 bg-slate-900 mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
    
@@ -118,7 +108,7 @@ const authState = useAuthState (auth)
         </form>
         <div className='border-t  border-0 mt-4 text-center'>
             <h4>
-                Already have an account? <span className='ml-4 text-green-600'><a href="#">Login</a></span>
+                Already have an account? <span className='ml-4 text-green-600'><button onClick={()=>dispatch(openLogin())}>Login</button></span>
             </h4>
             <h4>Didn't receive confirmation instructtions?</h4>
             <h4 className={`text-green-600`}>Resend confirmation instructions</h4>
