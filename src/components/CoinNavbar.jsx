@@ -35,7 +35,7 @@ export default function CoinNavbar({navigateMenu,portfolio,newcoins,category, co
      )
 
      const handleData  = async()=>{
-        setCategories( data.map(category=>category.name));
+      setCategories(await data.map(category=>category.name));
         const  filter  = categories.sort(()=>Math.random() - 0.5)
    setShuffled(filter.slice(0,3)) 
      }

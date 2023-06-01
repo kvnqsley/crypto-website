@@ -70,8 +70,8 @@ const formatNumber=(number)=>{
 
    <div className="grid gap-x-4 mt-6 md:grid-cols-4 gap-y-6 md:grid-rows-2 grid-cols-2 ">
    <label className='font-semibold' htmlFor="mkt-cap">Market Cap
-    <select className="block w-full h-10 rounded font-light" name="" id="mkt-cap">
-        <option value="">All</option>
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="mkt-cap">
+        <option className="" value="">All</option>
         <option value="">&gt; $10 Billion</option>
         <option value="">$1 Billion - $10 Billion</option>
         <option value="">$100 Million - $1 Billion</option>
@@ -82,7 +82,7 @@ const formatNumber=(number)=>{
     </select>
     </label>
    <label className='font-semibold' htmlFor="24hvolume">24h Volume
-    <select className="block w-full h-10 rounded font-light" name="" id="24hvolume">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="24hvolume">
     <option value="">All</option>
         <option value="">&gt; $10 Billion</option>
         <option value="">$1 Billion - $10 Billion</option>
@@ -94,7 +94,7 @@ const formatNumber=(number)=>{
     </select>
     </label>
    <label className='font-semibold' htmlFor="price">Price
-    <select className="block w-full h-10 rounded font-light" name="" id="price">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="price">
     <option value="">All</option>
         <option value="">&gt; $1000</option>
         <option value="">$100 - $1000</option>
@@ -106,7 +106,7 @@ const formatNumber=(number)=>{
     </select>
     </label>
    <label className='font-semibold' htmlFor="24h-change">24h Change
-    <select className="block w-full h-10 rounded font-light" name="" id="24h-change">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="24h-change">
     <option value="">All</option>
         <option value="">+50%</option>
         <option value="">+10% to +50%</option>
@@ -117,22 +117,22 @@ const formatNumber=(number)=>{
     </select>
     </label>
    <label className='font-semibold' htmlFor="category">Category
-    <select className="block w-full h-10 rounded font-light" name="" id="category">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="category">
         <option value="">All</option>
     </select>
     </label>
    <label className='font-semibold' htmlFor="exchange">Exchange
-    <select className="block w-full h-10 rounded font-light" name="" id="exchange">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="exchange">
         <option value="">All</option>
     </select>
     </label>
    <label className='font-semibold' htmlFor="platform">Platform
-    <select className="block w-full h-10 rounded font-light" name="" id="platform">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="platform">
         <option value="">All</option>
     </select>
     </label>
    <label className='font-semibold' htmlFor="hashing-algo">Hashing Algorithm
-    <select className="block w-full h-10 rounded font-light" name="" id="hashing-algo">
+    <select className={`${theme ? 'bg-zinc-400' : 'bg-white'} block w-full h-10 sm:rounded rounded-full font-light`} name="" id="hashing-algo">
         <option value="">All</option>
     </select>
     </label>

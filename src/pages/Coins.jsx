@@ -562,12 +562,12 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
          pageNumber={pageNumber}
          />
 
-   <div className={`${addToPortfolio.showpopup ? 'block' : 'hidden ' } fixed bottom-24 z-50 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} shadow-lg rounded py-4 px-2 min-h-max w-[93vw] md:w-[40vw] `}>
+   <div className={`${addToPortfolio.showpopup ? 'block' : 'hidden ' } fixed bottom-10 z-50 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} shadow-lg rounded py-4 px-2 min-h-max w-[93vw] md:w-[40vw] `}>
    <img src={addToPortfolio.coinImage} alt="coin-logo" className="h-8 w-8 mt-2 mr-2 float-left" />
     <p className="text-neutral-400">
     {addToPortfolio.coinName} added to Portfolio - <span className='font-semibold text-sm'> My Portfolio </span>
      </p>
-      <p className="text-green-500">Start you portfolio - Add a transaction!</p>
+      <p className="text-green-500">Start your portfolio - Add a transaction!</p>
    </div>
 
  <span className="inline-block w-full">

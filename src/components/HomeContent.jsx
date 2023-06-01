@@ -6,7 +6,7 @@ import Coins from '../pages/Coins'
 import Portfolio from '../pages/Portfolio'
 import { useState} from 'react'
 import Categories from '../pages/Categories'
-import SideNavbar from '../utils/SideNavbar.jsx'
+
 import {useDispatch,useSelector} from 'react-redux'
 import {useEffect,useCallback} from 'react'
 import Auth from './Auth'
@@ -48,25 +48,7 @@ const [data,setData] = useState(storedState ? JSON.parse(storedState) : {
 
 
 
-  useEffect(()=>{
-
-    const root = document.getElementById('root')
-
-    const setLight=()=>{
-    root.classList.remove('bg-black')
-    root.classList.add('bg-sky-700')
-  }
-    const setDark=()=>{
-    root.classList.add('bg-black')
-    root.classList.remove('bg-sky-700')
-  }
-    {theme ? setDark() : setLight()}
-  
-
-    
-    
-    
-  },[theme])
+ 
  
 
 
@@ -168,7 +150,7 @@ useEffect(()=>{
 return <>
   <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
 {/* <CoinRoot/> */}
-<SideNavbar theme={theme}/>
+
 <CoinNavbar
 
 coins={pages.coins}
@@ -193,6 +175,7 @@ setData={setData} />}
 
 
 </main>
+
 
 </>
 }

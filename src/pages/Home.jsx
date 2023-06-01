@@ -3,6 +3,8 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { useEffect } from "react"
 import{FaArrowUp} from 'react-icons/fa'
+import SideNavbar from '../utils/SideNavbar.jsx'
+
 
 const Home =({theme,
     pages
@@ -35,7 +37,9 @@ const Home =({theme,
              pages={pages}
              setPages={setPages}
              />
-       
+       <SideNavbar
+        setPages={setPages}
+        theme={theme}/>
        <div onClick={SCROLL_TO_TOP} className={`${scrollValue ? 'block' : 'hidden'} fixed bottom-16 cursor-pointer right-12 rounded-full  z-50 bg-neutral-400 h-12 w-12`}>
    <FaArrowUp className={`text-center animate-bounce absolute left-1/4 top-3 text-2xl translate-y-1/2`}/>
    </div>

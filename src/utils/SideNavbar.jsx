@@ -2,7 +2,7 @@ import { useSelector,useDispatch } from "react-redux"
 import {FaCaretDown,FaStar,FaSun,FaMoon,FaUser,FaUserCircle, FaCaretUp} from 'react-icons/fa'
 import React, { useEffect } from 'react'
 import { useState} from 'react'
-import { closeSidebar,openSignup,   } from "./Sidebarslice"
+import { closeSidebar,  } from "./Sidebarslice"
 import {toggleSidebarLanguages} from './LangSlice'
 import Auth from '../components/Auth'
 import LanguagesDropDown from "../components/LanguagesDropDown"
@@ -13,6 +13,8 @@ import { handleSignup,openLogin } from './AuthSlice'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from "../utils/firebase.config"
 import { signOut } from 'firebase/auth'
+import {Link,Outlet} from 'react-router-dom'
+import NavigateMenu from '../utils/navigation'
 
 
 
@@ -20,9 +22,7 @@ import { signOut } from 'firebase/auth'
 
 
 
-
-
- function SideNavbar({theme}) {
+ function SideNavbar({theme,setPages}) {
      const authState = useAuthState(auth)
 
     const isSidebarActive = useSelector(state=>state.sideBarActive.value)
@@ -73,6 +73,8 @@ const showNft=()=>{
         }
     })
 }
+
+
 const showProducts=()=>{
     setShowDropdown(prev=>
         {
@@ -121,7 +123,7 @@ useEffect(()=>{
 
 
     return(<>
-    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}    w-full min-h-screen`}>
+    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}     w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen w-full`}>
        
     <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
     <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
@@ -142,24 +144,24 @@ useEffect(()=>{
        <div className="pl-3">
         <h4 className="border-b  border-neutral-400 py-4" onClick={showCryptocurrencies}>   Cryptocurrencies{!showDropdown.cryptocurrencies ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4> 
            <ul className={`${showDropdown.cryptocurrencies ? 'block' : 'hidden' } py-3 pl-5` }>
-               <li>By Market Cap</li>
-               <li> New Cryptocurrencies</li>
+               <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}><Link to={'/'}>By Market Cap</Link></li>
+               <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}> <Link to={'/'}>New Cryptocurrencies</Link></li>
                <li className="text-neutral-400  text-sm font-normal mt-4 relative -ml-4 after:content-[''] after:h-[1px] after:w-[85%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400"> Popular</li>
-               <li>Categories</li>
-               <li>WatchLists</li>
-               <li>Gainers &amp; Losers</li>
-               <li>High Volume</li>
-               <li  className="text-neutral-400 font-normal text-sm  mt-4 relative -ml-4 after:content-[''] after:h-[1px] after:w-[88%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400">Tools</li>
-               <li>All Coins</li>
-               <li>Compare Coins</li>
-               <li>Converter</li>
-               <li>Global Chart</li>
+               <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}><Link to={'/'}>Categories</Link></li>
+               <li className={`p-2`}>WatchLists</li>
+               <li className={`p-2`}>Gainers &amp; Losers</li>
+               <li className={`p-2`}>High Volume</li>
+               <li   className="text-neutral-400 font-normal text-sm  mt-4 relative -ml-4 after:content-[''] after:h-[1px] after:w-[88%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400">Tools</li>
+               <li onClick={()=>dispatch(closeSidebar())} className={`p-2`}><Link to={'/all-cryptocurrencies'}>All Coins</Link></li>
+               <li className={`p-2`}>Compare Coins</li>
+               <li className={`p-2`}>Converter</li>
+               <li className={`p-2`}>Global Chart</li>
            </ul>
        </div>
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges{!showDropdown.exchanges ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3` }>
-           <li>Crypto Exchanges</li>
+           <li><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
            <li>Decentalized Exchanges</li>
            <li>Derivates</li>
            </ul>
@@ -233,11 +235,15 @@ useEffect(()=>{
    </ul>
    
  </aside>
+ 
     {isLangActive &&  component.language}
     {isCurrencyActive && component.currencies}
     {/* {isSignupOpen && component.signup} */}
 
-    </>)
+
+    </>
+    
+    )
 }
 
 export default SideNavbar;

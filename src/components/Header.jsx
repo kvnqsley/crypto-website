@@ -3,7 +3,7 @@ import {FaMoon,FaCaretDown,FaQuestionCircle,FaSearch, FaLevelDownAlt,FaLevelUpAl
 import axios from 'axios'
 import SearchBar from '../utils/SearchBar'
 import {useEffect,useReducer,useState,useRef, useId, useContext} from 'react'
-
+import NavigateMenu from '../utils/navigation'
 import CurrencyDropDown from './CurrencyDropDown'
 import LanguagesDropDown from './LanguagesDropDown'
 import {Link, NavLink, Outlet } from 'react-router-dom'
@@ -18,7 +18,7 @@ import SearchboxDropdown from './SearchBarDropdown'
 import { auth,Provider } from "../utils/firebase.config"
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { signOut } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
+
 import currencySymbol from '../utils/currencySymbol'
 
 
@@ -44,7 +44,7 @@ const dispatch = useDispatch()
  
    const currency = useSelector(state=>state.currency.currency)
  
-
+ 
  const currencyId=useId()
 
 const lang=useId()
@@ -179,88 +179,9 @@ useEffect(()=>{
 },[rootClicked,currencyClicked]) 
 
 const symbol = currencySymbol()
-const navigate=useNavigate()
 
-const navigateMenu = (e)=>{
-    
 
-    switch (e.target.textContent) {
-        
-      case 'Portfolio':
-      
-  
-        
-        setPages(state=>{
-          return {
-            ...state,
-            portfolio:true,
-            coins:false,
-           newcoins:false,
-           category:false,
-        
-          }
-        })
-        break;
-  
-  
-      case 'New Cryptocurrencies':
-        navigate('/')
-    
-       setPages(state=>{
-        return {
-          ...state,
-          coins:false,
-          newcoins:true,
-          category:false,
-          portfolio:false,
-       
-        }
-      })
-        break;
-  
-      case 'Categories':
-  
-        navigate('/')
-      
-     
-       setPages(state=>{
-        return {
-          ...state,
-          coins:false,
-          newcoins:false,
-          category:true,
-          portfolio:false,
-       
-        }
-      })
-        break;
-  
-      case 'By Market Cap':
-   
-        navigate('/')
-   
-   
-  
-      setPages(state=>{
-        return {
-          ...state,
-          coins:true,
-          newcoins:false,
-          category:false,
-          portfolio:false,
-       
-        }
-      })
-       break;
-     
-     
-    
-      default:
-       return ;
-       
-    }
-  
-  }
+
 
 
 
@@ -277,22 +198,30 @@ const navigateMenu = (e)=>{
 
 
    return<>
-   <header  className={`${theme ? 'bg-black text-white' :'bg-sky-700'} head  w-full `}>
-       {isError && <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
-           <h1 className='text-red-800'>Please Check your Network</h1></marquee>}
+   <header  className={`${theme ? 'bg-black text-white' :'bg-sky-700'}   w-full `}>
+
 {isLoading ?  <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
-           <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1></marquee> : <ul className=' hidden  md:flex mb-6 justify-around'>
- <li>Exchanges: <span className='text-green-500'>{data?.data.markets}</span></li>
-     <li>Coins: <span className='text-green-500'>{data?.data.active_cryptocurrencies
-}</span></li>
-     <li className='w-96'>Market Cap: <span className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}<span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
+           <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1>
+           </marquee> : <ul className='  md:flex  justify-around'>
+ <li >
+ <ul className='absolute sm:border-none border-y sm:overflow-hidden overflow-x-scroll py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-24 md:top-auto '>
+ <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <span className=' text-green-500'>{data?.data.markets}</span></li>
+     <li className='min-w-max  md:w-auto text-xs'>Coins: <span className='text-green-500'>{data?.data.active_cryptocurrencies
+}</span>
+</li> 
+
+
+
+
+     <li className='md:w-96  text-xs min-w-max'>Market Cap: <span className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}<span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
      </span>
      </span>
-     <div>
-         </div>
+     
          </li>
+ </ul>
+ </li>
      <li>
-     <ul className='flex  min-w-[10rem] gap-4 '>
+     <ul className=' hidden md:flex  min-w-[10rem] gap-4 '>
     <li className='cursor-pointer' >
     <div id='langId'   ref={languageRef}
     onClick={()=>dispatch(toggleLanguages())} className='cursor-pointer h-full w-full'>EN<FaCaretDown  className='inline '/>
@@ -305,11 +234,9 @@ const navigateMenu = (e)=>{
     
     <div id='currencyId'
     onClick={()=> dispatch(toggleCurrency())}
-    className='cursor-pointer h-full w-full'>{currency} <FaCaretDown  className='inline'/></div>
+    className='cursor-pointer  h-full w-full'>{currency} <FaCaretDown  className='inline'/></div>
     <CurrencyDropDown
-  //   theme={theme} 
-  //  currencyDDActive={currencyDDActive}
-  //  setCurrencyDDActive={setCurrencyDDActive}
+  
    handleCurrencyClick={handleCurrencyClick} />
     </li>
     <li 
@@ -321,8 +248,12 @@ const navigateMenu = (e)=>{
     </li>
 </ul>
      </li>
-     <li></li>
+
  </ul>}
+
+ {/* customized 
+      hamburger
+        menu */}
  <div onClick={()=>dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 sm:hidden mt-4 ml-2' >
  <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
       <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
@@ -350,12 +281,7 @@ const navigateMenu = (e)=>{
      
     
       
-{/* <div className="mr-6 h-4 w-4">
-      <div className={`w-6 bg-slate-900 mt-1 h-1 ${isActive===false ? '-translate-x-96' : ''}`}></div>
-       <div className={`w-6 bg-slate-900 mt-1 h-1 ${isActive===false ? '-rotate-45   ' : ''}`}></div>
-       <div className={`w-6 bg-slate-900 mt-1 h-1 ${isActive===false ? ' rotate-45 -translate-y-2' : ''}`}></div>
-       
-      </div> */}
+
     <div className='mr-4 pl-11'>
     <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
       <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
@@ -371,22 +297,22 @@ const navigateMenu = (e)=>{
     </ul></li>
     <li className='cursor-pointer group'>EXCHANGE
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
-        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Crypto Exchanges</li>
+        <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Decentralized Exchanges</li>
         <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Derivatives</li>
     </ul></li>
     <li className='cursor-pointer group'>CRYPTOCURRENCY
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
-        <li onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>By Market Cap</li>
-        <li  onClick={navigateMenu} className='mt-4  px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 border-b pb-4 '>New Cryptocurrencies</li>
-        <li  onClick={navigateMenu} className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><h6 className='inline-block'>Categories</h6><span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li  onClick={navigateMenu}   className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Watchlists</li>
-        <li  onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Gainers &amp; Losers</li> 
-        <li  onClick={navigateMenu} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 pb-4 border-b'>High Volume</li>
+        <li onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/'}>By Market Cap</Link></li>
+        <li  onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4  px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 border-b pb-4 '><Link to={'/'}>New Cryptocurrencies</Link></li>
+        <li  onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><h6 className='inline-block'>Categories</h6><span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li    className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Watchlists</li>
+        <li  className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Gainers &amp; Losers</li> 
+        <li  className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 pb-4 border-b'>High Volume</li>
         <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/all-cryptocurrencies'}>All coins</Link></li>
-        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Compare Coins <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Converter <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
-        <li onClick={navigateMenu} className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Global Chart</li>
+        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Compare Coins <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Converter <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Global Chart</li>
     </ul>
     </li>
     <li className='cursor-pointer group'>PRODUCTS
