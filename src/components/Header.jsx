@@ -298,8 +298,7 @@ const symbol = currencySymbol()
     <li className='cursor-pointer group'>EXCHANGE
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
         <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
-       <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Decentralized Exchanges</li>
-        <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'>Derivatives</li>
+       <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" pb-4'><Link to={'/exchanges/derivatives'}>Derivatives</Link></li>
     </ul></li>
     <li className='cursor-pointer group'>CRYPTOCURRENCY
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
@@ -355,14 +354,16 @@ const symbol = currencySymbol()
     
     </div> : 
    <>
-    <li  onClick={()=>{dispatch(openLogin ())}
+    <li  ><button  onClick={()=>{dispatch(openLogin ())}
   
-        } className='cursor-pointer'>LOGIN</li>
-    <li onClick={
+} className=''>LOGIN</button></li>
+    <li  className='cursor-pointer w-max h-6 bg-blue-600 hover:bg-green-500 rounded-lg text-center px-2  '> <button onClick={
         ()=>{dispatch(handleSignup ());
     showAsModal()
         }
-    } className='cursor-pointer h-6 bg-blue-600 hover:bg-green-500 rounded-lg text-center px-2  '>SIGN UP</li>
+    }>
+      SIGN UP
+      </button> </li>
     <li className='cursor-pointer'><FaQuestionCircle className='inline-block  mr-2'/>
     </li>
     </>

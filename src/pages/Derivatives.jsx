@@ -1,14 +1,13 @@
-import { useLoaderData } from "react-router-dom"
+import { Link, useLoaderData } from "react-router-dom"
  import { FaChevronDown,FaSpinner } from "react-icons/fa"
  import { useSelector } from "react-redux"
  
- 
- 
- 
- 
- const CryptoEx=({theme})=>{
+
+
+const Derivatives=({theme})=>{
+
     const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
-    const exchanges =useLoaderData()
+    const derivatives =  useLoaderData() 
     const shuffleData =false
     const trending =null
   
@@ -19,20 +18,17 @@ return <>
 <ul className={`relative md:pb-7 pb-2 h-min border-b-[1px] w-full overflow-y-hidden border-neutral-400
  gap-5 top-24 flex`} >
   
-     <li   className={` cursor-pointer border-b-2 -mb-2 md:-mb-7 ` }>Crypto Exchanges</li>
-   <li     className={`hover:border-b-2  cursor-pointer md:-mb-7 -mb-2  min-w-max border-cyan-100 `}>Decentralized Exchanges</li>
-    <li className={`hover:border-b-2  cursor-pointer  -mb-2 md:-mb-7 border-cyan-100  min-w-max`}>Derivatives</li>
+     <li   className={`  hover:border-b-2  cursor-pointer  -mb-2 md:-mb-7 border-cyan-100  min-w-max ` }><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
+    <li className={`cursor-pointer border-b-2 -mb-2 md:-mb-7`}>Derivatives</li>
   
 </ul> 
 <div className="className={`  relative top-32 w-full`}">
 <h3 className="font-semibold text-xl  mt-2">
-    Top Crypto Exchanges Ranked by Trust Score
+Top Derivative Exchanges Ranked by Open Interest &amp; Trade Volume
     </h3>
 
     <p className='text-sm mt-4'>
-    As of today, we track 669 crypto exchanges with a total 24h trading volume of $43.3 Billion, a 16.06% change in the last 24 hours.
-     Currently, the 3 largest cryptocurrency exchanges are Coinbase Exchange, Bybit, and OKX.
-      Total tracked crypto exchange reserves currently stands at $107 Billion </p>
+    The total derivatives volume is $135 Billion, a -13.06% change in the last 24 hours. We track 72 crypto derivative derivatives with Binance (Futures), Deepcoin (Derivatives), and Bybit (Futures) in the top 3 rankings.  </p>
    
    <div className='flex justify-between mt-8 md:mt-4 md:gap-x-3 w-full'>
     <button className=' md:p-3 p-1 border rounded-full '>All Countries</button>
@@ -58,16 +54,16 @@ return <>
           </tr>
        </thead>
        <tbody >
-      {exchanges ? exchanges.map(exchange=><tr key={exchange.id} className={`h-16 border-neutral-700 border-y  overflow-x-scroll w-full  `}>
+      {derivatives ? derivatives.map(derivative=><tr key={derivative.id} className={`h-16 border-neutral-700 border-y  overflow-x-scroll w-full  `}>
  
  
  <td className='  md:w-32 w-32 h-8    ' >
- <h3 className=" w-full   ">{exchanges.indexOf(exchange) + 1}</h3>
+ <h3 className=" w-full   ">{derivatives.indexOf(derivative) + 1}</h3>
  </td>
          <td>
             <div className='font-semibold w-max'>
-            <img src={exchange.image} className="w-6 float-left mr-4 h-6 inline-block "  alt="" /> 
-               {exchange.name}
+            <img src={derivative.image} className="w-6 float-left mr-4 h-6 inline-block "  alt="" /> 
+               {derivative.name}
                <p className="ml-10 text-xs font-light">Centralized</p>
             </div>
            
@@ -80,34 +76,34 @@ return <>
                 
            <div className="w-max">
            <div className="w-24 bg-green-500 h-3 rounded-full inline-block  "></div> 
-            <h3 className="inline ">  {exchange.trust_score}</h3>
+            <h3 className="inline ">  {derivative.trust_score}</h3>
            </div>
             </td>
  
             <td className=' px-2    '>
-             <h3 className="w-max">{exchange.has_trading_incentive ? <h3 className="bg-yellow-200 ">Available</h3> : <h3>Unavailable</h3>}
+             <h3 className="w-max">{derivative.has_trading_incentive ? <h3 className="bg-yellow-200 ">Available</h3> : <h3>Unavailable</h3>}
                 </h3>
  
             </td>
             <td className='md:px-9 px-2    '>
-             <h3 className="w-max">${exchange.trade_volume_24h_btc
+             <h3 className="w-max">${derivative.trade_volume_24h_btc
 }</h3>
  
             </td>
             <td className='md:px-9 px-2    '>
-             <h3 className="w-max">${exchange.trade_volume_24h_btc_normalized
+             <h3 className="w-max">${derivative.trade_volume_24h_btc_normalized
 
 }</h3>
  
             </td>
             <td className='md:px-9 px-2    '>
-             <h3 className="w-max">${exchange.trade_volume_24h_btc_normalized
+             <h3 className="w-max">${derivative.trade_volume_24h_btc_normalized
 
 }</h3>
  
             </td>
             <td className='md:px-9 px-2    '>
-             <h3 className="">${exchange.trade_volume_24h_btc_normalized
+             <h3 className="">${derivative.trade_volume_24h_btc_normalized
 
 }</h3>
  
@@ -193,10 +189,8 @@ return <>
 
 
 </>
- }
+}
 
+export default Derivatives
 
-
-
-
-export default CryptoEx
+ 

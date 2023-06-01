@@ -68,8 +68,13 @@ return<>
                 <p className='inline-block text-green-400 float-right font-light mt-6 text-sm'>Forgot your password?</p>
                 
                
-           <input type="submit " onClick={(e)=>handleSubmit}  placeholder='Login'className='bg-green-600 block w-full text-center   mt-4 placeholder:text-neutral-100 p-3  rounded'/>
-            </form>
+               <button type="submit "  onClick={(e)=>handleSubmit} className='bg-green-600 block w-full text-center   mt-4 h-12 text-neutral-100 p-3  rounded'>
+                  LOGIN
+                  
+                   </button>
+           
+               
+           </form>
            <div className='flex items-center gap-x-1 justify-center'>
                 <span className='bg-neutral-400 inline-block w-[47%] i h-[1px]'></span> <span className='w-[5%] inline-block text-neutral-400'>Or</span><span className='inline-block  bg-neutral-400 top-0 w-[47%] relative right-4 h-[1px]'></span>
            </div>

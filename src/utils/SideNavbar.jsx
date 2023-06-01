@@ -32,6 +32,9 @@ import NavigateMenu from '../utils/navigation'
     const isSignupOpen = useSelector(state=>state.auth.signup)
 
     const dispatch =useDispatch()
+
+    const currency = useSelector(state=>state.currency.currency)
+    const language = 'EN'
 const [showDropdown,setShowDropdown] = useState({
     cryptocurrencies:false,
     exchanges:false,
@@ -147,7 +150,7 @@ useEffect(()=>{
                <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}><Link to={'/'}>By Market Cap</Link></li>
                <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}> <Link to={'/'}>New Cryptocurrencies</Link></li>
                <li className="text-neutral-400  text-sm font-normal mt-4 relative -ml-4 after:content-[''] after:h-[1px] after:w-[85%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400"> Popular</li>
-               <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }} className={`p-2`}><Link to={'/'}>Categories</Link></li>
+               <li  onClick={(e)=>{NavigateMenu(e,setPages); dispatch(closeSidebar()) }}  className={`p-2`}><Link to={'/'}>Categories</Link></li>
                <li className={`p-2`}>WatchLists</li>
                <li className={`p-2`}>Gainers &amp; Losers</li>
                <li className={`p-2`}>High Volume</li>
@@ -161,32 +164,32 @@ useEffect(()=>{
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges{!showDropdown.exchanges ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3` }>
-           <li><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
-           <li>Decentalized Exchanges</li>
-           <li>Derivates</li>
+           <li className={`p-2`}><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
+           
+           <li className={`p-2`}><Link to={'/exchanges/derivatives'}>Derivatives</Link></li>
            </ul>
            </div>
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showNft} >NFT{!showDropdown.nft ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.nft ? 'block' : 'hidden' } py-3` }>
-           <li>NFT Floor Price</li>
-           <li>NFT Related Coins</li>
+           <li className={`p-2`}>NFT Floor Price</li>
+           <li className={`p-2`}>NFT Related Coins</li>
            </ul>
            </div>
        <div className="pl-3">
              <h4 className="border-y border-neutral-400 py-4"  onClick={showLearn}>Learn Crypto{!showDropdown.learn ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.learn ? 'block' : 'hidden' } py-3 pl-5` }>
-           <li>All Crypto Articles </li>
-           <li>Analysis</li>
-           <li>Guides</li>
+           <li className={`p-2`}>All Crypto Articles </li>
+           <li className={`p-2`}>Analysis</li>
+           <li className={`p-2`}>Guides</li>
            <li  className="text-neutral-400 text-sm  mt-4 relative -ml-4 after:content-[''] font-normal after:h-[1px] after:w-[75%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400">Crypto Terms</li>
-           <li>Glossary</li>
+           <li className={`p-2`}>Glossary</li>
            <li>Methodology</li>
            <li  className="text-neutral-400 text-sm  mt-4 relative -ml-4 after:content-['']  font- font-normal after:h-[1px] after:w-[60%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400">Learn Crypto Everyday</li>
-           <li>Videos</li>
-           <li>Podcast</li>
-           <li>Newsletter</li>
-           <li>Research Reports</li>
+           <li className={`p-2`}>Videos</li>
+           <li className={`p-2`}>Podcast</li>
+           <li className={`p-2`}>Newsletter</li>
+           <li className={`p-2`}>Research Reports</li>
            </ul>
            </div>
        <div className="pl-3"> 
@@ -226,8 +229,14 @@ useEffect(()=>{
     <li  onClick={()=>dispatch(openLogin())} className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li></>
     : null
 }
-       <li className='border-sky-800 rounded  mt-4  p-3 border' onClick={()=>dispatch(toggleSidebarLanguages())}> EN</li>
-       <li className='border-sky-800  rounded mt-4  p-3 border' onClick={()=>dispatch( toggleCurrency ())}> EUR</li>
+       <li className='border-sky-800 rounded  mt-4  p-3 border'> 
+       <button>
+       onClick={()=>dispatch(toggleSidebarLanguages())}
+           </button> {language}</li>
+       <li className='border-sky-800  rounded mt-4  p-3 border' >
+            <button onClick={()=>dispatch( toggleCurrency ())}>
+            {currency}
+           </button></li>
        <li 
        onClick={()=>dispatch(handleTheme())}
        className='border-sky-800 rounded mt-4  p-3 border'>  {!theme ?  <FaMoon  className='inline'/> : <FaSun className='inline text-white' />

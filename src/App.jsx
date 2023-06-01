@@ -1,9 +1,9 @@
-import Header from './components/Header'
+
 import HomeContent from './components/HomeContent'
 import Loading from '/src/utils/Loading'
 import './App.css'
 import './index.css'
-import { useState,useEffect } from 'react'
+import { useState,useEffect,} from 'react'
 import { useSelector } from 'react-redux'
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import NFT from './pages/NFT'
@@ -11,9 +11,11 @@ import Root from './components/Root'
 import ErrorPage from './pages/ErrorPag'
 import Home from './pages/Home'
 import AllCrypto from './pages/AllCryptocurrencies'
-import CryptoEx from './components/CryptoEx'
+import CryptoEx from './pages/CryptoEx'
 import GetExchanges from './utils/getExchanges'
-
+import Derivatives from './pages/Derivatives'
+import getDerivatives from './utils/getDerivatives'
+import ErrorBoundary from './utils/ErrorBoundary'
 
 function App() {
   const theme = useSelector(state=>state.theme.mytheme)
@@ -90,15 +92,26 @@ children:[
     path:'/all-cryptocurrencies'
   },
   {
-    element:<CryptoEx
-    theme={theme}/>,
+    element: <ErrorBoundary>
+      <CryptoEx
+    theme={theme}/>
+    </ErrorBoundary>,
     loader:GetExchanges,
-    path:'/exchanges'
+    path:'/exchanges',
+    
+  },
+  {
+    element:<ErrorBoundary>
+    <Derivatives
+  theme={theme}/>
+  </ErrorBoundary>,
+    loader:getDerivatives,
+    path:'/exchanges/derivatives'
   },
   {
     element:<ErrorPage/>,
     path:'*'
-
+   
   }
 ],
 
