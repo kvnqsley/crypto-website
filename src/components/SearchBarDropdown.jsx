@@ -7,6 +7,7 @@ import axios from "axios"
 import {showSearchDD, hideSearchDD } from "../utils/Searchslice"
 import { nanoid } from 'nanoid'
 import { getTrendingCoins } from "../utils/api"
+import { useNavigate,Link} from "react-router-dom"
 
 
 
@@ -36,7 +37,7 @@ const SearchboxDropdown =()=>{
          })).catch(err=>console.log(err))
      }
 
-    
+  
 
      const categoryArray= trending.categories?.map(category=>category.name)
 const shuffled = categoryArray?.sort(()=>Math.random() -0.5)
@@ -69,7 +70,7 @@ const sorted = shuffled?.slice(0,6)
         }
        
          })
-        
+  
          
 
 
@@ -96,8 +97,12 @@ setSearchValue(e.target.value)} name="" className={`w-full h-16 pl-6 pr-9  ${the
        Trending Search 🔥
    </p>
    <ul>
-       {trending.coins?.map(element=><li key={trending.coins.indexOf(element)} className="mt-4  pl-2 text-neutral-400"> <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name}
+
+       {trending.coins?.map(element=><li key={trending.coins.indexOf(element)} className="mt-4  pl-2 text-neutral-400">
+      <Link to={`/${element.item.id}`} >
+      <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name}
        <p className="float-right text-neutral-300 font-light text-xs mr-4">#{element.item.market_cap_rank}</p>
+      </Link>
        </li>
        )}
    </ul>
@@ -108,7 +113,7 @@ setSearchValue(e.target.value)} name="" className={`w-full h-16 pl-6 pr-9  ${the
    Trending Categories✨
    </p>
    <ul>
-       {sorted?.map(el=><li key={sorted.indexOf(el)} className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
+       {sorted?.map(el=><li key={sorted.indexOf(el)}  className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
    </ul>
   </div>
     </div>

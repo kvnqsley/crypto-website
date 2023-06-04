@@ -45,7 +45,7 @@ const dispatcH =useDispatch()
       statsData : false
    }
    )
- 
+ console.log(data)
    const [isCoin,setIsCoin] = useState(false)
    const [trending,setTrending] = useState({
       coins: [],

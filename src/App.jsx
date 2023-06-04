@@ -16,6 +16,7 @@ import GetExchanges from './utils/getExchanges'
 import Derivatives from './pages/Derivatives'
 import getDerivatives from './utils/getDerivatives'
 import ErrorBoundary from './utils/ErrorBoundary'
+import { CoinDetails } from './pages/CoinDetails'
 
 
 function App() {
@@ -108,6 +109,13 @@ children:[
   </ErrorBoundary>,
     // loader:getDerivatives,
     path:'/exchanges/derivatives'
+  },
+  {
+    element:<ErrorBoundary>
+    <CoinDetails
+  theme={theme}/>
+  </ErrorBoundary>,
+    path:'/:id',
   },
   {
     element:<ErrorPage/>,
