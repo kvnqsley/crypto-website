@@ -164,9 +164,9 @@ useEffect(()=>{
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges{!showDropdown.exchanges ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
            <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3` }>
-           <li className={`p-2`}><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
+           <li className={`p-2`}  onClick={()=>dispatch(closeSidebar()) }><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
            
-           <li className={`p-2`}><Link to={'/exchanges/derivatives'}>Derivatives</Link></li>
+           <li className={`p-2`} onClick={()=>dispatch(closeSidebar()) }><Link to={'/exchanges/derivatives'}>Derivatives</Link></li>
            </ul>
            </div>
        <div className="pl-3">
@@ -230,9 +230,9 @@ useEffect(()=>{
     : null
 }
        <li className='border-sky-800 rounded  mt-4  p-3 border'> 
-       <button>
-       onClick={()=>dispatch(toggleSidebarLanguages())}
-           </button> {language}</li>
+       <button  onClick={()=>dispatch(toggleSidebarLanguages())}>
+       {language}
+           </button> </li>
        <li className='border-sky-800  rounded mt-4  p-3 border' >
             <button onClick={()=>dispatch( toggleCurrency ())}>
             {currency}

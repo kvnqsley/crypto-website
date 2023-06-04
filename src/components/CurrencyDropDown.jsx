@@ -2,13 +2,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "../utils/SearchBar";
 import { FaArrowLeft } from "react-icons/fa";
-import { toggleCurrency } from "../utils/CurrencySlice";
+import { toggleCurrency,setCurrency } from "../utils/CurrencySlice";
 
-const CurrencyDropDown=({handleCurrencyClick})=>{
+const CurrencyDropDown=()=>{
     const theme = useSelector(state=>state.theme.mytheme)
  const isCurrencyActive = useSelector(state=>state.currency.value)
    const dispatch = useDispatch()
  
+const handleCurrencyClick =(e)=>{
+    const value =e.target.textContent.trim()
+const filtered =value.slice(0,3)
+
+dispatch(setCurrency(filtered))
+
+
+}
 
     return<>
   

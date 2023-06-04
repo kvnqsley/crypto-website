@@ -11,10 +11,12 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import { openLogin } from "../utils/AuthSlice";
 import CoinTable from "../components/CoinTable";
 import { useCallback } from "react";
-// import Cookies from 'universal-cookie'
+import { getHeaderData } from "../utils/api";
 import Cookies from 'js-cookie'
-import { stringify,parse } from "flatted";
 import { updateMarketData } from "../utils/DataSlice";
+import { getMarketData } from "../utils/api";
+import {getTrendingCoins} from '../utils/api'
+import { SCROLL_TO_TOP } from "../utils/scrollTop";
 
 
 
@@ -43,7 +45,7 @@ const dispatcH =useDispatch()
       statsData : false
    }
    )
-  
+ 
    const [isCoin,setIsCoin] = useState(false)
    const [trending,setTrending] = useState({
       coins: [],
@@ -85,7 +87,18 @@ function convertSVGPathElementToJson(svgPathElement) {
    return JSON.stringify(extractedData);
  }
  const shuffleData=()=>{
-   const sortedData= data.market.sort(()=>Math.random() - 0.5)
+   let sortedData;
+   if (pageNumber.page1==true) {
+    sortedData  = data.market.slice(0,100).reverse()
+   }
+//  if (pageNumber.page2==true) {
+//     sortedData  = data.market.slice(100,200).reverse()
+//     console.log('sygrgeuuie')
+//    }
+// if (pageNumber.page3==true) {
+//     sortedData  = data.market.slice(200,250).reverse()
+//    }
+  
    setData(state=>{
       return {
          ...state,
@@ -121,12 +134,13 @@ if (addToPortfolio.addPortfolio) {
 
 
  const fetchData = useCallback(async () => {
-   getMarketData();
-   getHeaderData()
+   getMarketData(setData,updateMarketData);
+   getHeaderData(setData,setStats)
+ 
 
  }, []);
 
- const setCookies = useCallback(()=>{
+ const SAVE_TO_STORAGE = useCallback(()=>{
   localStorage.setItem('stats',JSON.stringify(showStats))
   
    localStorage.setItem("coinsData",JSON.stringify(data),{
@@ -135,14 +149,13 @@ if (addToPortfolio.addPortfolio) {
       path:'/'
    } );
 
-   
 },[data.market,favourite,showStats])
 
 useEffect(()=>{
- setCookies();
+ SAVE_TO_STORAGE();
 
 
-},[setCookies])
+},[SAVE_TO_STORAGE])
 
  useEffect(() => {
   if (!data.market.length) {
@@ -270,65 +283,7 @@ setAddPortfolio(state=>{
 })
       }
      const theme = useSelector(state=>state.theme.mytheme)
-   const api1 = 'https://api.coingecko.com/api/v3/global'
-   const api2='https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=%201h%2C%2024h%2C%207d%2C%2014d%2C%2030d%2C%20200d%2C%201y&locale=en'
-  const api3 = 'https://api.coingecko.com/api/v3/search/trending'
   
-   const getMarketData=()=>{
-      axios.get(api2).then(
-         res=>{
-       
-            setData((prev=>{
-               return {
-                  ...prev,
-                  market: res.data
-               }
-            }))
-           
-         }
-     
-      ).then(()=>setCookies())
-      .then(res =>dispatch(updateMarketData(res.data))).catch(err=>console.log(err))
-     
-   }
-   
-
-
-
- 
-   const getTrendingCoins =()=>{
-      axios.get(api3).then(res=> setTrending(prev=>{
-         return {
-            coins:res.data.coins,
-          exchanges:res.data.exchanges
-         }
-      })
-         ).catch(err=>console.log(err))
-   }
-  
-   const getHeaderData=()=>{
-      axios.get(api1).then(
-         res=>{
-       
-            setData((prev=>{
-               return {
-                  ...prev,
-                  header: res.data
-               }
-            }))
-            if (res.status === 200) {
-               setStats(stats=>{
-                  return {
-                     ...stats,
-                     statsData : true
-                  }
-               })
-            }
-         }
-        
-      ).catch(err=>console.log(err))
-      
-   }
 
    const allCategoriesRef = useRef() 
    const coinRef = useRef() 
@@ -355,7 +310,7 @@ setAddPortfolio(state=>{
    useEffect(()=>{
       
  
-getTrendingCoins()
+getTrendingCoins(setTrending)
 
 handleCallback()
    },[handleCallback])
@@ -557,6 +512,7 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
         <CoinTable
         shuffleData={shuffleData}
          data={data}
+         theme={theme}
         favourite={favourite.selected}
       openFavourite={openFavourite}
          pageNumber={pageNumber}
@@ -575,13 +531,17 @@ className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-
 <span   className=" w-full pl-2 h-full hover:bg-green-700 cursor-pointer">
    &lt;
    </span>
-   <span onClick={()=>dispatch({type:'GO_TO_PAGE_1'})} className={`${pageNumber.page1 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+   <span onClick={()=>{dispatch({type:'GO_TO_PAGE_1'}) 
+   SCROLL_TO_TOP()}} className={`${pageNumber.page1 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
       1
    </span>
-   <span onClick={()=>dispatch({type:'GO_TO_PAGE_2'})} className={`${pageNumber.page2 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+   <span onClick={()=>{
+      dispatch({type:'GO_TO_PAGE_2'})
+      SCROLL_TO_TOP() }} className={`${pageNumber.page2 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
       2
    </span>
-   <span onClick={()=>dispatch({type:'GO_TO_PAGE_3'})}className={`${pageNumber.page3 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
+   <span onClick={()=>{dispatch({type:'GO_TO_PAGE_3'}) 
+   SCROLL_TO_TOP()}} className={`${pageNumber.page3 ? 'bg-neutral-400' : ''} border-l w-full pl-2 h-full hover:bg-green-700 cursor-pointer`}>
       3
    </span>
    

@@ -1,4 +1,4 @@
-import {createElement} from 'react'
+import {createElement, Suspense} from 'react'
 import {FaArrowUp} from 'react-icons/fa'
 import NewCoins from '../pages/NewCoins'
 import CoinNavbar from './CoinNavbar'
@@ -12,6 +12,9 @@ import {useEffect,useCallback} from 'react'
 import Auth from './Auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from "../utils/firebase.config"
+
+import Loading from '../utils/Loading'
+
 import Login from './Login'
 
 
@@ -146,9 +149,9 @@ useEffect(()=>{
 
 
 
- const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
+ const isSidebarActive = useSelector(state=>state.sideBarActive.signUp)
 return <>
-  <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
+  <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSidebarActive  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
 {/* <CoinRoot/> */}
 
 <CoinNavbar
@@ -159,12 +162,14 @@ newcoins={pages.newcoins}
 portfolio={pages.portfolio}
 category={pages.category}
 navigateMenu={navigateMenu}/>
-<Auth/>
-<Login/>
-{pages.coins && <Coins data={data}
 
 
-setData={setData} />}
+{pages.coins && <Suspense fallback={<Loading/>}>
+  <Coins data={data}
+
+
+setData={setData} />
+</Suspense>}
 {pages.category && <Categories  />}
 {pages.newcoins && <NewCoins />}
 {pages.portfolio && <Portfolio 

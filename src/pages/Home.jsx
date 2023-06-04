@@ -4,7 +4,9 @@ import Footer from "../components/Footer"
 import { useEffect } from "react"
 import{FaArrowUp} from 'react-icons/fa'
 import SideNavbar from '../utils/SideNavbar.jsx'
-
+import { SCROLL_TO_TOP } from "../utils/scrollTop"
+import Auth from "../components/Auth"
+import Login from "../components/Login"
 
 const Home =({theme,
     pages
@@ -13,13 +15,7 @@ const Home =({theme,
     handleToggle,})=>{
 
         const [scrollValue, setScrollValue]= useState(null)
-        const  SCROLL_TO_TOP=()=>{
-            window.scrollTo({
-               top:0,
-               behavior:'smooth'
-            })
-            
-           }
+       
         useEffect(()=>{
             window.addEventListener('scroll',()=>{
                 (window.scrollY >= 450) ? setScrollValue(true) : setScrollValue(false)
@@ -37,6 +33,8 @@ const Home =({theme,
              pages={pages}
              setPages={setPages}
              />
+             <Auth/>
+            <Login/>
        <SideNavbar
         setPages={setPages}
         theme={theme}/>

@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { useEffect,useRef,forwardRef } from "react"
+
+
 import { FaStar,FaSpinner,FaChevronDown } from "react-icons/fa"
-import {stringify,parse} from 'flatted'
+import { Shufflebtn } from "./Buttons";
 
 
 
-const CoinTable =  ({data,pageNumber,shuffleData,favourite,openFavourite}) => {
+
+const CoinTable =  ({data,pageNumber,shuffleData,theme,openFavourite}) => {
    
 
     return <>
@@ -32,7 +33,9 @@ const CoinTable =  ({data,pageNumber,shuffleData,favourite,openFavourite}) => {
 
 <th  className='font-semibold text-right p-6 s '>
         <h3 className=" md:w-16 sm:w-24 group  "> 
-        Coin <FaChevronDown  onClick={shuffleData} className='sm:inline-block font-extralight opacity-20 group-hover:opacity-100 ease-in-out text-xs group-hover:text-black text-neutral-800 hidden cursor-pointer'/>
+        Coin <Shufflebtn
+        theme={theme}
+         shuffleData= {shuffleData}/>
             </h3>
                 </th>
                 

@@ -3,10 +3,11 @@ import { useState,useEffect,useRef } from 'react'
 import {FaEye,FaApple, FaRocket, FaGoogle } from 'react-icons/fa'
 import { useSelector,useDispatch } from 'react-redux'
 import { handleSignup,closeSignup, openLogin } from '../utils/AuthSlice'
-import { auth,Provider } from "../utils/firebase.config";
-import {signInWithPopup} from 'firebase/auth'
+import { auth,Provider,  } from "../utils/firebase.config";
+import {signInWithPopup,sendSignInLinkToEmail} from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
-
+import { actionCodeSettings } from '../auth/email/auth_email_link_actioncode_settings';
+import { CloseBtn } from './Buttons';
 
 
 
@@ -23,11 +24,16 @@ const authState = useAuthState (auth)
     const issignUpActive = useSelector(state=>state.sideBarActive.signUp)
     const theme = useSelector(state=>state.theme.mytheme)
    const dispatch =useDispatch()
+
+   const closeEvent =()=>dispatch(closeSignup())
    const handleSubmit = (e)=>{
        e.preventDefault()
+       signInWithEmail()
    }
    const toggleDialog = useSelector(state=>state.auth.signup)
     const [email,setEmail] = useState('')
+
+  
     const [pwd,setPwd] = useState('')
     
     const handleEmail=(e)=>{
@@ -46,6 +52,23 @@ const authState = useAuthState (auth)
         signInWithPopup(auth,Provider).then(res=>
             console.log(res)
         )
+    }
+    const signInWithEmail=()=>{
+        sendSignInLinkToEmail(auth, email, actionCodeSettings)
+        .then((res) => {
+          // The link was successfully sent. Inform the user.
+          // Save the email locally so you don't need to ask the user for it again
+          // if they open the link on the same device.
+          console.log(res)
+          window.localStorage.setItem('emailForSignIn', email);
+          console.log(localStorage.getItem('emailForSignIn'))
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.warn(errorCode,errorMessage)
+        });
     }
     const [ rootClicked,setRootClicked] = useState(false)
     
@@ -68,12 +91,7 @@ const authState = useAuthState (auth)
   {  toggleDialog &&
   <section className={`md:block w-full md:mr-0 md:px-0 min-h-screen  md:h-full fixed md:overflow-auto  -top-20 left-0  md:top-0 md:py-3 md:bg-opacity-30   md:bg-red-100 z-50 no-scrollbar  `}>
   <dialog  ref={dialogRef}   open={true} onClose={()=>dispatch(closeSignup())} className={`${theme ? 'bg-black text-white' :'bg-sky-700'}  h-full dialog overflow-auto no-scrollbar  w-full px-4  mt-16 md:top-2 md:mt-2  md:w-2/6 absolute  } `}>
-    <div onClick={()=>dispatch(closeSignup())}  className={`cursor-pointer  w-18 inline-block h-10 `}>
-    <div className={` ${theme && 'bg-white'} w-6 bg-slate-900 mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
-   
-   <div className={` ${theme && 'bg-white'} w-6 bg-slate-900 mt-1 ml-2 h-1  translate-y-4 -rotate-45`}></div>
-    
-    </div>
+  <CloseBtn closeEvent={closeEvent}/>
         <h3 className='font-semibold sm:ml-4 text-xl mt-8 sm:mt-0 inline-block '>
             IT'S FREE! Track your favourite coin easily with CoinMamba 🚀
         </h3>
@@ -90,7 +108,7 @@ const authState = useAuthState (auth)
            <FaApple className='inline-block text-2xl' /> Continue with Apple
         </button>
         <h4  className="text-neutral-400 font-normal text-sm text-center mt-4 relative  after:content-[''] after:h-[1px] after:w-[45%] after:absolute after:right-0 after:top-1/2 after:bg-neutral-400  before:content-[''] before:h-[1px] before:w-[45%] before:absolute before:left-0 before:top-1/2 before:bg-neutral-400">Or</h4>
-        <form action="# " >
+        <form action=" " >
             <label className='mt-4' htmlFor="email">
                 Email
                 <input type="email" onChange={handleEmail} value={email} name="email" id="email" placeholder='Email' className={`${theme ? 'bg-neutral-900' :''} rounded w-full p-3`}/>
@@ -104,8 +122,12 @@ const authState = useAuthState (auth)
             
            <input type="checkbox" className='mt-3' name="" id="checkbox" /> <label htmlFor='checkbox'>I would like to suscribe to the CoinMamba daily newsletter </label>
        
-       <input type="submit " onClick={(e)=>handleSubmit}  placeholder='Sign Up'className='bg-green-600 block w-full text-center   mt-4 placeholder:text-neutral-100 p-3  rounded'/>
+           <button type="submit "  onClick={(e)=>handleSubmit(e)} className='bg-green-600 block w-full text-center   mt-4 h-12 text-neutral-100 p-3  rounded'>
+         SIGN UP
+         
+          </button>
         </form>
+        
         <div className='border-t  border-0 mt-4 text-center'>
             <h4>
                 Already have an account? <span className='ml-4 text-green-600'><button onClick={()=>dispatch(openLogin())}>Login</button></span>

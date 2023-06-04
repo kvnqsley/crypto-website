@@ -50,14 +50,6 @@ const dispatch = useDispatch()
 const lang=useId()
 
 
-const handleCurrencyClick =(e)=>{
-    const value =e.target.textContent.trim()
-const filtered =value.slice(0,3)
-
-dispatch(setCurrency(filtered))
-
-
-}
 const {isError,data,error,isLoading }=useQuery(['market value'],()=> axios.get(api).then(res=>{
     return res.data
      
@@ -65,7 +57,7 @@ const {isError,data,error,isLoading }=useQuery(['market value'],()=> axios.get(a
          err=>console.warn(err)
      ) )
 
-    const api = 'https://api.coingecko.com/api/v3/global'
+    const api = import.meta.env.VITE_COINGECKO_HEADER_API
 
 
 
@@ -235,9 +227,7 @@ const symbol = currencySymbol()
     <div id='currencyId'
     onClick={()=> dispatch(toggleCurrency())}
     className='cursor-pointer  h-full w-full'>{currency} <FaCaretDown  className='inline'/></div>
-    <CurrencyDropDown
-  
-   handleCurrencyClick={handleCurrencyClick} />
+    <CurrencyDropDown />
     </li>
     <li 
      onClick={()=>dispatch(handleTheme())}
@@ -304,7 +294,7 @@ const symbol = currencySymbol()
     <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
         <li onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/'}>By Market Cap</Link></li>
         <li  onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4  px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 border-b pb-4 '><Link to={'/'}>New Cryptocurrencies</Link></li>
-        <li  onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><h6 className='inline-block'>Categories</h6><span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
+        <li  onClick={(e)=>NavigateMenu(e,setPages)} className='mt-4  px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '><Link to={'/'}>Categories</Link><span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span></li>
         <li    className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer"'>Watchlists</li>
         <li  className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>Gainers &amp; Losers</li> 
         <li  className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" border-neutral-400 pb-4 border-b'>High Volume</li>
@@ -360,6 +350,7 @@ const symbol = currencySymbol()
     <li  className='cursor-pointer w-max h-6 bg-blue-600 hover:bg-green-500 rounded-lg text-center px-2  '> <button onClick={
         ()=>{dispatch(handleSignup ());
     showAsModal()
+ 
         }
     }>
       SIGN UP

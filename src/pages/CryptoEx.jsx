@@ -1,16 +1,27 @@
 import { Link, useLoaderData } from "react-router-dom"
  import { FaChevronDown,FaSpinner, FaCheck,FaListAlt,FaRegQuestionCircle } from "react-icons/fa"
  import { useSelector } from "react-redux"
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import gradient from "../utils/gradient"
- 
+import {getCryptoExchanges} from '../utils/api'
+import { useQuery } from "@tanstack/react-query"
  
  
  
  
  const CryptoEx=({theme})=>{
-    const isSignupOpen = useSelector(state=>state.sideBarActive.signUp)
-    const exchanges =  useLoaderData() 
+    const isSidebarActive = useSelector(state=>state.sideBarActive.value)
+    
+    const [data,setData] =useState()
+   //  const exchanges =  useLoaderData() 
+   useEffect(()=>{
+      getCryptoExchanges(setData)
+   },[])
+ 
+ const [exchanges,setExchanges] = useState()
+ useEffect(()=>{
+    setExchanges(data)
+ },[data])
     const shuffleData =false
     const trending =null
  
@@ -54,7 +65,8 @@ import gradient from "../utils/gradient"
 
     
 return <>
-<main className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
+<main className={`${isSidebarActive ? 'hidden' : 'block'
+      } ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)] ${isSidebarActive  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
 <ul className={`relative md:pb-7 pb-2 h-min border-b-[1px] w-full overflow-y-hidden border-neutral-400
  gap-5 top-24 flex`} >
   
@@ -67,10 +79,10 @@ return <>
     Top Crypto Exchanges Ranked by Trust Score
     </h3>
 
-    <p className='text-sm mt-4'>
+    {exchanges && <p className='text-sm mt-4'>
     As of today, we track 669 crypto exchanges with a total 24h trading volume of $43.3 Billion, a 16.06% change in the last 24 hours.
      Currently, the 3 largest cryptocurrency exchanges are {exchanges[0].name}, {exchanges[1].name}, and {exchanges[2].name}.
-      Total tracked crypto exchange reserves currently stands at $107 Billion </p>
+      Total tracked crypto exchange reserves currently stands at $107 Billion </p>}
    
    <div className='flex justify-between mt-8 md:mt-4 md:gap-x-3 w-full'>
     <button className=' md:p-3 p-1 border border-neutral-400 rounded-full '>All Countries</button>

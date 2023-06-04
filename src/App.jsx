@@ -17,6 +17,7 @@ import Derivatives from './pages/Derivatives'
 import getDerivatives from './utils/getDerivatives'
 import ErrorBoundary from './utils/ErrorBoundary'
 
+
 function App() {
   const theme = useSelector(state=>state.theme.mytheme)
   
@@ -96,7 +97,7 @@ children:[
       <CryptoEx
     theme={theme}/>
     </ErrorBoundary>,
-    loader:GetExchanges,
+   // loader:GetExchanges,
     path:'/exchanges',
     
   },
@@ -105,7 +106,7 @@ children:[
     <Derivatives
   theme={theme}/>
   </ErrorBoundary>,
-    loader:getDerivatives,
+    // loader:getDerivatives,
     path:'/exchanges/derivatives'
   },
   {

@@ -1,7 +1,7 @@
 import {useCallback, useEffect,useState} from 'react'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-
+import { getCategories } from '../utils/api'
+import { Shufflebtn } from '../components/Buttons'
 import { FaStar,FaSpinner, FaChevronDown } from "react-icons/fa"
 
 
@@ -9,18 +9,16 @@ import { FaStar,FaSpinner, FaChevronDown } from "react-icons/fa"
 export default function Categories() {
  const  [categoryData,setCategory]= useState([])
 
-const api = 'https://api.coingecko.com/api/v3/coins/categories'
 
-const {isError,data,error,isLoading }=useQuery(['categories'],()=> axios.get(api).then(res=>{
-  return res.data
-        
-        }).then(setCategory(data)).catch(
-            err=>console.warn(err)
-        ) )
 
-        const shuffleData=()=>{
-          const sortedData= data.sort(()=>Math.random() - 0.5)
+     useEffect(()=>{
+      getCategories(setCategory)
+     },[])
+
+const shuffleData=()=>{
+          const sortedData= categoryData.reverse()
           setCategory(sortedData)
+
        
         }
 
@@ -44,7 +42,7 @@ const {isError,data,error,isLoading }=useQuery(['categories'],()=> axios.get(api
        <thead className='w-full text-left '>
           <tr >
              <th className='table-fixed p-6'>#</th>
-             <th className='p-6 group'>Category  <FaChevronDown  onClick={shuffleData} className='sm:inline-block opacity-20 group-hover:opacity-100 ease-in-out font-extralight text-xs group-hover:text-black text-neutral-800 hidden cursor-pointer'/></th>
+             <th className='p-6 group'>Category <Shufflebtn shuffleData={shuffleData}/> </th>
              <th className='p-6 '>Top Gainers</th>
              <th className='p-6'>Market Capitalization</th>
              <th className='p-6'>24h Volume</th>

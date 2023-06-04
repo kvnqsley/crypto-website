@@ -2,7 +2,6 @@ import { useState,useReducer } from "react"
 import {  FaCaretDown,  } from "react-icons/fa"
 import DownloadStore from "../utils/DownloadStores"
 import { useSelector } from "react-redux"
-import { Outlet } from "react-router-dom"
 
 
 const Footer =()=>{
@@ -11,7 +10,8 @@ const Footer =()=>{
     const [isDonations, setIsDonations]= useState(false)
     const [isAbout, setIsAbout]= useState(false)
     const [isCommunity, setIsCommunity]= useState(false)
-
+    const isSidebarActive = useSelector(state=>state.sideBarActive.value)
+  
     const theme = useSelector(state=>state.theme.mytheme)
 
     const handleResources =()=>{
@@ -29,8 +29,10 @@ const Footer =()=>{
     const handleSupport =()=>{
         setIsSupport(prev=>!prev)
     }
+   
     return<>
-    <footer className={` ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative md:px-10 px-4 font-light mt-24`}>
+    <footer className={`${isSidebarActive ? 'hidden' : 'block'
+      }  ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative md:px-10 px-4 font-light mt-24`}>
 
     <div className="flex flex-col md:flex-row justify-between ">
         <div className="md:w-[45%]" >

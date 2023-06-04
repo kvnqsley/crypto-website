@@ -6,7 +6,7 @@ import { useState,useRef } from "react"
 import axios from "axios"
 import {showSearchDD, hideSearchDD } from "../utils/Searchslice"
 import { nanoid } from 'nanoid'
-
+import { getTrendingCoins } from "../utils/api"
 
 
 
@@ -24,17 +24,9 @@ const SearchboxDropdown =()=>{
         nft:[],
     categories:[]
      })
-  
-    const api = 'https://api.coingecko.com/api/v3/search/trending'
-    const getTrendingCoins =()=>{
-        axios.get(api).then(res=> setTrending(prev=>{
-           return {
-              coins:res.data.coins,
-            exchanges:res.data.exchanges
-           }
-        })
-           ).catch(err=>console.log(err))
-     }
+     const[searchValue,setSearchValue] = useState()
+   
+    
      const getTrendingCategories=()=>{
          axios.get('https://api.coingecko.com/api/v3/coins/categories/list').then(res=>setTrending(prev=>{
             return{
@@ -52,7 +44,7 @@ const sorted = shuffled?.slice(0,6)
 // console.log(sorted);
 // console.log(trending.coins)
      useEffect(()=>{
-         getTrendingCoins()
+        getTrendingCoins(setTrending)
          getTrendingCategories();
 
          const closeSearchDD =()=>{
@@ -96,8 +88,9 @@ const sorted = shuffled?.slice(0,6)
      
 </div>
     <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border  no-scrollbar   z-50 border-sky-900`}>
-    <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/><span className="inline-block md:hidden absolute right-5 bg-slate-400 rounded p-1 translate-y-3 ml-1">Clear</span>
-<input  type="search" name="" className={`w-full h-16 pl-6  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
+    <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/><button onClick={()=>setSearchValue('')}  className="inline-block md:hidden absolute right-10 bg-slate-400 rounded p-1 translate-y-3 ml-1"> Clear</button>
+<input  type="search" value={searchValue} onChange={(e)=>
+setSearchValue(e.target.value)} name="" className={`w-full h-16 pl-6 pr-9  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
   <div className="  no-scrollbar">
   <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
        Trending Search 🔥
