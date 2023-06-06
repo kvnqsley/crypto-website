@@ -4,10 +4,12 @@ import { FaApple } from 'react-icons/fa'
 import { closeLogin, handleSignup } from '../utils/AuthSlice'
 import { auth,Provider } from "../utils/firebase.config";
 import {signInWithPopup} from 'firebase/auth'
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 const Login =()=>{
     const dispatch  = useDispatch()
+    const [UserImpl] =useAuthState(auth)
     const toggleDialog = useSelector(state=>state.auth.login)
     const theme = useSelector(state=>state.theme.mytheme)
     const [email,setEmail] = useState('')
@@ -38,6 +40,9 @@ const handleForm=()=>[
             console.log(res)
         )
     }
+    if(UserImpl?.emailVerified ){
+    dispatch(closeLogin())
+   }
 
 return<>
 {

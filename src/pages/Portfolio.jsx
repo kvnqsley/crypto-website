@@ -313,7 +313,7 @@ return<>
   
     <div className={`flex md:justify-between gap-y-5  md:items-center md:flex-row flex-col`}>
         <div className="flex-grow">
-            <h3 onClick={()=>{setPortfolioTab(true)}} className="dropdown cursor-pointer text-neutral-900 font-semibold inline text-2xl">
+            <h3 onClick={()=>{setPortfolioTab(true)}} className={`dropdown cursor-pointer ${theme ? 'text-neutral-500 ': ''} font-semibold inline text-2xl`}>
                 My Portfolio <FaChevronDown  className='inline-block'/>
             </h3>
            
@@ -369,6 +369,7 @@ return<>
        
         </div> 
         <div className={`${theme ? 'bg-black shadow-neutral-900' : 'bg-sky-700'}  absolute h-screen  z-40 sm:h-[50vh]  top-[0] md:top-auto md:h-max w-full md:w-[40%] portfolio-tab ${portfolioTab ? 'block' : 'hidden'} shadow-lg  pl-3 pb-6`}>
+     
         <div onClick={()=> setPortfolioTab(false)}  className={`cursor-pointer  w-18 inline-block h-10 `}>
     <div className={` ${theme && 'bg-white'} w-6 bg-slate-900 mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
    
@@ -410,7 +411,7 @@ return<>
         {/* <div className=" justify-item-end hidden  absolute right-1   md:block"><ToggleIcon/>
         <p className="ml-4 inline-block">Show Fully Diluted Valuation</p> 
         </div> */}
-            {!icons.showChart ? <div className='mt-6'>
+            {icons.showChart ? <div className='mt-6'>
             <img className="w-40 h-40  mx-auto " src="/gecko_no_holdings-2d949be3ef272ac44c037f8a6b9b8749acf0f0dffa5e2ae8565f0419f7c619eb.svg" alt="chart" />
             <p className="text-center  ">
                 We'll draw a chart here for you once you add your transaction and holdings. Try it out!
@@ -565,9 +566,9 @@ return<>
 </table>  
 </div>
 </main> : <main className={`min-h-screen mt-32 relative  w-full ${isSidebarActive ? 'hidden' : 'block'}` } >
-<section className="md:grid relative place-items-center md:static  md:grid-cols-2">
-    <div className="top-52 md:top-0 relative">
-        <h1 className="font-bold w-11/12 mt-10 text-4xl md:w-2/3">
+<section className=" relative place-items-center w-full flex flex-col-reverse md:flex-row justify-between md:static">
+    <div className="  md:top-0 w-full relative">
+        <h1 className="font-bold w-11/12 mt-10  text-4xl md:w-2/3">
         Free &amp; Powerful Crypto Portfolio Tracker
         </h1>
         <h3 className="text-neutral-400 w-full md:w-3/4 mt-6">Track your crypto earnings like a pro, with a user-friendly and reliable portfolio tracker that you can rely on
@@ -586,11 +587,11 @@ return<>
         Start your portfolio now!
         </h3>
     </div>
-    <div className="absolute md:static -top-2">
-        <img src="/simage.webp" className="" alt="phone-img" />
+    <div className=" md:static sm:-top-4  -top-2">
+        <img src="/simage.webp" className="sm:w-[80%] w-auto md:auto" alt="phone-img" />
     </div>
 </section>
-<section className="grid md:mt-20 mt-56 gap-y-8 md:gap-y-0 md:grid-cols-3">
+<section className="grid md:mt-20 mt-24  gap-y-8 md:gap-y-0 md:grid-cols-3">
     <div>
         <h1 className="font-semibold text-xl">📈Real-time Price Data (11,000+ coins)</h1>
         <p className="font-light text-xl">From the world's largest independent cryptocurrency data agreegator</p>

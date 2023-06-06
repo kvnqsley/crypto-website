@@ -8,6 +8,7 @@ import {showSearchDD, hideSearchDD } from "../utils/Searchslice"
 import { nanoid } from 'nanoid'
 import { getTrendingCoins } from "../utils/api"
 import { useNavigate,Link} from "react-router-dom"
+import { CloseBtn } from "./Buttons"
 
 
 
@@ -18,14 +19,18 @@ const SearchboxDropdown =()=>{
     const dispatch = useDispatch()
     const theme = useSelector(state=>state.theme.mytheme)
    const isSearchboxOpen = useSelector(state=>state.searchbox.value)
-  
+  const searchRef = useRef()
     const [trending,setTrending] = useState({
         coins: [],
         exchanges:[],
         nft:[],
     categories:[]
      })
-     const[searchValue,setSearchValue] = useState()
+     
+     const[ newTrendingArray,setNewArray]=useState([...trending.coins])
+
+ 
+     const[searchValue,setSearchValue] = useState('')
    
     
      const getTrendingCategories=()=>{
@@ -35,7 +40,9 @@ const SearchboxDropdown =()=>{
              categories:res.data
             }
          })).catch(err=>console.log(err))
+         
      }
+
 
   
 
@@ -44,13 +51,23 @@ const shuffled = categoryArray?.sort(()=>Math.random() -0.5)
 const sorted = shuffled?.slice(0,6)
 // console.log(sorted);
 // console.log(trending.coins)
-     useEffect(()=>{
-        getTrendingCoins(setTrending)
-         getTrendingCategories();
 
-         const closeSearchDD =()=>{
-             dispatch(hideSearchDD())
-         }
+const closeSearchDD =()=>{
+    dispatch(hideSearchDD())
+}
+useEffect(()=>{
+    setNewArray(trending.coins)
+},[trending])
+useEffect(()=>{
+    getTrendingCoins(setTrending)
+    getTrendingCategories();
+},[])
+     useEffect(()=>{
+searchRef.current.focus()
+
+     
+
+        
          const root =document.querySelector('#root')
          const searchbox= document.querySelector('.search-dropdown')
         const dimensions= searchbox.getBoundingClientRect()
@@ -77,7 +94,19 @@ const sorted = shuffled?.slice(0,6)
         //  return ()=> root.removeEventListener('click',closeSearchDD)
      },[isSearchboxOpen])
 
-
+const handleSearch=(e)=>{
+setSearchValue(e.target.value)
+let checkedValue =[] 
+checkedValue.push(newTrendingArray.find(el=>el.item.id.startsWith(e.target.value.trim())))
+const filtered= checkedValue.filter(value=>value!== undefined)
+ 
+      setNewArray(filtered)
+           
+                if (!filtered.length) {
+            
+                    setNewArray(trending.coins)
+                }
+}
 
 
      
@@ -89,18 +118,23 @@ const sorted = shuffled?.slice(0,6)
      
 </div>
     <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border  no-scrollbar   z-50 border-sky-900`}>
-    <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/><button onClick={()=>setSearchValue('')}  className="inline-block md:hidden absolute right-10 bg-slate-400 rounded p-1 translate-y-3 ml-1"> Clear</button>
-<input  type="search" value={searchValue} onChange={(e)=>
-setSearchValue(e.target.value)} name="" className={`w-full h-16 pl-6 pr-9  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
+    <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/>
+    <button onClick={()=>setSearchValue('')}  className="inline-block md:hidden absolute right-12 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
+    Clear</button>
+    <span  className="inline-block  absolute right-5 md:right-8  rounded p-1 translate-y-3 ml-1">
+  <CloseBtn closeEvent={closeSearchDD} />
+  </span>
+<input ref={searchRef} onChange={(e)=>handleSearch(e)}  type="text" value={searchValue}  name="" className={`w-full h-16 pl-6 pr-16 md:pr-12  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
+  
   <div className="  no-scrollbar">
   <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
        Trending Search 🔥
    </p>
    <ul>
 
-       {trending.coins?.map(element=><li key={trending.coins.indexOf(element)} className="mt-4  pl-2 text-neutral-400">
+       {newTrendingArray?.map(element=><li key={newTrendingArray.indexOf(element)} className="mt-4  pl-2 text-neutral-400">
       <Link to={`/${element.item.id}`} >
-      <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name}
+      <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name} ( {element.item.symbol})
        <p className="float-right text-neutral-300 font-light text-xs mr-4">#{element.item.market_cap_rank}</p>
       </Link>
        </li>

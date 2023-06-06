@@ -197,17 +197,18 @@ const symbol = currencySymbol()
            </marquee> : <ul className='  md:flex  justify-around'>
  <li >
  <ul className='absolute sm:border-none border-y sm:overflow-hidden overflow-x-scroll py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-24 md:top-auto '>
- <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <span className=' text-green-500'>{data?.data.markets}</span></li>
-     <li className='min-w-max  md:w-auto text-xs'>Coins: <span className='text-green-500'>{data?.data.active_cryptocurrencies
-}</span>
+ <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <Link className=' hover:text-green-800 text-green-500' to={'/exchanges'}>{data?.data.markets}</Link></li>
+     <li className='min-w-max  md:w-auto text-xs'>Coins: <Link className='text-green-500 hover:text-green-800' to={'/'}>{data?.data.active_cryptocurrencies
+}</Link>
 </li> 
 
 
 
 
-     <li className='md:w-96  text-xs min-w-max'>Market Cap: <span className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}<span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
+     <li className='md:w-96  text-xs min-w-max'>Market Cap: <Link to={'/global-charts'} className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}
+     <span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
      </span>
-     </span>
+     </Link>
      
          </li>
  </ul>
@@ -241,9 +242,11 @@ const symbol = currencySymbol()
 
  </ul>}
 
- {/* customized 
-      hamburger
-        menu */}
+ {/* =====================customized 
+     ================== hamburger
+     ======================   menu */}
+
+     
  <div onClick={()=>dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 sm:hidden mt-4 ml-2' >
  <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
       <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>

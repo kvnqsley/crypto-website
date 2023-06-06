@@ -1,21 +1,69 @@
 import React from 'react'
 import { FaCaretDown, FaChevronDown, FaCopy,FaGreaterThan,FaBell, FaRegQuestionCircle, FaSearch, FaShare, FaStar, FaTelegram, FaTwitter } from 'react-icons/fa'
 import { useParams,Link } from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import {useRef,useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {Line} from 'react-chartjs-2'
+import { CategoryScale, Chart } from 'chart.js'
+import { toggleCurrency } from '../utils/CurrencySlice'
+import {SCROLL_TO_TOP} from '../utils/scrollTop'
 
 export const CoinDetails = ({theme}) => {
+    const chartRef =useRef(null)
     const currency = useSelector(state=>state.currency.currency)
+    const dispatch =useDispatch()
 
   const {id} =  useParams()
   const storedState = localStorage.getItem('coinsData')
   const data= storedState ? JSON.parse(storedState ) : useSelector(state=>state.data.market)
 console.log(data)
 
+const chartData = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+  datasets: [{
+    label: 'Price',
+    data: [10, 20, 30, 25, 40, 35],
+    borderColor: 'rgba(0, 123, 255, 1)',
+    backgroundColor: 'rgba(0, 123, 255, 0.3)',
+    tension: 0.4
+  }]
+};
+
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    scales: {
+        x: {
+            type: 'category',
+            labels: ['Category 1', 'Category 2', 'Category 3'],
+        },
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+};
+useEffect(() => {
+    Chart.register(CategoryScale)
+    const chartInstance = chartRef.current;
+
+    // Destroy the previous chart instance before unmounting
+    return () => {
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+    };
+  }, [chartData,config]);
+
  const searchedCoin= data.market.find(coin=>coin.id == id)
  
   return (
     <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)]  sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
-                <Link to={'/'} className="mt-24 inline-block text-green-400 cursor-pointer hover:text-green-900 font-semibold">Cryptocurrencies <span className="text-neutral-400 hover:text-inherit"><FaGreaterThan className="inline-block"/> {id} Price</span></Link >
+                <Link to={'/'} className="mt-24 inline-block text-green-400 cursor-pointer hover:text-green-900 font-semibold">Cryptocurrencies</Link >
+                 <span className="text-neutral-400 font-semibold ">
+                     <FaGreaterThan className="inline-block"/> {searchedCoin.name} Price</span>
    
    <div className='flex justify-between gap-x-6 w-full  mt-8 '>
        <div className='w-[70%]'>
@@ -25,14 +73,15 @@ console.log(data)
 }
                </p>
            </span>
-           <img src={searchedCoin.image} alt="coin-image" className='w-10 inline-block  rounded-full h-10' /> <h4 className='inline-block'>
+           <img src={searchedCoin.image} alt="coin-image" className='w-10 inline-block  rounded-full h-10' />
+            <h4 className='inline-block text-3xl ml-4 font-semibold'>
                {searchedCoin.name}
            </h4>
-           <p className='inline-block ml-3'>
+           <p className='inline-block text-xl ml-3'>
                {searchedCoin.symbol.toUpperCase()}
            </p>
        <p className='text-3xl w-max font-semibold '>
-      ${searchedCoin.current_price}
+      ${searchedCoin.current_price.toLocaleString()}
        </p>
        <h3 className='text-red-800 inline-block  text-2xl '>
        <FaCaretDown className='inline-block' /> 1.8%
@@ -40,7 +89,7 @@ console.log(data)
            <p>
                0.00000000 BTC
                 <span className='text-red-800'>
-                   {searchedCoin.market_cap_change_percentage_24h.toFixed(1)}
+                   {searchedCoin.market_cap_change_percentage_24h.toFixed(1)} %
                </span>
            </p>
            <p>
@@ -59,7 +108,7 @@ console.log(data)
                    <button className='border w-10 rounded h-7 mr-5 border-neutral-500'>
                    <FaStar className='inline-block' />
                    </button>
-                   <p className='inline-block bg-blue-100 text-xs font-semibold rounded px-4'>
+                   <p className={`inline-block ${theme ? 'bg-slate-700' : 'bg-blue-100'} text-xs font-semibold rounded px-4`}>
                    <FaStar className='text-yellow-400 inline ' /> On 59548 watchlists
                    </p>
                    <span className='w-1/2 mt-6 h-2 from-yellow-300 from-0% via-30% to-40% bg-gradient-to-r via-green-400 to-blue-100  block rounded-full'>
@@ -181,35 +230,35 @@ console.log(data)
 
                </div>
                <div className='flex flex-col gap-y-2'>
-                   <p className='font-semibold relative  bg-blue-100 rounded-lg hover:text-green-600'>
-                    - <button className=' bg-blue-200 w-10 absolute rounded-r-lg ml-4 right-0'>...</button>
+                   <p className={`font-semibold relative  rounded-lg hover:text-green-600'  ${theme ? 'bg-slate-800' : 'bg-blue-200'} w-10 absolute rounded-r-lg ml-4 right-0`}>
+                       <button >...</button>
                    </p>
-                   <a href='#' className='font-semibold text-left bg-blue-100 rounded-lg px-2 w-max hover:text-green-600 text-sm'>
+                   <a href='#' className={`font-semibold text-left ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max hover:text-green-600 text-sm`}>
                     pepe.vip 
                    </a>
-                   <a className='font-semibold text-left   bg-blue-100 relative rounded-lg buttonx-2 text-sm  hover:text-green-600'>
+                   <a className={`font-semibold text-left   ${theme ? 'bg-slate-700' : 'bg-blue-100'} relative rounded-lg buttonx-2 text-sm  hover:text-green-600`}>
                     Etherscan
-                     <button className='inline-block text-sm rounded-r-lg ml-4 w-8 bg-blue-200 absolute right-0'>...</button>
+                     <button className={`inline-block text-sm rounded-r-lg ml-4 w-8  ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute right-0`}>...</button>
                    </a>
                    <p className='font-semibold  text-sm w-max '>
-                    <a href="" className=' bg-blue-100 rounded-lg px-2 hover:text-green-600'> 
+                    <a href="" className={`${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 hover:text-green-600`}> 
                     <FaTwitter className='inline-block' /> Twitter
                     </a>
-                    <a href="" className='ml-3 bg-blue-100 rounded-lg px-2  hover:text-green-600 inline-block'> 
+                    <a href="" className={`ml-3 ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2  hover:text-green-600 inline-block`}> 
                     <FaTelegram className='inline-block' /> Telegram
                     </a>
                    </p>
-                   <p className='font-semibold text-sm bg-blue-100 rounded-lg px-2 w-max '>
+                   <p className={`font-semibold text-sm ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max `}>
                    <a href="" className='hover:text-green-600'> 
                     <FaSearch className='inline-block' /> Twitter
                     </a>
                    </p>
-                   <p className='font-semibold text-sm bg-blue-100 rounded-lg px-2 w-max'>
+                   <p className={`font-semibold text-sm ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max`}>
                     {searchedCoin.id} <FaCopy className='inline-block'/>
                    </p>
-                   <button className='font-semibold text-sm text-left  hover:text-green-600 relative bg-blue-100 rounded-lg px-2 '>
+                   <button className={`font-semibold text-sm text-left  hover:text-green-600 relative ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2`}>
                     Ethereum Ecosystem 
-                     <span className=' bg-blue-200 inline-block w-10 absolute rounded-r-lg ml-4 right-0'>...</span>
+                     <span className={` ${theme ? 'bg-slate-800' : 'bg-blue-200'} inline-block w-10 absolute text-right rounded-r-lg ml-4 right-0`}>...</span>
                    </button>
                </div>
            </div>
@@ -238,17 +287,17 @@ console.log(data)
     </button>
        
     </li>
-    <li > <button className='rounded-full p-2  bg-blue-100'>
+    <li > <button className={`rounded-full p-2  ${theme ? 'bg-slate-700' : 'bg-blue-100'}`}>
     Social
     </button>
     
     </li>
-    <li> <button className='rounded-full p-2  bg-blue-100'>
+    <li> <button className={`rounded-full p-2  ${theme ? 'bg-slate-700' : 'bg-blue-100'}`}>
     Developer
     </button>
       
     </li>
-    <li > <button className='rounded-full p-2  bg-blue-100'>
+    <li > <button className={`rounded-full p-2  ${theme ? 'bg-slate-700' : 'bg-blue-100'}`}>
     Widgets
     </button>
       
@@ -262,28 +311,46 @@ console.log(data)
    <div className='grid grid-cols-2 w-full  grid-rows-2'>
        <div className=' row-span-2'>
            <h3>
-               Last updated 01:53PPM UTC, Currency in USD
+               Last updated 01:53PPM UTC, Currency in {currency}
            </h3>
            <button className='underline float-right'>
                <FaStar className='inline-block'/> Add to Watchlist
            </button>
+           {/* <Line ref={chartRef} config={config} data={chartData} /> */}
+
+
+          
 
        </div>
-       <div className='rounded-xl p-4   bg-blue-100'>
+
+
+
+
+
+
+{/* 
+===================== THE PRICE CONVERTER TAB GOES HERE======================  */}
+
+
+
+
+
+
+       <div className={`rounded-xl p-4   ${theme ? 'bg-slate-700' : 'bg-blue-100'}`}>
         <h3 className='font-semibold'>
             {id.toUpperCase()} Converter
             </h3>
-            <div className='rounded-lg h-8 w-full bg-white '>
+            <div className={`rounded-lg h-8 w-full ${theme ? 'bg-slate-800' : 'bg-white'} `}>
                <p className='inline-block px-2 border-r'>
                    {searchedCoin.symbol.toUpperCase()}
                </p>
-           <input type="text" className='h- inline-block  w-3/4 outline-none'/>
+           <input type="number" className='h-full pl-2 inline-block bg-inherit  w-3/4 outline-none'/>
            </div>
-           <div className='rounded-lg mt-8 h-8 w-full bg-white px-2'>
-               <span className='inline-block px-2 border-r'>
+           <div className={`rounded-lg  mt-8 h-8 md:w-full ${theme ? 'bg-slate-800' : 'bg-white'} px-2`}>
+               <button onClick={()=>{dispatch(toggleCurrency());SCROLL_TO_TOP() }} className='inline-block px-2 border-r'>
                   {currency}  <FaCaretDown className='inline-block' />
-               </span>
-           <input type="text" className=' inline-block  w-3/4 outline-none' />
+               </button>
+           <input type="number" className={` bg-inherit pl-2 inline-block h-full  w-3/4 outline-none`} />
            </div>
           
             <p>
@@ -292,7 +359,7 @@ console.log(data)
      
        </div>
 
-       <div className='rounded-xl p-4 mt-6   bg-blue-100'>
+       <div className={`rounded-xl p-4 mt-6   ${theme ? 'bg-slate-700' : 'bg-blue-100'}`}>
         <h3 className='font-semibold'>
             {searchedCoin.symbol.toUpperCase()} Price Statistics
             </h3>
@@ -330,7 +397,7 @@ console.log(data)
            </div>
            <div className='flex justify-between border-b border-neutral-400 py-2 mt-3 w-full'>
                <p>
-                Maarket Cap
+                Market Cap
                </p>
                <p>${searchedCoin.market_cap.toLocaleString()}</p>
            </div>

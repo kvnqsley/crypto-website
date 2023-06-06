@@ -77,6 +77,7 @@ const router = createBrowserRouter([
     pages={pages}
     setPages={setPages}
     />  ,  
+ 
 path:'/',
 children:[
 
@@ -85,13 +86,15 @@ children:[
     theme={theme}
     pages={pages}
     setPages={setPages}
+    
     />,
  index:true
   },
   {
     element:<AllCrypto 
     theme={theme}/>,
-    path:'/all-cryptocurrencies'
+    path:'/all-cryptocurrencies',
+  
   },
   {
     element: <ErrorBoundary>
@@ -116,15 +119,19 @@ children:[
   theme={theme}/>
   </ErrorBoundary>,
     path:'/:id',
+    
   },
-  {
-    element:<ErrorPage/>,
-    path:'*'
-   
-  }
+  // {
+  //   element:<ErrorPage/>,
+  //   errorElement:<ErrorPage/>,
+  //   path:'/*'
+  // }
+
 ],
 
+
   },
+  
  
 ])
   return <>

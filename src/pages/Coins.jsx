@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect,useState,useRef, useReducer } from "react"
-import {FaLevelUpAlt,FaArrowUp,FaCalendarPlus,FaSearch, FaLevelDownAlt,FaQuestionCircle, FaStar, FaListAlt, FaPlus, FaCheck } from "react-icons/fa"
+import {FaLevelUpAlt,FaArrowUp,FaCalendarPlus,FaSearch, FaLevelDownAlt,FaQuestionCircle, FaStar, FaListAlt, FaCheck } from "react-icons/fa"
 import ToggleIcon from "../utils/Togglecon"
 import Categories from "./Categories";
 import useShowData from "../utils/useShowModal";
@@ -72,8 +72,10 @@ tradeBtn:null
 const [favourite,setFavourite] =  useState({
    selected:false,
    target: null ,
-   list:[]
+ 
 })
+
+
 
 const [convertedSVGToJSON,updateJSON] =useState('')
 function convertSVGPathElementToJson(svgPathElement) {
@@ -224,18 +226,29 @@ const path = e.target.getBoundingClientRect()
 
   
       }
+  
+  const    getFavouriteCoin=()=>{
+   //   check for selected coin
+  const selectedCoin =data.market?.filter(el=>el.market_cap_rank  == favourite.target.closest('.closestEl').cells[0].innerText)
+   // lifting the coin object out of the array
+   const favouriteCoin =selectedCoin[0]
 
-
+  return favouriteCoin
+      }
+      
+ 
+ 
       const handlePortfolio =()=>{
+     data.favourite.push(getFavouriteCoin())
       
          setFavourite(state=>{
             return{
                ...state,
               selected:true,
-              list:data.market?.filter(el=>el.market_cap_rank  == favourite.target.closest('.closestEl').cells[0].innerText)
+       
             }
          }) 
- 
+         
          setAddPortfolio(state=>{
             return{
                ...state,
@@ -263,14 +276,14 @@ const path = e.target.getBoundingClientRect()
 
       }
 
-useEffect(()=>{
-   setData(state=>{
-      return {
-         ...state,
-         favourite:favourite.list
-      }
-   })
-},[favourite])
+// useEffect(()=>{
+//    setData(state=>{
+//       return {
+//          ...state,
+//          favourite:favourite.list
+//       }
+//    })
+// },[favourite])
 
       const removeCoin =()=>{
 setAddPortfolio(state=>{

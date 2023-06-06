@@ -26,6 +26,7 @@ const authState = useAuthState (auth)
    const dispatch =useDispatch()
 
    const closeEvent =()=>dispatch(closeSignup())
+
    const handleSubmit = (e)=>{
        e.preventDefault()
        signInWithEmail()
@@ -47,13 +48,14 @@ const authState = useAuthState (auth)
             
         )
     }
+  
 
     const signInWithGoogle=()=>{
         signInWithPopup(auth,Provider).then(res=>
             console.log(res)
         )
     }
-    const signInWithEmail=()=>{
+    const signInWithEmail= async ()  =>{
         sendSignInLinkToEmail(auth, email, actionCodeSettings)
         .then((res) => {
           // The link was successfully sent. Inform the user.
@@ -74,9 +76,7 @@ const authState = useAuthState (auth)
     
   
     
-  if(authState[0]?.emailVerified ){
-    dispatch(closeSignup())
-   }
+  
 
 
 

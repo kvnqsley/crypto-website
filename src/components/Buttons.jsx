@@ -12,10 +12,10 @@ return<>
 }
 
 
-export const CloseBtn = ({closeEvent}) => {
+export const CloseBtn = ({closeEvent, theme}) => {
   return <>
   <button onClick={()=>closeEvent()}>
-  <FaTimes   className='inline-block'/>
+  <FaTimes   className={`inline-block ${!theme ? 'bg-slate-900' :'bg-neutral-700'}`}/>
   </button>
 
   </>
