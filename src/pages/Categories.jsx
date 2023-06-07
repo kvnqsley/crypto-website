@@ -2,30 +2,31 @@ import {useCallback, useEffect,useState} from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getCategories } from '../utils/api'
 import { Shufflebtn } from '../components/Buttons'
+import{useSelector} from 'react-redux'
 import { FaStar,FaSpinner, FaChevronDown } from "react-icons/fa"
 
 
 
 export default function Categories() {
- const  [categoryData,setCategory]= useState([])
+      const  [categoryData,setCategory]= useState([])
+      const isSidebarActive = useSelector(state=>state.sideBarActive.value)
 
 
+      useEffect(()=>{
+         getCategories(setCategory)
+      },[])
 
-     useEffect(()=>{
-      getCategories(setCategory)
-     },[])
+      const shuffleData=()=>{
+               const sortedData= categoryData.reverse()
+               setCategory(sortedData)
 
-const shuffleData=()=>{
-          const sortedData= categoryData.reverse()
-          setCategory(sortedData)
-
-       
-        }
+            
+            }
 
 
     
     return<>
-    <section className="mt-32 ">
+    <section className={`${isSidebarActive ? 'hidden' : 'block'} mt-32`}>
     <h3 className="font-semibold text-xl  mt-2">
     Top Crypto Categories By Market Cap
     </h3>

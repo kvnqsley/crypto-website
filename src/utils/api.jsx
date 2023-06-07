@@ -1,12 +1,12 @@
 import axios from "axios"
 
-const api1 = import.meta.env.VITE_COINGECKO_HEADER_API
-const api2 = import.meta.env.VITE_COINGECKO_MARKET_API
-const api3 = import.meta.env.VITE_COINGECKO_TRENDING_API
-const api4 = import.meta.env.VITE_COINGECKO_CATEGORIES_API
-const api5 = import.meta.env.VITE_COINGECKO_EXCHANGES_API
-
-
+   const api1 = import.meta.env.VITE_COINGECKO_HEADER_API;
+   const api2 = import.meta.env.VITE_COINGECKO_MARKET_API;
+   const api3 = import.meta.env.VITE_COINGECKO_TRENDING_API;
+   const api4 = import.meta.env.VITE_COINGECKO_CATEGORIES_API;
+   const api5 = import.meta.env.VITE_COINGECKO_EXCHANGES_API;
+   const api7 = import.meta.env.VITE_COINGECKO_ALLCOINS_API;
+   // const api6 =`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=max`
 
 
 
@@ -66,3 +66,7 @@ export const getTrendingCoins =(setTrending)=>{
               err=>console.warn(err)
           )
 export const getCryptoExchanges=(setData)=>axios.get(api5).then(res=> setData(res.data))
+export const getChartData=(coin,setChartData)=>axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=max`)
+.then(res=> setChartData(res.data))
+export const getGlobalData=(setAllCoins)=>axios.get(api7)
+.then(res=> setAllCoins(res.data))

@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid'
 import { getTrendingCoins } from "../utils/api"
 import { useNavigate,Link} from "react-router-dom"
 import { CloseBtn } from "./Buttons"
-
+import {getGlobalData} from '../utils/api'
 
 
 
@@ -28,10 +28,12 @@ const SearchboxDropdown =()=>{
      })
      
      const[ newTrendingArray,setNewArray]=useState([...trending.coins])
-
- 
+    const [allCoins,setAllCoins] = useState([])
      const[searchValue,setSearchValue] = useState('')
-   
+   const[isSearching,setIsSearching] =useState({
+       state:false,
+       coin:[]
+   })
     
      const getTrendingCategories=()=>{
          axios.get('https://api.coingecko.com/api/v3/coins/categories/list').then(res=>setTrending(prev=>{
@@ -61,6 +63,7 @@ useEffect(()=>{
 useEffect(()=>{
     getTrendingCoins(setTrending)
     getTrendingCategories();
+    getGlobalData(setAllCoins)
 },[])
      useEffect(()=>{
 searchRef.current.focus()
@@ -94,22 +97,48 @@ searchRef.current.focus()
         //  return ()=> root.removeEventListener('click',closeSearchDD)
      },[isSearchboxOpen])
 
-const handleSearch=(e)=>{
-setSearchValue(e.target.value)
-let checkedValue =[] 
-checkedValue.push(newTrendingArray.find(el=>el.item.id.startsWith(e.target.value.trim())))
-const filtered= checkedValue.filter(value=>value!== undefined)
- 
+        const handleSearch=(e)=>{
+        setSearchValue(e.target.value)
+        let checkedValue =[] 
+        checkedValue.push(newTrendingArray.find(el=>el.item.id.startsWith(e.target.value.trim().toLowerCase())))
+        const filtered= checkedValue.filter(value=>value!== undefined)
+        const searchedCoin = allCoins.filter(coin=>coin.id.startsWith(e.target.value.trim().toLowerCase()))
+    //   
       setNewArray(filtered)
+ 
+     
+        setIsSearching(state=>{
+            return {
+                ...state,
+                coin:[searchedCoin],
+                state:true
+            }
+        })
+     
            
                 if (!filtered.length) {
             
                     setNewArray(trending.coins)
                 }
 }
+ const hideSearchedCoin=()=>{
+    setIsSearching(state=>{
+        return {
+            ...state,
+            state:false
+        }
+    })
+ }
 
 
-     
+
+
+
+
+
+
+
+
     return <>
     <div className={` ${!isSearchboxOpen ? 'h-20' : 'h-screen'} md:-mt-2 md:w-[19vw] `}>
     <div className={`  ${isSearchboxOpen ? 'hidden' : ' md:block'} relative w-full md:-top-8 h-max   md:right-8`}>
@@ -119,14 +148,29 @@ const filtered= checkedValue.filter(value=>value!== undefined)
 </div>
     <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border  no-scrollbar   z-50 border-sky-900`}>
     <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/>
-    <button onClick={()=>setSearchValue('')}  className="inline-block md:hidden absolute right-12 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
+    <button onClick={hideSearchedCoin}  className="inline-block md:hidden absolute right-12 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
     Clear</button>
-    <span  className="inline-block  absolute right-5 md:right-8  rounded p-1 translate-y-3 ml-1">
+    <span onClick={hideSearchedCoin}  className="inline-block  absolute right-5 md:right-8  rounded p-1 translate-y-3 ml-1">
   <CloseBtn closeEvent={closeSearchDD} />
   </span>
 <input ref={searchRef} onChange={(e)=>handleSearch(e)}  type="text" value={searchValue}  name="" className={`w-full h-16 pl-6 pr-16 md:pr-12  ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} top-0 left-0 `} placeholder="Search token name or exchange" id="" />
   
-  <div className="  no-scrollbar">
+  {
+      isSearching.state ? <div className="w-full no-border h-full">
+      <ul className="h-full w-full mt-8">
+          <li className="text-neutral-400 pl-3 border-b py-2  text-sm font-normal mt-4 relative ">
+              CryptoCurrencies
+          </li>
+          {isSearching.coin.map(coin=><li className="w-full" key={coin.id}> {coin.name} ({coin.symbol.toUpperCase()}) 
+          </li>)}
+      </ul>
+      <ul>
+
+      </ul>
+      <ul>
+
+      </ul>
+  </div> :  <div className="  no-scrollbar">
   <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
        Trending Search 🔥
    </p>
@@ -150,6 +194,9 @@ const filtered= checkedValue.filter(value=>value!== undefined)
        {sorted?.map(el=><li key={sorted.indexOf(el)}  className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
    </ul>
   </div>
+  }
+ 
+  
     </div>
     </div>
     

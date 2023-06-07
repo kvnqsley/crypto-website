@@ -20,4 +20,12 @@ export const CloseBtn = ({closeEvent, theme}) => {
 
   </>
 }
+export const pageBtn=()=>{
+
+  return <>
+  <button>
+    
+  </button>
+  </>
+}
 

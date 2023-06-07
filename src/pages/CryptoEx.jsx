@@ -84,7 +84,7 @@ return <>
      Currently, the 3 largest cryptocurrency exchanges are {exchanges[0].name}, {exchanges[1].name}, and {exchanges[2].name}.
       Total tracked crypto exchange reserves currently stands at $107 Billion </p>}
    
-   <div className='flex justify-between mt-8 md:mt-4 md:gap-x-3 w-full'>
+   <div className='flex flex-col md:flex-row gap-y-3 items-center justify-between mt-8 md:mt-4 md:gap-x-3 w-full'>
     <button className=' md:p-3 p-1 border border-neutral-400 rounded-full '>All Countries</button>
     <div>
     <button onClick={openOverview} className={`${tab.overview ? 'bg-slate-600 border-none' : ''} rounded border border-r-0 border-neutral-400   p-1  md:p-3`}>Overview</button>

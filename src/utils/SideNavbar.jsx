@@ -163,7 +163,7 @@ useEffect(()=>{
        </div>
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showExchanges} >Exchanges{!showDropdown.exchanges ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
-           <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3` }>
+           <ul className={`${showDropdown.exchanges ? 'block' : 'hidden' } py-3 pl-5` }>
            <li className={`p-2`}  onClick={()=>dispatch(closeSidebar()) }><Link to={'/exchanges'}>Crypto Exchanges</Link></li>
            
            <li className={`p-2`} onClick={()=>dispatch(closeSidebar()) }><Link to={'/exchanges/derivatives'}>Derivatives</Link></li>
@@ -171,7 +171,7 @@ useEffect(()=>{
            </div>
        <div className="pl-3">
            <h4   className="border-y border-neutral-400 py-4" onClick={showNft} >NFT{!showDropdown.nft ? <FaCaretDown className="inline-block absolute right-8"/> :<FaCaretUp className="inline-block absolute right-8"/> }</h4>
-           <ul className={`${showDropdown.nft ? 'block' : 'hidden' } py-3` }>
+           <ul className={`${showDropdown.nft ? 'block' : 'hidden' } py-3 pl-5`  }>
            <li className={`p-2`}>NFT Floor Price</li>
            <li className={`p-2`}>NFT Related Coins</li>
            </ul>

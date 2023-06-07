@@ -1,7 +1,6 @@
 
 import {FaMoon,FaCaretDown,FaQuestionCircle,FaSearch, FaLevelDownAlt,FaLevelUpAlt,FaSun, FaUser, FaHeart} from 'react-icons/fa'
 import axios from 'axios'
-import SearchBar from '../utils/SearchBar'
 import {useEffect,useReducer,useState,useRef, useId, useContext} from 'react'
 import NavigateMenu from '../utils/navigation'
 import CurrencyDropDown from './CurrencyDropDown'
@@ -20,6 +19,7 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import { signOut } from 'firebase/auth'
 
 import currencySymbol from '../utils/currencySymbol'
+import UpDowntrend from '../utils/UpDowntrend.jsx'
 
 
 export default function Header({setPages,pages,theme}) {
@@ -206,7 +206,7 @@ const symbol = currencySymbol()
 
 
      <li className='md:w-96  text-xs min-w-max'>Market Cap: <Link to={'/global-charts'} className=' text-blue-200'>{symbol}{data?.data.updated_at.toLocaleString()}
-     <span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%{ data?.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline'/> : <FaLevelUpAlt className='inline'/>}
+     <span className={`${data?.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' :'text-green-400'} text-xs` } > {data?.data.market_cap_change_percentage_24h_usd.toFixed(1)}%<UpDowntrend value={data?.data.market_cap_change_percentage_24h_usd} />
      </span>
      </Link>
      
