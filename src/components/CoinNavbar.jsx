@@ -5,7 +5,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
 import {useQuery} from '@tanstack/react-query'
-import { useEffect } from "react"
+import Tooltip from "../utils/Tooltip"
 
 
 
@@ -21,7 +21,12 @@ import { useEffect } from "react"
 
 
 
-export default function CoinNavbar({navigateMenu,portfolio,newcoins,category, coins}){
+export default function CoinNavbar({navigateMenu,
+    portfolio,
+    newcoins,
+    category,
+     coins,
+    theme}){
     const [isActive,setIsActive] = useState(false)
    
 
@@ -67,12 +72,11 @@ export default function CoinNavbar({navigateMenu,portfolio,newcoins,category, co
     <li onClick={navigateMenu}className={`${newcoins ?'border-b-2 -mb-2 md:-mb-7 ' :"hover:border-b-2  cursor-pointer  -mb-2 md:-mb-7 border-cyan-100"} cursor-pointer min-w-max`}>New Coins</li>
    <li onClick={navigateMenu}  className={`${category ? 'border-b-2 -mb-2 md:-mb-7 ' :"hover:border-b-2  cursor-pointer -mb-2 md:-mb-7   border-cyan-100"} cursor-pointer min-w-max` }>Categories</li>
   <li  onClick={navigateMenu} className={`${isActive ? 'border-b-2 -mb-2 md:-mb-7 ' :'hover:border-b-2  cursor-pointer -mb-2 md:-mb-7   border-cyan-100'} cursor-pointer min-w-max` }>{shuffled[0]}</li>
-  <p className="cursor-pointer -ml-5 relative group">🔥<span className="bg-black top-7 min-w-max rounded group-hover:block   -left-36 absolute before:content-between before:w-2 before:border-black  before:border-8  before:border-r-transparent before:border-l-transparent before:border-t-transparent hidden before:absolute before:left-[48%] before:-top-4 text-lime-50 hover:visible px-4">Trending Category-See more in search</span></p>
+  <p className="cursor-pointer -ml-5 relative group">🔥<Tooltip text={'Trending Category-See more in search'} theme={theme} /></p>
    <li onClick={navigateMenu}  className={`${isActive ? 'border-b-2 -mb-2 md:-mb-7 ' :'hover:border-b-2  cursor-pointer -mb-2 md:-mb-7  border-cyan-100'} cursor-pointer min-w-max` }>{shuffled[1]}</li>
-   <p  className="cursor-pointer -ml-5 relative group">🔥<span className="bg-black top-7 min-w-max rounded group-hover:block   before:content-between before:w-2 before:border-black  before:border-8  before:border-r-transparent before:border-l-transparent before:border-t-transparent before:absolute before:left-[48%] before:-top-4 hidden px-4 -left-36 absolute text-lime-50 hover:visible">Trending Category-See more in search</span></p>
+   <p  className="cursor-pointer -ml-5 relative group">🔥<Tooltip theme={theme} text={'Trending Category-See more in search'} /></p>
    <li  onClick={navigateMenu} className={`${isActive ? 'border-b-2 -mb-2 md:-mb-7 ' :'hover:border-b-2  cursor-pointer -mb-2 md:-mb-7  border-cyan-100'} cursor-pointer min-w-max` }>{shuffled[2]}</li>
-   <p  className="cursor-pointer -ml-5 relative group">🔥<span className="bg-black top-7 min-w-max rounded group-hover:block before:content-between before:w-2 before:border-black  before:border-8  before:border-r-transparent before:border-l-transparent before:border-t-transparent before:absolute before:left-[48%] before:-top-4  hidden px-4 -left-36 absolute text-lime-50 hover:visible">Trending Category-See more in search</span></p>
-
+   <p  className="cursor-pointer -ml-5 relative group">🔥<Tooltip theme={theme} text={'Trending Category-See more in search'} /></p>
 </ul> 
 <span className={` text-white sm:hidden animate-pulse absolute right-2 top-32 inline-block text-xl `}> <FaArrowRight className="inline-block" /> </span>
 

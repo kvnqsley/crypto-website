@@ -28,7 +28,7 @@ const SearchboxDropdown =()=>{
      })
      
      const[ newTrendingArray,setNewArray]=useState([...trending.coins])
-    const [allCoins,setAllCoins] = useState([])
+    const [allCoins,setAllCoins] = useState(null)
      const[searchValue,setSearchValue] = useState('')
    const[isSearching,setIsSearching] =useState({
        state:false,
@@ -85,6 +85,7 @@ searchRef.current.focus()
         if (isSearchboxOpen) {
             if (e.clientX < left || e.clientY < top || e.clientY > height || e.clientX > right ) {
                  closeSearchDD()
+                 hideSearchedCoin()
             }
             
         }
@@ -99,27 +100,22 @@ searchRef.current.focus()
 
         const handleSearch=(e)=>{
         setSearchValue(e.target.value)
-        let checkedValue =[] 
-        checkedValue.push(newTrendingArray.find(el=>el.item.id.startsWith(e.target.value.trim().toLowerCase())))
-        const filtered= checkedValue.filter(value=>value!== undefined)
+        e.target.value == '' ? hideSearchedCoin() : null
+      
         const searchedCoin = allCoins.filter(coin=>coin.id.startsWith(e.target.value.trim().toLowerCase()))
-    //   
-      setNewArray(filtered)
+   
  
      
         setIsSearching(state=>{
             return {
                 ...state,
-                coin:[searchedCoin],
+                coin:searchedCoin,
                 state:true
             }
         })
      
            
-                if (!filtered.length) {
-            
-                    setNewArray(trending.coins)
-                }
+              
 }
  const hideSearchedCoin=()=>{
     setIsSearching(state=>{
@@ -138,15 +134,14 @@ searchRef.current.focus()
 
 
 
-
     return <>
-    <div className={` ${!isSearchboxOpen ? 'h-20' : 'h-screen'} md:-mt-2 md:w-[19vw] `}>
+    <div className={` ${!isSearchboxOpen ? 'h-20' : 'h-[50vh]'}  md:-mt-2 md:w-[19vw] `}>
     <div className={`  ${isSearchboxOpen ? 'hidden' : ' md:block'} relative w-full md:-top-8 h-max   md:right-8`}>
 <FaSearch className='inline-block translate-y-5  md:translate-y-12  left-12 text-neutral-400 absolute'/> 
-<input  onFocus={()=>dispatch(showSearchDD())} className={` ${theme ? 'bg-neutral-900 text-white' :'bg-sky-600'} ml-8 text-center block sm:inline-block mt-8 h-12 rounded-lg w-[90%] sm:w-56 pl-10 sm:pl-4 border   z-50 border-sky-900`} type="search" placeholder="Search..." name="" id="" />
+<input  onFocus={()=>dispatch(showSearchDD())} className={` ${theme ? 'bg-neutral-900 text-white' :'bg-sky-600'} md:ml-8 text-center block md:inline-block mt-8 h-12 rounded-lg w-full md:w-56 pl-10 md:pl-4 border   z-50 border-sky-900`} type="search" placeholder="Search..." name="" id="" />
      
 </div>
-    <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'}  border  no-scrollbar   z-50 border-sky-900`}>
+    <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} h-screen  border  no-scrollbar   z-50 border-sky-900`}>
     <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/>
     <button onClick={hideSearchedCoin}  className="inline-block md:hidden absolute right-12 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
     Clear</button>
@@ -157,12 +152,18 @@ searchRef.current.focus()
   
   {
       isSearching.state ? <div className="w-full no-border h-full">
-      <ul className="h-full w-full mt-8">
-          <li className="text-neutral-400 pl-3 border-b py-2  text-sm font-normal mt-4 relative ">
+      <ul onClick={closeSearchDD} className="h-1/3 overflow-hidden pb-2 w-full mt-8">
+          <li className={`text-neutral-400 pl-3 border-b py-2  text-sm font-normal mt-4 relative`}>
               CryptoCurrencies
           </li>
-          {isSearching.coin.map(coin=><li className="w-full" key={coin.id}> {coin.name} ({coin.symbol.toUpperCase()}) 
+          {isSearching.coin?.map(coin => <li className={`mt-4  pl-2 text-neutral-400 ${theme ? 'hover:bg-stone-800' : 'hover:bg-sky-800' }`} key={coin.id}> 
+          <Link to={`/` } className='w-full inline-block' >
+          {coin?.name} ({coin.symbol?.toUpperCase()})</Link> 
           </li>)}
+
+          <li className="text-neutral-400 pl-3 border-b py-2  text-sm font-normal mt-4 relative ">
+              NFTs
+          </li>
       </ul>
       <ul>
 
@@ -174,12 +175,13 @@ searchRef.current.focus()
   <p className="border-b border-neutral-400 mt-16 text-sm text-neutral-400 pl-4">
        Trending Search 🔥
    </p>
-   <ul>
+   <ul onClick={closeSearchDD}>
 
-       {newTrendingArray?.map(element=><li key={newTrendingArray.indexOf(element)} className="mt-4  pl-2 text-neutral-400">
-      <Link to={`/${element.item.id}`} >
+       {trending.coins?.map(element=><li key={trending.coins.indexOf(element)} className={`mt-4  pl-2 ${theme ? 'hover:bg-stone-800' : 'hover:bg-sky-800' }text-neutral-400`}>
+      <Link to={`/${element.item.id}` } className='w-full inline-block' >
       <img src={element.item.small} alt="coin-icon" className="inline-block h-4 mr-4" /> {element.item.name} ( {element.item.symbol})
-       <p className="float-right text-neutral-300 font-light text-xs mr-4">#{element.item.market_cap_rank}</p>
+       <p className="float-right text-neutral-300 font-light text-xs mr-4">#{element.item.market_cap_rank}
+       </p>
       </Link>
        </li>
        )}
@@ -190,8 +192,8 @@ searchRef.current.focus()
     
    Trending Categories✨
    </p>
-   <ul>
-       {sorted?.map(el=><li key={sorted.indexOf(el)}  className="mt-4 pl-2 text-neutral-400"><FaListAlt className="inline-block mr-3"/> {el}</li>)}
+   <ul onClick={closeSearchDD}>
+       {sorted?.map(el=><li key={sorted.indexOf(el)}  className="mt-4 hover:bg-stone-800 pl-2 text-neutral-400"><FaListAlt className={`inline-block mr-3 ${theme ? 'hover:bg-stone-800' : 'hover:bg-sky-800' }`}/> {el}</li>)}
    </ul>
   </div>
   }

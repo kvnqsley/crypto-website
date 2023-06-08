@@ -126,7 +126,7 @@ useEffect(()=>{
 
 
     return(<>
-    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}     w-[calc(100% - 16rem)] ${isSignupOpen  ? 'z-10 ' : '-z-10'} sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen w-full`}>
+    <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}     w-full sm:px-16 px-4 ${isSignupOpen  ? 'z-10 ' : '-z-10'} mx-4   min-h-screen `}>
        
     <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
     <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>

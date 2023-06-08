@@ -190,13 +190,13 @@ const symbol = currencySymbol()
 
 
    return<>
-   <header  className={`${theme ? 'bg-black text-white' :'bg-sky-700'}   w-full `}>
+   <header  className={`${theme ? 'bg-black text-white' :'bg-sky-700'} relative  sm:mx-16 mx-4 md:mx-auto   md:w-full `}>
 
 {isLoading ?  <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
            <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1>
-           </marquee> : <ul className='  md:flex  justify-around'>
- <li >
- <ul className='absolute sm:border-none border-y sm:overflow-hidden overflow-x-scroll py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-24 md:top-auto '>
+           </marquee> : <ul className=' w-full  md:flex  justify-around'>
+ <li className='w-full h-full' >
+ <ul className='absolute  border-y md:border-none  py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-36 md:top-auto '>
  <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <Link className=' hover:text-green-800 text-green-500' to={'/exchanges'}>{data?.data.markets}</Link></li>
      <li className='min-w-max  md:w-auto text-xs'>Coins: <Link className='text-green-500 hover:text-green-800' to={'/'}>{data?.data.active_cryptocurrencies
 }</Link>
@@ -247,13 +247,13 @@ const symbol = currencySymbol()
      ======================   menu */}
 
      
- <div onClick={()=>dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 sm:hidden mt-4 ml-2' >
+ <div onClick={()=>dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 md:hidden mt-4 ' >
  <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
       <div className={`${!theme ? 'bg-slate-900' :'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
       <div className={`${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 `}></div>
  </div>
 
-<div className=' inline sm:hidden'>
+<div className=' inline md:hidden'>
 <div className='mr-4 inline-block ml-4'>
     <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
       <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
@@ -262,15 +262,14 @@ const symbol = currencySymbol()
     </div>
     <h4 className='inline text-xl '>CoinMamba</h4>
 </div>
-{ isSmallScreen &&<>
-<div className='relative'>
+
+<div className='relative md:hidden'>
 
 <FaSearch className='inline-block top-[1rem] left-12 text-gray-50 absolute'/>
      <SearchboxDropdown theme={theme} />
 </div>
-    </>
-}
-   <nav className={`sticky z-40 hidden md:gap-4  sm:flex min-w-full h-16 top-0 pt-3 border-t-2 border-b-2 border-t-slate-100` } >
+
+   <nav className={`sticky z-40 hidden md:gap-4 md:flex min-w-full h-16 top-0 pt-3 border-t-2 border-b-2 border-t-slate-100` } >
      
     
       

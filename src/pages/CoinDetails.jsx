@@ -8,10 +8,14 @@ import { toggleCurrency } from '../utils/CurrencySlice'
 import {SCROLL_TO_TOP} from '../utils/scrollTop'
 import Plot from 'react-plotly.js';
 import UpDowntrend from '../utils/UpDowntrend'
+import Tooltip from '../utils/Tooltip'
 
 
 export const CoinDetails = ({theme}) => {
    
+    const isSidebarActive = useSelector(state=>state.sideBarActive.value)
+
+
     const currency = useSelector(state=>state.currency.currency)
     const dispatch =useDispatch()
     const [chartData,setChartData] = useState([])
@@ -116,7 +120,7 @@ export const CoinDetails = ({theme}) => {
   
   
    {searchedCoin && 
-    <main  className={` ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)]  sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
+    <main  className={` ${isSidebarActive ? 'hidden' : 'block'} ${theme ? 'bg-black text-white':'bg-sky-700' } sm:w-[calc(100% - 32rem)]    w-[calc(100% - 16rem)]  sm:ml-16 ml-4 mr-4  sm:mr-16 min-h-screen`}>
     <Link to={'/'} className="mt-24 inline-block text-green-400 cursor-pointer hover:text-green-900 font-semibold">Cryptocurrencies</Link >
      <span className="text-neutral-400 font-semibold ">
          <FaGreaterThan className="inline-block"/> {searchedCoin.name} Price</span>
@@ -156,15 +160,17 @@ ${searchedCoin.current_price.toLocaleString(undefined,{minimumFractionDigits:9})
         -1.4%
    </span>
 </p>
-<button className='border w-10 rounded h-7 mt-4 mr-5 border-neutral-500'>
-   <FaShare className='inline-block' />
+<button className='border w-10 rounded  group relative  h-7 mt-4 mr-5 border-neutral-500'>
+   <FaShare className='inline-block ' />
+   <Tooltip text={' Share '} />
    </button>
    <button className='border w-10 rounded h-7 mr-5 border-neutral-500'>
    <FaBell
     className='inline-block' />
        </button>
-       <button className='border w-10 rounded h-7 mr-5 border-neutral-500'>
-       <FaStar className='inline-block' />
+       <button className='border w-10 group relative rounded h-7 mr-5 border-neutral-500'>
+       <FaStar className='inline-block ' />
+       <Tooltip text={'Add to Portfolio and track coin price'} />
        </button>
        <p className={`inline-block ${theme ? 'bg-slate-700' : 'bg-blue-100'} text-xs font-semibold rounded px-4`}>
        <FaStar className='text-yellow-400 inline ' /> On 59548 watchlists
@@ -262,10 +268,10 @@ ${searchedCoin.current_price.toLocaleString(undefined,{minimumFractionDigits:9})
 <h3 className='font-semibold hidden md:block text-xl'>
    Info
 </h3>
-<button onClick={()=>setInfo(false)} className={`w-full ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg my-4 md:hidden text-center font-semibold ${!info ? 'hidden' : 'block'} py-2`}>
+<button onClick={()=>setInfo(false)} className={`w-full ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg my-4 md:hidden text-center font-semibold ${info ? 'block' : 'hidden'} py-2`}>
     Show More Info
 </button>
-<div className={`grid grid-cols-2 ${info ? 'hidden' : 'block'} mt-6 md:mt-auto  gap-y-4 grid-rows-[7]`}>
+<div className={`grid grid-cols-2 ${info ? 'block' : 'hidden'} mt-6 md:mt-auto  gap-y-4 grid-rows-[7]`}>
    <div className='flex flex-col  gap-y-1'>
        <p className='font-light text-neutral-300'>
            Contract
