@@ -28,8 +28,7 @@ const Section3 = ({ theme,
         getBtcToCurrencyExchangeRate(setExchangeRate)
     },[])
     
-    console.log(exchangeRate)
-
+    
     const [year_ath, month_ath, day_ath] = useDate(searchedCoin.ath_date)
 
     const [year_atl, month_atl, day_atl] = useDate(searchedCoin.atl_date)
@@ -66,22 +65,22 @@ const Section3 = ({ theme,
                         </ul>
                         <ul className={`w-full flex rounded-br-md border rounded-bl-md `}>
                             <li className={`min-w-[16%]  p-2 text-center  border border-neutral-400`}>
-                                1h
+                               -
                             </li>
                             <li className={` min-w-[16%]  p-2 text-center  border border-neutral-400`}>
-                                24h
+                                -
                             </li>
                             <li className={` min-w-[16%]  p-2 text-center  border border-neutral-400`}>
-                                7d
+                               -
                             </li>
                             <li className={` min-w-[16%]  p-2 text-center  border border-neutral-400`}>
-                                14d
+                                -
                             </li>
                             <li className={` min-w-[16%]  p-2 text-center  border border-neutral-400`}>
-                                30d
+                                -
                             </li>
                             <li className={` min-w-[16%]  p-2 text-center  border-l border-neutral-400`}>
-                                1y
+                               -
                             </li>
                         </ul>
 
@@ -98,12 +97,12 @@ const Section3 = ({ theme,
                                     Vote to see community's results
                                 </P1>
                             </div>
-                            <div className='flex w-1/2 mx-auto justify-end'>
-                                <TransparentBtn >
+                            <div className='flex w-1/2 md:items-center items-end mx-auto justify-end'>
+                                <TransparentBtn variant={`h-16`} >
                                     Good  <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_positive-3c061f48ad805930938407b726cb987bc05ca809ea5f31818dbe848a5bbef24a.svg" alt="happy-emoji" />
                                 </TransparentBtn>
 
-                                <TransparentBtn variant={'ml-2'} >
+                                <TransparentBtn variant={'ml-2 h-16'} >
                                     Bad <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_negative-166b904f7e3eac2bcf80349f2319d12d2099aa95a04d3f006b7726cd6e849195.svg" alt="sad-emoji" />
                                 </TransparentBtn>
                             </div>
@@ -298,7 +297,7 @@ const Section3 = ({ theme,
                                 </p>
                             </div>
                         </div>
-                        <div className='flex justify-between border-b border-neutral-400 py-2 mt-3 w-full'>
+                        <div className='flex justify-between mb-2 py-2 mt-3 w-full'>
                             <p>
                                 All-Time Low
                             </p>
@@ -328,28 +327,27 @@ const Section3 = ({ theme,
                 <div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8' >
                         <p className='flex-grow  font-semibold'>
-                            {searchedCoin.name.toUpperCase()} / USD  <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / USD  <span className={`font-light ml-2`}>
                             US Dollar
                             </span>
                         </p>
                         <p className=' font-semibold'>
-                            {exchangeRate.rates.usd.unit} {exchangeRate.rates.usd.value}
-                        </p>
+                        {exchangeRate.rates.usd.unit}{exchangeRate.rates.usd.value.toLocaleString()}</p>
                     </div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8' >
                         <p className='flex-grow font-semibold'>
-                            {searchedCoin.name.toUpperCase()} / AUD <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / AUD <span className={`font-light ml-2`}>
                             Australian Dollar
                             </span>
                         </p>
                         <p className=' font-semibold'>
-                        {exchangeRate.rates.usd.unit}{exchangeRate.rates.usd.value.toLocaleString()}
+                        {exchangeRate.rates.aud.unit}{exchangeRate.rates.aud.value.toLocaleString()}
                        
                         </p>
                     </div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8' >
                         <p className='flex-grow font-semibold'>
-                            {searchedCoin.name.toUpperCase()} / INR <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / INR <span className={`font-light ml-2`}>
                             Indian Rupee
                             </span>
                         </p>
@@ -364,7 +362,7 @@ const Section3 = ({ theme,
                 <div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8'>
                         <p className={`font-semibold`}>
-                            {searchedCoin.name.toUpperCase()} / CAD <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / CAD <span className={`font-light ml-2`}>
                             Canadian Dollar
                             </span>
                         </p>
@@ -375,7 +373,7 @@ const Section3 = ({ theme,
                     </div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8'>
                         <p  className={`font-semibold`}>
-                            {searchedCoin.name.toUpperCase()} / GBP <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / GBP <span className={`font-light ml-2`}>
                             British Pound Sterling
                             </span>
                         </p>
@@ -386,7 +384,7 @@ const Section3 = ({ theme,
                     </div>
                     <div className='flex justify-between border-b border-neutral-400 py-3 gap-x-8'>
                         <p className={`font-semibold`}>
-                            {searchedCoin.name.toUpperCase()} / PHP <span className={`font-light ml-2`}>
+                            {searchedCoin.symbol.toUpperCase()} / PHP <span className={`font-light ml-2`}>
                             Philippine Peso
                             </span>
                         </p>

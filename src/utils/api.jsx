@@ -74,4 +74,4 @@ export const getGlobalData=(setAllCoins)=>axios.get(api7)
 .then(res=> setAllCoins(res.data))
 
 export const getBtcToCurrencyExchangeRate=(setExchangeRate)=>axios.get(api8)
-.then(res=> setExchangeRate(res.data)).then(console.log(res.data))
+.then(res=> setExchangeRate(res.data))
