@@ -238,9 +238,11 @@ useEffect(()=>{
             {currency}
            </button></li>
        <li 
-       onClick={()=>dispatch(handleTheme())}
-       className='border-sky-800 rounded mt-4  p-3 border'>  {!theme ?  <FaMoon  className='inline'/> : <FaSun className='inline text-white' />
-    }</li>
+     
+       className='border-sky-800 rounded mt-4  p-3 border'> <button   onClick={()=>dispatch(handleTheme())}>
+           {!theme ?  <FaMoon  className='inline'/> : <FaSun className='inline text-white' />
+    }
+           </button> </li>
    </ul>
    
  </aside>

@@ -1,6 +1,6 @@
 
 import { useState,useEffect,useRef } from 'react'
-import {FaEye,FaApple, FaRocket, FaGoogle } from 'react-icons/fa'
+import {FaApple,} from 'react-icons/fa'
 import { useSelector,useDispatch } from 'react-redux'
 import { handleSignup,closeSignup, openLogin } from '../utils/AuthSlice'
 import { auth,Provider,  } from "../utils/firebase.config";

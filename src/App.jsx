@@ -16,7 +16,7 @@ import GetExchanges from './utils/getExchanges'
 import Derivatives from './pages/Derivatives'
 import getDerivatives from './utils/getDerivatives'
 import ErrorBoundary from './utils/ErrorBoundary'
-import { CoinDetails } from './pages/CoinDetails'
+import Page from './pages/CoinDetails/page'
 
 
 function App() {
@@ -115,17 +115,17 @@ children:[
   },
   {
     element:<ErrorBoundary>
-    <CoinDetails
-  theme={theme}/>
+    <Page
+    theme = {theme}/>
   </ErrorBoundary>,
     path:'/:id',
     
   },
-  // {
-  //   element:<ErrorPage/>,
-  //   errorElement:<ErrorPage/>,
-  //   path:'/*'
-  // }
+  {
+    element:<ErrorPage/>,
+   
+    path:'/*'
+  }
 
 ],
 

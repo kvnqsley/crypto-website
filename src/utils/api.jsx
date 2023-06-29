@@ -6,6 +6,8 @@ import axios from "axios"
    const api4 = import.meta.env.VITE_COINGECKO_CATEGORIES_API;
    const api5 = import.meta.env.VITE_COINGECKO_EXCHANGES_API;
    const api7 = import.meta.env.VITE_COINGECKO_ALLCOINS_API;
+   const api8 = import.meta.env.VITE_COINGECKO_EXCHANGE_RATE_API;
+  
    // const api6 =`https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=max`
 
 
@@ -70,3 +72,6 @@ export const getChartData=(coin,setChartData)=>axios.get(`https://api.coingecko.
 .then(res=> setChartData(res.data))
 export const getGlobalData=(setAllCoins)=>axios.get(api7)
 .then(res=> setAllCoins(res.data))
+
+export const getBtcToCurrencyExchangeRate=(setExchangeRate)=>axios.get(api8)
+.then(res=> setExchangeRate(res.data)).then(console.log(res.data))
