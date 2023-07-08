@@ -1,5 +1,5 @@
 import { useSelector,useDispatch } from "react-redux"
-import {FaCaretDown,FaStar,FaSun,FaMoon,FaUser,FaUserCircle, FaCaretUp} from 'react-icons/fa'
+import {FaCaretDown,FaStar,FaSun,FaMoon,FaUser,FaUserCircle, FaCaretUp, FaTimes} from 'react-icons/fa'
 import React, { useEffect } from 'react'
 import { useState} from 'react'
 import { closeSidebar,  } from "./Sidebarslice"
@@ -15,6 +15,7 @@ import { auth } from "../utils/firebase.config"
 import { signOut } from 'firebase/auth'
 import {Link,Outlet} from 'react-router-dom'
 import NavigateMenu from '../utils/navigation'
+import { CloseBtn } from "../components/Buttons"
 
 
 
@@ -128,12 +129,15 @@ useEffect(()=>{
     return(<>
     <aside  className={` ${isSidebarActive ? '-translate-x-4' : '-translate-x-[130%]'} ${theme ? 'bg-black text-white' :'bg-sky-700'} ease-in duration-200 top-32  absolute -translate-y-32 ${isSignupOpen ? '-z-10' : 'z-10'}     w-full sm:px-16 px-4 ${isSignupOpen  ? 'z-10 ' : '-z-10'} mx-4   min-h-screen `}>
        
-    <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
+    {/* <div onClick={()=>dispatch(closeSidebar()) } className="px-2  w-18 inline-block h-10">
     <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 h-1 ml-2 translate-y-6 rotate-45`}></div>
    
    <div className={` ${!theme ? 'bg-slate-900 ' :'bg-neutral-700'}  w-6  mt-1 ml-2 h-1  translate-y-4 -rotate-45`}></div>
     
-    </div>
+    </div> */}
+     <button  onClick={()=>dispatch(closeSidebar())}>
+       <FaTimes  className={`inline-block text-xl ${!theme ? 'text-slate-900' : 'text-neutral-700'}`}  />
+   </button>
         <div className="ml-8 inline-block">
     <div  className='mr-4 inline-block '>
     <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
@@ -141,6 +145,7 @@ useEffect(()=>{
       <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
     
     </div>
+  
     <h4 className='inline text-xl '>CoinMamba</h4>
     <img className="w-4  inline-block absolute right-6" src='https://static.coingecko.com/s/candy_notification-62af2d17629b138154e3fac22a492b51d914d18461f9283ae4bd5ad5730d8763.svg'/>
 </div>
@@ -224,9 +229,19 @@ useEffect(()=>{
    <ul className="grid-cols-3 grid gap-x-4  ml-3 w-[100% - 24px] text-center mt-8 mr-3 ">
     {
         !authState[0]?.emailVerified  ? <>
-           <li onClick={()=>dispatch(handleSignup())} className="bg-green-600 col-span-3   mt-4 text-neutral-100 p-3  rounded">Sign Up</li>
+           <li className="col-span-3 w-full"  >
+                <button className="bg-green-600 w-full   mt-4 text-neutral-100 p-3  rounded"  onClick={()=>dispatch(handleSignup())}>
+                Sign Up
+               </button>
+               </li>
+            
     
-    <li  onClick={()=>dispatch(openLogin())} className="border-green-600  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600">Login</li></>
+               <li className="col-span-3 w-full"  >
+                <button className="border-green-600 w-full  shadow-lg rounded border col-span-3 mt-4  p-3  text-green-600"  onClick={()=>dispatch(openLogin())}>
+             Login
+               </button>
+               </li>
+               </>
     : null
 }
        <li className='border-sky-800 rounded  mt-4  p-3 border'> 

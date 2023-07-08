@@ -1,18 +1,13 @@
 import React from 'react'
 import {FaChevronDown, FaCopy,FaGreaterThan } from 'react-icons/fa'
 import { useParams,Link } from 'react-router-dom'
-import {useState,useEffect} from 'react'
+import {useState,useEffect,createContext} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getChartData,getGlobalData} from '/src/utils/api'
 
-
-
-
-
-
 import Section1 from './section1'
-import Section2 from './section2'
-import Section3 from './section3'
+import Overview from './Overview'
+import ContextProvider from './ContextProvider'
 
 const Page = ({theme}) => {
 
@@ -23,7 +18,8 @@ const Page = ({theme}) => {
    
     const [allCoins,setAllCoins] = useState(null)
     const [active,setActive] = useState(false)
-    
+    const [component,setComponent] = useState('Overview')    
+
     const handleClick=()=>{
         setActive(prev=>!prev)
      
@@ -32,6 +28,7 @@ const Page = ({theme}) => {
     const {id} =  useParams()
     useEffect(()=>{
         getGlobalData(setAllCoins)
+        
     },[])
    
 
@@ -98,6 +95,9 @@ const Page = ({theme}) => {
 
     const searchedCoin= data.market.find(coin=>coin.id == id)
     const otherCoins = allCoins?.find(coin=> coin.id == id)
+    const  componentContext = createContext()
+   
+ 
  
   return (
   <>
@@ -116,24 +116,32 @@ const Page = ({theme}) => {
         theme={theme}
         />
 
-        
-        <Section2 toggleGeneral={toggleGeneral}
-        toggleSocial={toggleSocial}
-       toggleDeveloper={toggleDeveloper}
-       toggleWidgets={toggleWidgets}
-       tab={tab}
-       theme={theme}
+{/*         
+        <Section2 
          />
 
 
-        <Section3 searchedCoin={searchedCoin}
-         id={id}
-         theme={theme}
-         currency={currency}
-         active={active}
-         handleClick={handleClick}/>
+        <Section3}/> */}
 
+        <ContextProvider state={{toggleGeneral,
+        toggleSocial,
+       toggleDeveloper,
+       toggleWidgets,
+       tab,
+       searchedCoin,
+       id,
+       theme,
+       currency,
+       active,
+       handleClick,
+       setComponent}}>
 
+          <Overview/>
+   
+
+        </ContextProvider>
+
+        
 
 
 </main>

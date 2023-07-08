@@ -195,8 +195,9 @@ export default function Header({ setPages, pages, theme }) {
         <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1>
       </marquee> : <ul className=' w-full  md:flex  justify-around'>
         <li className='w-full h-full' >
-          <ul className='absolute  border-y md:border-none  py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-36 md:top-auto '>
-            <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <Link className=' hover:text-green-800 text-green-500' to={'/exchanges'}>{data?.data.markets}</Link></li>
+          <ul className='absolute sm:overflow-visible overflow-x-scroll  border-y md:border-none  py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-36 md:top-auto '>
+            <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <Link className=' hover:text-green-800 text-green-500' to={'/exchanges'}>{data?.data.markets}</Link>
+            </li>
             <li className='min-w-max  md:w-auto text-xs'>Coins: <Link className='text-green-500 hover:text-green-800' to={'/'}>{data?.data.active_cryptocurrencies
             }</Link>
             </li>

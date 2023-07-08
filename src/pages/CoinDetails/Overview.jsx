@@ -13,28 +13,87 @@ import PriceChart from './PriceChart'
 import { useEffect,useState } from 'react'
 import { getBtcToCurrencyExchangeRate } from '../../utils/api'
 import currencySymbol from '../../utils/currencySymbol'
-const Section3 = ({ theme,
-    searchedCoin,
-    id,
-    currency,
-    active,
-    handleClick
-}) => {
+import { Link } from 'react-router-dom'
+import { NavigationBtn } from '../../components/Buttons'
+import NavigationTab from './NavigationTab'
+import Markets from './Markets'
+import { useContext } from 'react'
+import { ComponentContext } from './ContextProvider'
 
+const Overview = () => {
+    console.log( useContext(ComponentContext))
+    const {tab,
+        theme,
+        toggleGeneral,
+        toggleSocial,
+        toggleDeveloper,
+        toggleWidgets,
+        searchedCoin
+        ,id,
+        currency,
+        active,
+         setComponent,
+         togglePages,
+        handleClick} = useContext(ComponentContext)
     const dispatch = useDispatch()
     const [exchangeRate,setExchangeRate] = useState(null)
 
     useEffect(()=>{
         getBtcToCurrencyExchangeRate(setExchangeRate)
     },[])
-    
+    console.log(exchangeRate)  
+  
     
     const [year_ath, month_ath, day_ath] = useDate(searchedCoin.ath_date)
 
     const [year_atl, month_atl, day_atl] = useDate(searchedCoin.atl_date)
     const symbol = currencySymbol()
+    
     return (
         <>
+        <div>
+      <ul className={`relative md:pb-7 pb-2  mt-8 h-min border-b-[1px] w-full overflow-y-hidden border-neutral-400
+gap-5  flex`} >
+
+        <li className={`  border-b-2 -mb-2 md:-mb-7 `}> <button onClick={()=>togglePages()}>
+        Overview </button> </li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button onClick={setComponent(<Markets/>)} >Markets</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={setComponent(<Markets/>)}>Historical Data</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={setComponent(<Markets/>)}>Tokenomics</button></li>
+        <li className='text-green-600 px-2 rounded bg-green-200 '>
+          New
+        </li>
+
+      </ul>
+
+     
+      <NavigationTab>
+      <li >
+          <NavigationBtn event={toggleGeneral} theme={theme} variant={tab.general} >
+            General
+          </NavigationBtn>
+        </li>
+        <li>
+          <NavigationBtn event={toggleSocial} theme={theme} variant={tab.social} >
+            Social
+          </NavigationBtn>
+        </li>
+        <li>
+          <NavigationBtn event={toggleDeveloper} theme={theme} variant={tab.developer} >
+            Developer
+          </NavigationBtn>
+        </li>
+
+
+        <li>
+          <NavigationBtn event={toggleWidgets} theme={theme} variant={tab.widgets}>
+            Widgets
+          </NavigationBtn>
+
+        </li>
+
+      </NavigationTab>
+    </div>
             <h3 className='font-semibold text-2xl mt-4'>
                 {id.Capitalize} Price Chart {searchedCoin.symbol.toUpperCase()}
             </h3>
@@ -98,11 +157,11 @@ const Section3 = ({ theme,
                                 </P1>
                             </div>
                             <div className='flex w-1/2 md:items-center items-end mx-auto justify-end'>
-                                <TransparentBtn variant={`h-16`} >
+                                <TransparentBtn variant={`h-8`} >
                                     Good  <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_positive-3c061f48ad805930938407b726cb987bc05ca809ea5f31818dbe848a5bbef24a.svg" alt="happy-emoji" />
                                 </TransparentBtn>
 
-                                <TransparentBtn variant={'ml-2 h-16'} >
+                                <TransparentBtn variant={'ml-2 h-8'} >
                                     Bad <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_negative-166b904f7e3eac2bcf80349f2319d12d2099aa95a04d3f006b7726cd6e849195.svg" alt="sad-emoji" />
                                 </TransparentBtn>
                             </div>
@@ -452,4 +511,4 @@ const Section3 = ({ theme,
     )
 }
 
-export default Section3
+export default Overview
