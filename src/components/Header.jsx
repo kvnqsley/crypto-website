@@ -333,6 +333,8 @@ export default function Header({ setPages, pages, theme }) {
         </ul>
 
         <ul className='flex relative gap-2 '>
+{/* 
+          PROTECTED------------------------------------ ROUTE */}
           {
             authState[0]?.emailVerified ? <div className='group z-50'>
               <FaUser className={`${theme ? 'text-white' : 'text-black '}  inline-block mr-5 cursor-pointer group mt-1`} />
