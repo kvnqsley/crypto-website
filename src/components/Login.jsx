@@ -56,7 +56,7 @@ const Login = ({banner,setBanner}) => {
          
         else{
           
-            fetch('http://localhost:1000/login', {
+            fetch('https://coinmamba.onrender.com/login', {
                 headers: {
                     'Content-Type': 'application/json',
                     

@@ -89,7 +89,7 @@ export default function Auth() {
         } else if ( !emailPattern.test(credentials.email)) return ;
         else{
           
-            fetch('http://localhost:1000/signup', {
+            fetch('https://coinmamba.onrender.com/signup', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
