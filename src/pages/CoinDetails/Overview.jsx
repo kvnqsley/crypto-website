@@ -21,7 +21,7 @@ import { useContext } from 'react'
 import { ComponentContext } from './ContextProvider'
 
 const Overview = () => {
-    console.log( useContext(ComponentContext))
+  
     const {tab,
         theme,
         toggleGeneral,
@@ -34,6 +34,7 @@ const Overview = () => {
         active,
          setComponent,
          togglePages,
+         data,
         handleClick} = useContext(ComponentContext)
     const dispatch = useDispatch()
     const [exchangeRate,setExchangeRate] = useState(null)
@@ -41,7 +42,7 @@ const Overview = () => {
     useEffect(()=>{
         getBtcToCurrencyExchangeRate(setExchangeRate)
     },[])
-    console.log(exchangeRate)  
+    
   
     
     const [year_ath, month_ath, day_ath] = useDate(searchedCoin.ath_date)
@@ -57,9 +58,9 @@ gap-5  flex`} >
 
         <li className={`  border-b-2 -mb-2 md:-mb-7 `}> <button onClick={()=>togglePages()}>
         Overview </button> </li>
-        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button onClick={setComponent(<Markets/>)} >Markets</button></li>
-        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={setComponent(<Markets/>)}>Historical Data</button></li>
-        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={setComponent(<Markets/>)}>Tokenomics</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button onClick={()=>setComponent(<Markets/>)} >Markets</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={()=>setComponent(<Markets/>)}>Historical Data</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={()=>setComponent(<Markets/>)}>Tokenomics</button></li>
         <li className='text-green-600 px-2 rounded bg-green-200 '>
           New
         </li>
@@ -506,7 +507,7 @@ gap-5  flex`} >
 
             </Container>
 
-            <TrendingCoins />
+            <TrendingCoins data={data} />
         </>
     )
 }

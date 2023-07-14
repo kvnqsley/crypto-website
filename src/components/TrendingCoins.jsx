@@ -2,12 +2,11 @@ import { getTrendingCoins } from '../utils/api'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {  FaCalendarPlus, FaSearch,FaListAlt, } from "react-icons/fa"
-const TrendingCoins = () => {
+const TrendingCoins = ({data}) => {
     const storedState = localStorage.getItem('coinsData')
-    const data = storedState ? JSON.parse(storedState) : useSelector(state => state.data.market)
+ 
 
-
-    let btc = data.market.find(coin => coin.id == 'bitcoin');
+    let btc = data?.market.find(coin => coin.id == 'bitcoin');
 
     let btcStandardPrice = btc?.current_price;
 
@@ -19,10 +18,9 @@ const TrendingCoins = () => {
     })
 
     useEffect(() => {
-
-
-        getTrendingCoins(setTrending)
+getTrendingCoins(setTrending)
     }, [])
+
     const nextTrendingStat = () => {
         setTrending(prev => {
            return {

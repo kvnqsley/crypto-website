@@ -1,13 +1,11 @@
 import axios from "axios"
-import { useEffect, useState, useRef, useReducer } from "react"
+import { useEffect, useState, useRef,useContext, useReducer } from "react"
 import { FaLevelUpAlt, FaLevelDownAlt, FaQuestionCircle, } from "react-icons/fa"
 import ToggleIcon from "../utils/Togglecon"
 import Categories from "./Categories";
 import useShowData from "../utils/useShowModal";
 import PortfolioPopup from "../utils/PortfolioPopup";
 import { useSelector, useDispatch } from "react-redux";
-import { auth, Provider } from "../utils/firebase.config"
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { openLogin } from "../utils/AuthSlice";
 import CoinTable from "../components/CoinTable";
 import { useCallback } from "react";
@@ -17,6 +15,7 @@ import { updateMarketData } from "../utils/DataSlice";
 import { getMarketData } from "../utils/api";
 import { SCROLL_TO_TOP } from "../utils/scrollTop";
 import TrendingCoins from "../components/TrendingCoins";
+import useAuthenticationStatus from '../utils/hooks/useAuthenticationStatus'
 
 
 
@@ -30,13 +29,10 @@ import TrendingCoins from "../components/TrendingCoins";
 
 
 
-export default function Coins({ data, setData, setFavouriteCoin }) {
+export default function Coins({ setData,data, setFavouriteCoin }) {
 
    const dispatcH = useDispatch()
-   const authState = useAuthState(auth)
-
-
-
+   const authStatus =useAuthenticationStatus()
    const [isActive, setIsActive] = useState(true)
    const storedStats = JSON.parse(localStorage.getItem('stats'))
 
@@ -45,7 +41,7 @@ export default function Coins({ data, setData, setFavouriteCoin }) {
       statsData: false
    }
    )
-   //  console.log(data)
+
    const [isCoin, setIsCoin] = useState(false)
   
 
@@ -187,7 +183,7 @@ export default function Coins({ data, setData, setFavouriteCoin }) {
             translateTab: path.top
          }
       })
-      if (!authState[0]?.emailVerified) {
+      if (!authStatus) {
          dispatcH(openLogin())
       }
 
@@ -545,7 +541,7 @@ export default function Coins({ data, setData, setFavouriteCoin }) {
             </span>
          </section>
 
-         <TrendingCoins />
+         <TrendingCoins data={data} />
 
          <section className="mt-28 w-full">
             <h4 className="text-lg font-semibold">

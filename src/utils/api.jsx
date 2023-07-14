@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import { useDispatch } from "react-redux";
    const api1 = import.meta.env.VITE_COINGECKO_HEADER_API;
    const api2 = import.meta.env.VITE_COINGECKO_MARKET_API;
    const api3 = import.meta.env.VITE_COINGECKO_TRENDING_API;
@@ -36,6 +36,7 @@ export const getHeaderData=(setData,setStats,)=>{
     
  }
  export const getMarketData=(setData,updateMarketData)=>{
+ 
     axios.get(api2).then(
        res=>{
      
@@ -47,20 +48,22 @@ export const getHeaderData=(setData,setStats,)=>{
           }))
          
        }
-   
     )
-    //.then(res =>dispatch(updateMarketData(res.data))).catch(err=>console.log(err))
-   //.then(()=>SAVE_TO_STORAGE())
+   //  .then(res =>dispatch(updateMarketData(res.data))).then(console.log('api worked successfully')).catch(err=>console.log(err))
+   // .then(()=>SAVE_TO_STORAGE())
  }
 export const getTrendingCoins =(setTrending)=>{
-    axios.get(api3).then(res=> setTrending(prev=>{
+    axios.get(api3).then(res=> setTrending(state=>{
        return {
+         
           coins:res.data.coins,
-        exchanges:res.data.exchanges
+        exchanges:res.data.exchanges,
+        ...state,
        }
     })
        ).catch(err=>console.log(err))
  }
+
  export const getCategories=(setCategory,data)=> axios.get(api4).then(res=>{
      setCategory(res.data)
  })

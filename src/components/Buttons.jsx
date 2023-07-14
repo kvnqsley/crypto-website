@@ -14,8 +14,8 @@ export const Shufflebtn = ({ shuffleData, theme }) => {
 
 export const CloseBtn = ({ closeEvent, theme }) => {
   return <>
-    <button onClick={() => closeEvent()}>
-      <FaTimes className={`inline-block ${!theme ? 'text-slate-900' : 'text-neutral-700'}`} />
+    <button className='py-4' onClick={() => closeEvent()}>
+      <FaTimes className={`inline-block text-2xl   ${!theme ? 'text-slate-600' : 'text-neutral-700'}`} />
     </button>
 
   </>

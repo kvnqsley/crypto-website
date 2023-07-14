@@ -9,11 +9,11 @@ import Section1 from './section1'
 import Overview from './Overview'
 import ContextProvider from './ContextProvider'
 
-const Page = ({theme}) => {
+const Page = ({theme,data}) => {
 
     const isSidebarActive = useSelector(state=>state.sideBarActive.value)
 
-
+console.log(data)
     const currency = useSelector(state=>state.currency.currency)
    
     const [allCoins,setAllCoins] = useState(null)
@@ -33,8 +33,6 @@ const Page = ({theme}) => {
    
 
     const storedState = localStorage.getItem('coinsData')
-    const data= storedState ? JSON.parse(storedState ) : useSelector(state=>state.data.market)
-
     const [info,setInfo]= useState(false)
 
     const [tab,setTab]= useState({
@@ -93,9 +91,8 @@ const Page = ({theme}) => {
          })
     }
 
-    const searchedCoin= data.market.find(coin=>coin.id == id)
+    const searchedCoin= data.market?.find(coin=>coin.id == id)
     const otherCoins = allCoins?.find(coin=> coin.id == id)
-    const  componentContext = createContext()
    
  
  
@@ -134,7 +131,8 @@ const Page = ({theme}) => {
        currency,
        active,
        handleClick,
-       setComponent}}>
+       setComponent,
+       data}}>
 
           <Overview/>
    

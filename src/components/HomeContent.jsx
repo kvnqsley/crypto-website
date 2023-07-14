@@ -12,9 +12,7 @@ import {useEffect,useCallback} from 'react'
 import Auth from './Auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from "../utils/firebase.config"
-
 import Loading from '../utils/Loading'
-
 import Login from './Login'
 
 
@@ -28,31 +26,14 @@ import Login from './Login'
 
 
 
-
-const HomeContent =({theme,pages,setPages})=>{
+const HomeContent =({theme,
+  pages,
+  data,
+  setData,
+  setPages})=>{
  
 
 const authState= useAuthState(auth)
-
-
- 
-  
-
-
-const storedState = localStorage.getItem('coinsData')
-  
-const [data,setData] = useState(storedState ? JSON.parse(storedState) : {
-  market: [],
-  header: [],
-  favourite: []
-});
-
-
-
-
-
- 
- 
 
 
 useEffect(()=>{
@@ -165,17 +146,17 @@ navigateMenu={navigateMenu}/>
 
 
 {pages.coins && <Suspense fallback={<Loading/>}>
-  <Coins data={data}
 
-
+ <Coins
+data={data}
 setData={setData} />
+
 </Suspense>}
 {pages.category && <Categories  />}
 {pages.newcoins && <NewCoins />}
 {pages.portfolio && <Portfolio 
 
 data={data}
-
 setData={setData} />}
 
 

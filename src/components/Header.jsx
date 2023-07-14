@@ -14,28 +14,21 @@ import { hideCurrency, setCurrency, showCurrency, toggleCurrency } from '../util
 import { handleSignup, openLogin } from '../utils/AuthSlice'
 import { handleTheme } from '../utils/themeSlice'
 import SearchboxDropdown from './SearchBarDropdown'
-import { auth, Provider } from "../utils/firebase.config"
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { signOut } from 'firebase/auth'
 import currencySymbol from '../utils/currencySymbol'
 import UpDowntrend from '../utils/UpDowntrend.jsx'
+import useAuthenticationStatus from "../utils/hooks/useAuthenticationStatus"
+import useSignOut from '../utils/hooks/useSignOut'
 
 
-export default function Header({ setPages, pages, theme }) {
-  const authState = useAuthState(auth)
-  const [banner, setBanner] = useState(false)
-
-  const handleSignOut = () => {
-    signOut(auth);
-    setBanner(true)
-  }
-
-
+export default function Header({ setPages, banner,setBanner, theme }) {
+  const authStatus = useAuthenticationStatus()
+ const handleSignOut = useSignOut({setBanner})
   const dispatch = useDispatch()
 
 
 
-  const [currencyDDActive, setCurrencyDDActive] = useState(true)
+  
   const [languageDDActive, setLanguagesDDActive] = useState(true)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   const currencyRef = useRef('')
@@ -334,16 +327,16 @@ export default function Header({ setPages, pages, theme }) {
 
         <ul className='flex relative gap-2 '>
 {/* 
-          PROTECTED------------------------------------ ROUTE */}
+          HEADER COMPONENT TO RENDER ON USER SIGN IN------------------------------------  */}
           {
-            authState[0]?.emailVerified ? <div className='group z-50'>
+            authStatus ? <div className='group z-50'>
               <FaUser className={`${theme ? 'text-white' : 'text-black '}  inline-block mr-5 cursor-pointer group mt-1`} />
               <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
-                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " pb-4'>Portfolio <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span> </li>
-                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " pb-4'>Price Alert</li>
-                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " pb-4'>Login and Security</li>
-                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " pb-4'> Subscription <FaHeart className='inline-block text-red-500' /> </li>
-                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " pb-4'><button onClick={handleSignOut}>Sign Out</button></li>
+                <li className='mt-4 px-4   mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer  '>Portfolio <span className='text-teal-900 ml-4 bg-green-600 rounded-md text-xs pl-2 pr-1'>New </span> </li>
+                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " '>Price Alert</li>
+                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " '>Login and Security</li>
+                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " '> Subscription <FaHeart className='inline-block text-red-500' /> </li>
+                <li className='mt-4 px-4  " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer " '><button onClick={handleSignOut}>Sign Out</button></li>
               </ul>
 
             </div> :
@@ -372,7 +365,7 @@ export default function Header({ setPages, pages, theme }) {
 
 
       </nav>
-      <div className={`${banner ? 'block' : 'hidden'} text-center absolute md:left-16 left-8 md:top-24  r bg-neutral-200 bg-opacity-20 mt-8 rounded font-semibold h-10 text-teal-700 w-[90%]    md:w-[calc(93%)] `}>Signed Out Successfully</div>
+      <div className={`${banner.active ? 'block' : 'hidden'} text-center absolute md:left-16 left-8 md:top-24  r bg-neutral-200 bg-opacity-20 mt-8 rounded font-semibold h-10 text-teal-700 w-[90%]    md:w-[calc(93%)] `}>{banner.message}</div>
 
     </header>
     <Outlet />
