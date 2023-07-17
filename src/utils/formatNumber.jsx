@@ -1,3 +1,5 @@
+
+import {FaInfinity } from "react-icons/fa"
 const formatNumber=(number)=>{
     if ((number/1e13) >= 1) {
         let output =`$${(number/1e15).toPrecision(3) } Quadrillion`

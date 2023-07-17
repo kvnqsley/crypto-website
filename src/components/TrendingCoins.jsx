@@ -1,6 +1,5 @@
 import { getTrendingCoins } from '../utils/api'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import {  FaCalendarPlus, FaSearch,FaListAlt, } from "react-icons/fa"
 const TrendingCoins = ({data}) => {
     const storedState = localStorage.getItem('coinsData')
@@ -20,7 +19,6 @@ const TrendingCoins = ({data}) => {
     useEffect(() => {
 getTrendingCoins(setTrending)
     }, [])
-
     const nextTrendingStat = () => {
         setTrending(prev => {
            return {

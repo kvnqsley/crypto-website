@@ -75,9 +75,9 @@ const Section1 = ({ theme,
                 <p className={`inline-block ${theme ? 'bg-slate-700' : 'bg-blue-100'} text-xs font-semibold rounded px-4`}>
                     <FaStar className='text-yellow-400 inline ' /> On 59548 watchlists
                 </p>
-                <span className='md:w-1/2 w-full mt-6 h-2 from-yellow-300 from-0% via-30% to-40% bg-gradient-to-r via-green-400 to-blue-100  block rounded-full'>
+                <meter min={searchedCoin.low_24h} max={searchedCoin.high_24h} value={searchedCoin.current_price}  className='md:w-1/2 w-full mt-6 h-2 from-yellow-300 from-0% via-30% to-40% bg-gradient-to-r via-green-400 to-blue-100  block rounded-full'>
 
-                </span>
+                </meter>
                 <div className='flex md:w-[30vw] mt-4  font-semibold justify-between '>
                     <p>
                         ${searchedCoin.low_24h}

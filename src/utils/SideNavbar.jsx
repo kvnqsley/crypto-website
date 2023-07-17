@@ -130,12 +130,8 @@ function SideNavbar({ theme,setBanner, setPages }) {
                 <FaTimes className={`inline-block text-xl ${!theme ? 'text-slate-900' : 'text-neutral-700'}`} />
             </button>
             <div className="ml-8 inline-block">
-                <div className='mr-4 inline-block '>
-                    <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-                    <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-                    <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-
-                </div>
+               
+      <img src='/d1azcfjq.png' className='rounded-full inline-block h-10 mr-4 ' width={40} />
 
                 <h4 className='inline text-xl '>CoinMamba</h4>
                 <img className="w-4  inline-block absolute right-6" src='https://static.coingecko.com/s/candy_notification-62af2d17629b138154e3fac22a492b51d914d18461f9283ae4bd5ad5730d8763.svg' />

@@ -32,7 +32,7 @@ const CoinTable = ({ data, pageNumber, shuffleData, theme, openFavourite }) => {
 
     return <>
 
-        <div className=" w-full close    flex ">
+        <div className=" w-full close mt-10 flex ">
 
             <table className="table-fixed  ">
 
@@ -44,7 +44,7 @@ const CoinTable = ({ data, pageNumber, shuffleData, theme, openFavourite }) => {
                     </tr>
                 </tbody> : <>
                     <thead >
-                        <tr className={`${theme ? 'bg-neutral-800' : ''}`} >
+                        <tr className={`${theme ? 'bg-neutral-800' : ''} h-[80px]`} >
 
                             <th className='font-semibold  md:w-3 z-20 sm:w-10 px-6 py-4 '>
                                 <h3 className=" md:w-3 sm:w-4  ">
@@ -168,34 +168,44 @@ const CoinTable = ({ data, pageNumber, shuffleData, theme, openFavourite }) => {
                         </tr>
                     </tbody> : <>
                         <thead className="">
-                            <tr className={` ${theme ? 'bg-neutral-800' : ''}`}>
-                                <th onClick={() => clickTable('firstCol')} className={`font-semibold ${!theme ? (col.firstCol ? 'bg-sky-800' : '') : (col.firstCol ? 'bg-stone-800' : '')}  px-6  sm:py-0`}>
+                            <tr className={` ${theme ? 'bg-neutral-800' : ''} h-[80px] `}>
+                                <th onClick={() => clickTable('firstCol')} className={`font-semibold ${!theme ? (col.firstCol ? 'bg-sky-800' : '') : (col.firstCol ? 'bg-stone-800' : '')}  px-6  py-4`}>
                                     <h3 className=" md:w-16 sm:w-4  ">
                                         Price
                                     </h3>
                                 </th>
 
-                                <th onClick={() => clickTable('secondCol')} className={`  ${!theme ? (col.secondCol ? 'bg-sky-800' : '') : (col.secondCol ? 'bg-stone-800' : '')}  text-center pl-1 sm:py-0   font-semibold  `}>
+                                <th onClick={() => clickTable('secondCol')} className={`  ${!theme ? (col.secondCol ? 'bg-sky-800' : '') : (col.secondCol ? 'bg-stone-800' : '')}  text-center pl-1 py-4   font-semibold  `}>
 
                                     <h3 className=" md:w-16 sm:w-4  ">
                                         1h
                                     </h3>
                                 </th>
 
-                                <th onClick={() => clickTable('thirdCol')} className={`  ${!theme ? (col.thirdCol ? 'bg-sky-800' : '') : (col.thirdCol ? 'bg-stone-800' : '')} font-semibold sm:py-0 `}>
-                                    24h
+                                <th onClick={() => clickTable('thirdCol')} className={`  ${!theme ? (col.thirdCol ? 'bg-sky-800' : '') : (col.thirdCol ? 'bg-stone-800' : '')} font-semibold py-4 `}>
+                                     <h3 className=" md:w-16 sm:w-4  ">
+                                     24h
+                                    </h3>
                                 </th>
-                                <th onClick={() => clickTable('fourthCol')} className={`   ${!theme ? (col.fourthCol ? 'bg-sky-800' : '') : (col.fourthCol ? 'bg-stone-800' : '')}  t  font-semibold px-6 md:py-4 sm:py-0 `}>
-                                    7d
+                                <th onClick={() => clickTable('fourthCol')} className={`   ${!theme ? (col.fourthCol ? 'bg-sky-800' : '') : (col.fourthCol ? 'bg-stone-800' : '')}  t  font-semibold px-6 md:py-4 py-4 `}>
+                                     <h3 className=" md:w-16 sm:w-4  ">
+                                     7d
+                                    </h3>
                                 </th>
-                                <th onClick={() => clickTable('fifthCol')} className={`   ${!theme ? (col.fifthCol ? 'bg-sky-800' : '') : (col.fifthCol ? 'bg-stone-800' : '')}  font-semibold text-left   sm:py-0   `}>
-                                    24h Volume
+                                <th onClick={() => clickTable('fifthCol')} className={`   ${!theme ? (col.fifthCol ? 'bg-sky-800' : '') : (col.fifthCol ? 'bg-stone-800' : '')}  font-semibold text-left   py-4   `}>
+                                     <h3 className=" md:w-16 sm:w-4  ">
+                                     24h Volume
+                                    </h3>
                                 </th>
-                                <th onClick={() => clickTable('sixthCol')} className={`px-4  ${!theme ? (col.sixthCol ? 'bg-sky-800' : '') : (col.sixthCol ? 'bg-stone-800' : '')} font-semibold  text-left sm:py-0  `}>
-                                    MKT Cap
+                                <th onClick={() => clickTable('sixthCol')} className={`px-4  ${!theme ? (col.sixthCol ? 'bg-sky-800' : '') : (col.sixthCol ? 'bg-stone-800' : '')} font-semibold  text-left py-4  `}>
+                                     <h3 className=" md:w-16 sm:w-4  ">
+                                     MKT Cap
+                                    </h3>
                                 </th>
-                                <th onClick={() => clickTable('lastCol')} className={`  ${!theme ? (col.lastCol ? 'bg-sky-800' : '') : (col.lastCol ? 'bg-stone-800' : '')}  text-left  px-4     }      text-left  font-semibold  `}>
+                                <th onClick={() => clickTable('lastCol')} className={`  ${!theme ? (col.lastCol ? 'bg-sky-800' : '') : (col.lastCol ? 'bg-stone-800' : '')}  text-left  px-4     font-semibold  `}>
+                                    <h3 className=" md:w-16 sm:w-4  ">
                                     Last 7 days
+                                    </h3>
                                 </th>
 
                             </tr>

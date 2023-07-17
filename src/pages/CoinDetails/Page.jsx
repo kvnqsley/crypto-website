@@ -94,7 +94,7 @@ console.log(data)
     const searchedCoin= data.market?.find(coin=>coin.id == id)
     const otherCoins = allCoins?.find(coin=> coin.id == id)
    
- 
+
  
   return (
   <>

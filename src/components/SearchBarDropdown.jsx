@@ -143,7 +143,7 @@ searchRef.current.focus()
 </div>
     <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} h-screen  border  no-scrollbar   z-50 border-sky-900`}>
     <FaSearch className='inline-block absolute translate-y-6 ml-1 text-neutral-400  '/>
-    <button onClick={hideSearchedCoin}  className="inline-block md:hidden absolute right-12 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
+    <button onClick={hideSearchedCoin}  className="inline-block md:hidden absolute top-3 right-14 bg-slate-400 rounded p-1 translate-y-3 ml-1"> 
     Clear</button>
     <span onClick={hideSearchedCoin}  className="inline-block  absolute right-5 md:right-8  rounded p-1 translate-y-3 ml-1">
   <CloseBtn closeEvent={closeSearchDD} />

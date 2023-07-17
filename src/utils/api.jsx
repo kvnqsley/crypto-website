@@ -55,10 +55,10 @@ export const getHeaderData=(setData,setStats,)=>{
 export const getTrendingCoins =(setTrending)=>{
     axios.get(api3).then(res=> setTrending(state=>{
        return {
-         
+         ...state,
           coins:res.data.coins,
         exchanges:res.data.exchanges,
-        ...state,
+        
        }
     })
        ).catch(err=>console.log(err))

@@ -36,12 +36,8 @@ const Footer =()=>{
 
     <div className="flex flex-col md:flex-row justify-between ">
         <div className="md:w-[45%]" >
-        <div className='mr-4 inline-block '>
-    <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-      <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-      <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
     
-    </div>
+        <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
     <h4 className=' inline font-semibold '>CoinMamba</h4>
       <p className="min-w-[375px]  md:w-full mt-4">
       CoinMamba provides a fundamental analysis of the crypto market. In addition to tracking price, volume and market capitalisation, CoinGecko tracks community growth, open-source code development, major events and on-chain metrics.

@@ -1,4 +1,4 @@
-import { FaGreaterThan, FaChevronDown, FaSpinner, FaInfinity } from "react-icons/fa"
+import { FaGreaterThan, FaChevronDown, FaSpinner } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { toggleCurrency } from "../utils/CurrencySlice"

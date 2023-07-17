@@ -247,12 +247,8 @@ export default function Header({ setPages, banner,setBanner, theme }) {
       </div>
 
       <div className=' inline md:hidden'>
-        <div className='mr-4 inline-block ml-4'>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-
-        </div>
+       
+      <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
         <h4 className='inline text-xl '>CoinMamba</h4>
       </div>
 
@@ -267,12 +263,7 @@ export default function Header({ setPages, banner,setBanner, theme }) {
 
 
 
-        <div className='mr-4 pl-11'>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-          <div className='w-6 bg-slate-900 mt-1 h-1 rotate-45'></div>
-
-        </div>
+      <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
         <h4 className=' min-w-[15rem]'>CoinMamba</h4>
         <ul className='flex min-w-{10rem} gap-12  '>
           <li className='cursor-pointer group'><NavLink to={'nft'}>NFT</NavLink>

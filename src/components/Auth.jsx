@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { actionCodeSettings } from '../auth/email/auth_email_link_actioncode_settings';
 import { CloseBtn } from './Buttons';
 import FormErrorMessage from '../utils/FormErrorMessage';
-
+import {AuthContext} from "../utils/AuthenticationProvider"
 
 
 
@@ -20,6 +20,8 @@ export default function Auth() {
     const issignUpActive = useSelector(state => state.sideBarActive.signUp)
     const theme = useSelector(state => state.theme.mytheme)
     const dispatch = useDispatch()
+    const [isAuthenticated,updateAuthenticationStatus] = useContext(AuthContext)
+
 
     const formInitialState =  {
         active: false,
