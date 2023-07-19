@@ -25,9 +25,9 @@ const Section1 = ({ theme,
     info,
     otherCoins }) => {
     return (
-        <div className='flex flex-col gap-y-4 md:flex-row justify-between gap-x-6 w-full  mt-8 '>
+        <div className='flex flex-col gap-y-4 xl:flex-row justify-between gap-x-6 w-full  mt-8 '>
 
-            <div className='md:w-[70%] w-full'>
+            <div className='xl:w-[70%] w-full'>
                 <span>
                     <p className='bg-slate-700 mb-4 text-white rounded-full w-max px-2'>
                         Rank #{searchedCoin.market_cap_rank

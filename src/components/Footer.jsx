@@ -32,10 +32,10 @@ const Footer =()=>{
    
     return<>
     <footer className={`${isSidebarActive ? 'hidden' : 'block'
-      }  ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative md:px-10 px-4 font-light mt-24`}>
+      }  ${theme ? 'bg-black text-white' : 'bg-sky-700' } h-full relative xl:px-10 px-4 font-light mt-24`}>
 
-    <div className="flex flex-col md:flex-row justify-between ">
-        <div className="md:w-[45%]" >
+    <div className="flex flex-col xl:flex-row justify-between ">
+        <div className="xl:w-[45%]" >
     
         <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
     <h4 className=' inline font-semibold '>CoinMamba</h4>
@@ -106,7 +106,7 @@ const Footer =()=>{
        </div>
        <div className="w-full md:w-fit">
            <input type="text" placeholder="Enter Your Email" className="w-full md:w-[200px] px-3 border-[1px] h-10 focus:outline-emerald-400 focus:border-none rounded" />
-         <button className="md:ml-6 px-4 mt-2 md:mt-0 md:w-[96px] md:inline-block block  w-full cursor-pointer hover:bg-emerald-500 rounded bg-green-600">
+         <button className="xl:ml-6 px-4 mt-2 xl:mt-0 xl:w-[96px] xl:inline-block block  w-full cursor-pointer hover:bg-emerald-500 rounded bg-green-600">
              Subscribe
          </button>
        </div>
@@ -122,7 +122,7 @@ const Footer =()=>{
     <h5 className="mt-4 h-full">
    <span className="font-semibold text-neutral-400"> IMPORTANT DISCLAIMER:</span> All content provided herein our website, hyperlinked sites, associated applications, forums, blogs, social media accounts and other platforms (“Site”) is for your general information only, procured from third party sources. We make no warranties of any kind in relation to our content, including but not limited to accuracy and updatedness. No part of the content that we provide constitutes financial advice, legal advice or any other form of advice meant for your specific reliance for any purpose. Any use or reliance on our content is solely at your own risk and discretion. You should conduct your own research, review, analyse and verify our content before relying on them. Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision. No content on our Site is meant to be a solicitation or offer.
     </h5>
-        <h1 className="font-semibold text-right">
+        <h1 className="font-semibold py-4 text-right">
         Created by Kinqsley;
         Powered by CoinGecko
         </h1>

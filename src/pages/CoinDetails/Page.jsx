@@ -13,7 +13,6 @@ const Page = ({theme,data}) => {
 
     const isSidebarActive = useSelector(state=>state.sideBarActive.value)
 
-console.log(data)
     const currency = useSelector(state=>state.currency.currency)
    
     const [allCoins,setAllCoins] = useState(null)
@@ -134,7 +133,7 @@ console.log(data)
        setComponent,
        data}}>
 
-          <Overview/>
+          {component}
    
 
         </ContextProvider>

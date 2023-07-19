@@ -58,7 +58,7 @@ gap-5  flex`} >
 
         <li className={`  border-b-2 -mb-2 md:-mb-7 `}> <button onClick={()=>togglePages()}>
         Overview </button> </li>
-        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button onClick={()=>console.log('market clicked')} >Markets</button></li>
+        <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button onClick={()=>setComponent(<Markets/>)} >Markets</button></li>
         <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={()=>setComponent(<Markets/>)}>Historical Data</button></li>
         <li className={`hover:border-b-2    -mb-2 md:-mb-7 border-cyan-100  min-w-max`}><button  onClick={()=>setComponent(<Markets/>)}>Tokenomics</button></li>
         <li className='text-green-600 px-2 rounded bg-green-200 '>
@@ -158,12 +158,12 @@ gap-5  flex`} >
                                 </P1>
                             </div>
                             <div className='flex w-1/2 md:items-center items-end mx-auto justify-end'>
-                                <TransparentBtn variant={`h-8 min-w-max`} >
-                                    Good  <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_positive-3c061f48ad805930938407b726cb987bc05ca809ea5f31818dbe848a5bbef24a.svg" alt="happy-emoji" />
+                                <TransparentBtn variant={`h-8 min-w-max `} >
+                                    Good  <img className='w-6 inline-block float-right ml-2 h-6' src="https://static.coingecko.com/s/sentiment_positive-3c061f48ad805930938407b726cb987bc05ca809ea5f31818dbe848a5bbef24a.svg" alt="happy-emoji" />
                                 </TransparentBtn>
 
-                                <TransparentBtn variant={'ml-2 h-8 min-w-max'} >
-                                    Bad <img className='w-6 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_negative-166b904f7e3eac2bcf80349f2319d12d2099aa95a04d3f006b7726cd6e849195.svg" alt="sad-emoji" />
+                                <TransparentBtn variant={'ml-2 h-8 min-w-max mr-2'} >
+                                    Bad <img className='w-6 ml-2 inline-block float-right h-6' src="https://static.coingecko.com/s/sentiment_negative-166b904f7e3eac2bcf80349f2319d12d2099aa95a04d3f006b7726cd6e849195.svg" alt="sad-emoji" />
                                 </TransparentBtn>
                             </div>
                         </div>

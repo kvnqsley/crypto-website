@@ -135,10 +135,10 @@ searchRef.current.focus()
 
 
     return <>
-    <div className={` ${!isSearchboxOpen ? 'h-20' : 'h-[50vh]'}  md:-mt-2 md:w-[19vw] `}>
-    <div className={`  ${isSearchboxOpen ? 'hidden' : ' md:block'} relative w-full md:-top-8 h-max   md:right-8`}>
-<FaSearch className='inline-block translate-y-5  md:translate-y-12  left-12 text-neutral-400 absolute'/> 
-<input  onFocus={()=>dispatch(showSearchDD())} className={` ${theme ? 'bg-neutral-900 text-white' :'bg-sky-600'} md:ml-8 text-center block md:inline-block mt-8 h-12 rounded-lg w-full md:w-56 pl-10 md:pl-4 border   z-50 border-sky-900`} type="search" placeholder="Search..." name="" id="" />
+    <div className={` ${!isSearchboxOpen ? 'h-20' : 'h-[50vh]'}  xl:-mt-2 xl:w-[19vw] `}>
+    <div className={`  ${isSearchboxOpen ? 'hidden' : ' xl:block'} relative w-full xl:-top-8 h-max   xl:right-8`}>
+<FaSearch className='inline-block translate-y-5  xl:translate-y-12  left-12 text-neutral-400 absolute'/> 
+<input  onFocus={()=>dispatch(showSearchDD())} className={` ${theme ? 'bg-neutral-900 text-white' :'bg-sky-600'} xl:ml-8 text-center block xl:inline-block mt-8 h-12 rounded-lg w-[90%] xl:w-56 pl-10 xl:pl-4 border   z-50 border-sky-900`} type="search" placeholder="Search..." name="" id="" />
      
 </div>
     <div className={`overflow-y-scroll  pb-4  search-dropdown ${isSearchboxOpen ? 'block' : ' hidden'} absolute     md:-top-2 md:-right-10 md:-translate-x-12 scroll z-50 w-full ${theme ? 'bg-neutral-900 text-white' :'bg-sky-700'} h-screen  border  no-scrollbar   z-50 border-sky-900`}>

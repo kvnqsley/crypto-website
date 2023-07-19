@@ -182,12 +182,14 @@ export default function Header({ setPages, banner,setBanner, theme }) {
 
 
   return <>
-    <header className={`${theme ? 'bg-black text-white' : 'bg-sky-700'} relative  sm:mx-16 mx-4 md:mx-auto   md:w-full `}>
+    <header className={`${theme ? 'bg-black text-white' : 'bg-sky-700'} relative  sm:mx-16 mx-4 xl:mx-auto  xl:w-full `}>
 
       {isLoading ? <marquee behavior="" className='text-red-800' direction="">Real time data not availabile.
         <h1 className='text-red-800 inline ml-4'>Please Check your Network</h1>
       </marquee> : <ul className=' w-full  md:flex  justify-around'>
         <li className='w-full h-full' >
+
+          {/*=========== TOP INFORMATION DISPLAY========= */}
           <ul className='absolute sm:overflow-visible overflow-x-scroll  border-y md:border-none  py-2 z-10  w-full  flex mb-6 md:justify-start gap-x-6 top-32 md:relative sm:top-36 md:top-auto '>
             <li className='min-w-max md:w-auto  text-xs md:ml-0 ml-2'>Exchanges: <Link className=' hover:text-green-800 text-green-500' to={'/exchanges'}>{data?.data.markets}</Link>
             </li>
@@ -206,6 +208,7 @@ export default function Header({ setPages, banner,setBanner, theme }) {
             </li>
           </ul>
         </li>
+         {/*=========== LANGUAGE AND CURRENCY DROPDOWN========= */}
         <li>
           <ul className=' hidden md:flex  min-w-[10rem] gap-4 '>
             <li className='cursor-pointer' >
@@ -240,32 +243,33 @@ export default function Header({ setPages, banner,setBanner, theme }) {
      ======================   menu */}
 
 
-      <div onClick={() => dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 md:hidden mt-4 ' >
+     <div className='flex xl:hidden w-full items-center '>
+     <div onClick={() => dispatch(openSidebar())} className='inline-block cursor-pointer px-2  w-18 mt-4 ' >
         <div className={`${!theme ? 'bg-slate-900' : 'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
         <div className={`${!theme ? 'bg-slate-900' : 'bg-neutral-700'}  w-6 mt-1 h-1 `}></div>
         <div className={`${!theme ? 'bg-slate-900 ' : 'bg-neutral-700'}  w-6  mt-1 h-1 `}></div>
       </div>
 
-      <div className=' inline md:hidden'>
+      <div className=' inline '>
        
       <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
         <h4 className='inline text-xl '>CoinMamba</h4>
       </div>
 
-      <div className='relative md:hidden'>
+      <img className="w-4 ml-auto mr-24" src='https://static.coingecko.com/s/candy_notification-62af2d17629b138154e3fac22a492b51d914d18461f9283ae4bd5ad5730d8763.svg' alt={'goodies-candy'} />
+     </div>
+
+      <div className='relative xl:hidden'>
 
         <FaSearch className='inline-block top-[1rem] left-12 text-gray-50 absolute' />
         <SearchboxDropdown theme={theme} />
       </div>
 
-      <nav className={`sticky z-40 hidden md:gap-4 md:flex min-w-full h-16 top-0 pt-3 border-t-2 border-b-2 border-t-slate-100`} >
-
-
-
+      <nav className={`sticky z-40 hidden justify-between text-lg md:text-sm    xl:flex min-w-full h-16 top-0 pt-3 border-t-2 border-b-2 border-t-slate-100`} >
 
       <img src='/d1azcfjq.png' className='rounded-full inline-block ml-4 h-10 mr-4 ' width={40} />
-        <h4 className=' min-w-[15rem]'>CoinMamba</h4>
-        <ul className='flex min-w-{10rem} gap-12  '>
+        <h4 className=' max-w-[10rem]'>CoinMamba</h4>
+        <ul className='flex min-w-{10rem} gap-3  '>
           <li className='cursor-pointer group'><NavLink to={'nft'}>NFT</NavLink>
             <ul className={`border-sky-900 ${theme ? 'bg-black' : 'bg-sky-700 '} min-w-max border absolute t hidden ease-linear duration-100 group-hover:block  border-neutral-400 min-h-max `}>
               <li className='mt-4 px-4 " mb-5 hover:bg-orange-100  hover:text-green-400 cursor-pointer" '>NFT Floor Price</li>
@@ -316,7 +320,7 @@ export default function Header({ setPages, banner,setBanner, theme }) {
           </li>
         </ul>
 
-        <ul className='flex relative gap-2 '>
+        <ul className='flex relative  justify-items-end '>
 {/* 
           HEADER COMPONENT TO RENDER ON USER SIGN IN------------------------------------  */}
           {
@@ -344,7 +348,8 @@ export default function Header({ setPages, banner,setBanner, theme }) {
                 }>
                   SIGN UP
                 </button> </li>
-                <li className='cursor-pointer'><FaQuestionCircle className='inline-block  mr-2' />
+                <li className='cursor-pointer'>
+                  <FaQuestionCircle className='inline-block  mr-2' />
                 </li>
               </>
 

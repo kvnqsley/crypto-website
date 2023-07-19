@@ -84,13 +84,7 @@ export default function Coins({ setData,data, setFavouriteCoin }) {
       if (pageNumber.page1 == true) {
          sortedData = data.market.slice(0, 100).reverse()
       }
-      //  if (pageNumber.page2==true) {
-      //     sortedData  = data.market.slice(100,200).reverse()
-      //     console.log('sygrgeuuie')
-      //    }
-      // if (pageNumber.page3==true) {
-      //     sortedData  = data.market.slice(200,250).reverse()
-      //    }
+    
 
       setData(state => {
          return {
@@ -105,9 +99,7 @@ export default function Coins({ setData,data, setFavouriteCoin }) {
 
 
    useEffect(() => {
-      // Cookies.set('favourite', convertedSVGToJSON)
-      // Usage
-      //  const svgPathElement = document.querySelectorAll('path');
+    
       if (favourite.target) {
          const json = convertSVGPathElementToJson(favourite.target)
          updateJSON(json)
@@ -171,21 +163,20 @@ export default function Coins({ setData,data, setFavouriteCoin }) {
       const coinImage = e.target.closest('.closestEl').children[1].children[0].children[0].attributes[0].nodeValue
 
       const tradeBtn = e.target.closest('.closestEl').cells[2]?.firstChild
+console.log(tradeBtn);
 
-
-      setAddPortfolio(prev => {
-         return {
-            ...prev,
-            addPortfolio: true,
-            coinName: coinText[0],
-            coinImage: coinImage,
-            tradeBtn: tradeBtn,
-            translateTab: path.top
-         }
-      })
-      if (!authStatus) {
-         dispatcH(openLogin())
-      }
+   
+      // ============== CHECK IF USER IS SIGNED IN BEFORE GRANTING PERMISSION TO ACCESS THE PORTFOLIO ==========
+      (!authStatus)  ? dispatcH(openLogin()) : setAddPortfolio(prev => {
+            return {
+               ...prev,
+               addPortfolio: true,
+               coinName: coinText[0],
+               coinImage: coinImage,
+               tradeBtn: tradeBtn,
+               translateTab: path.top
+            }
+         });
 
       const path = e.target.getBoundingClientRect()
 
@@ -194,25 +185,24 @@ export default function Coins({ setData,data, setFavouriteCoin }) {
             ...state,
             target: e.target
          }
-      })
+      });
 
 
-      if (e.target.style.fill == 'yellow') {
+       (e.target.style.fill == 'yellow') ?
          setAddPortfolio(state => {
             return {
                ...state,
                coinAdded: true,
             }
          })
-      }
-      else {
+      : (
          setAddPortfolio(state => {
             return {
                ...state,
                coinAdded: false,
             }
          })
-      }
+      );
 
 
 

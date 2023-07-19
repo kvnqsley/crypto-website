@@ -575,10 +575,10 @@ const Portfolio = ({ data,
         </main> : <main className={`min-h-screen mt-32 relative  w-full ${isSidebarActive ? 'hidden' : 'block'}`} >
             <section className=" relative place-items-center w-full flex flex-col-reverse md:flex-row justify-between md:static">
                 <div className="  md:top-0 w-full relative">
-                    <h1 className="font-bold w-11/12 mt-10  text-4xl md:w-2/3">
+                    <h1 className="font-bold w-11/12 mt-10  text-4xl xl:w-2/3">
                         Free &amp; Powerful Crypto Portfolio Tracker
                     </h1>
-                    <h3 className="text-neutral-400 w-full md:w-3/4 mt-6">Track your crypto earnings like a pro, with a user-friendly and reliable portfolio tracker that you can rely on
+                    <h3 className="text-neutral-400 w-full xl:w-3/4 mt-6">Track your crypto earnings like a pro, with a user-friendly and reliable portfolio tracker that you can rely on
 
                     </h3>
                     <button
