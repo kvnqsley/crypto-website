@@ -16,15 +16,18 @@ const Page = ({theme,data}) => {
     const currency = useSelector(state=>state.currency.currency)
    
     const [allCoins,setAllCoins] = useState(null)
-    const [active,setActive] = useState(false)
-    const [component,setComponent] = useState('Overview')    
+    const [readMore,setReadMore] = useState(false)
+    const [component,setComponent] = useState(<Overview/>)    
 
     const handleClick=()=>{
-        setActive(prev=>!prev)
+        setReadMore(prev=>!prev)
      
     }
 
     const {id} =  useParams()
+    let isBitcoin;
+    (id == 'bitcoin' ? isBitcoin = true : null);
+
     useEffect(()=>{
         getGlobalData(setAllCoins)
         
@@ -107,10 +110,12 @@ const Page = ({theme,data}) => {
 
         <Section1 searchedCoin={searchedCoin}
         info={info}
+       isBitcoin={isBitcoin}
         otherCoins={otherCoins}
         setInfo={setInfo}
         theme={theme}
         />
+        
 
 {/*         
         <Section2 
@@ -128,9 +133,10 @@ const Page = ({theme,data}) => {
        id,
        theme,
        currency,
-       active,
+       readMore,
        handleClick,
        setComponent,
+       isBitcoin,
        data}}>
 
           {component}

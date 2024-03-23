@@ -396,9 +396,9 @@ console.log(tradeBtn);
 
 
             {showStats.statsData && <div
-               className={`   ${showStats.statsActive ? 'block' : 'hidden'}  grid min-h-max gap-x-2 gap-y-2 mt-10 md:mt-6  pb-2  w-full md:grid-cols-4 md:grid-rows-1 grid-rows-4`}>
+               className={`   ${showStats.statsActive ? 'block' : 'hidden'}  grid min-h-max gap-x-2 gap-y-2 mt-10 xl:mt-6  pb-2  w-full xl:grid-cols-4 xl:grid-rows-1 grid-rows-4`}>
                <div
-                  className={` ${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'} ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  min-h-max w-full`}>
+                  className={` ${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'} ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg border-t-0 py-2  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  min-h-max w-full`}>
                   <h3 className="mt-4 text-lg font-semibold"> &euro;{data.header.data.updated_at.toLocaleString()} <span
                      className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'text-red-700' : 'text-green-400'} text-sm`}>{data.header.data.market_cap_change_percentage_24h_usd.toFixed(1)}%
                      {data.header.data.market_cap_change_percentage_24h_usd < 0 ? <FaLevelDownAlt className='inline' /> : <FaLevelUpAlt className='inline' />}
@@ -407,17 +407,17 @@ console.log(tradeBtn);
                   <h3 className="font-sm mt-4  text-neutral-400">Market Capitalization</h3>
 
                </div>
-               <div className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'}  ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg  border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent  h-24  w-full`}>
+               <div className={`${data.header.data.market_cap_change_percentage_24h_usd < 0 ? 'border-l-red-700' : 'border-l-green-400'}  ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-l-[6px] shadow-lg  border-t-0 py-2 border-b-0 border-b-transparent rounded-lg pl-8 border-t-transparent min-h-max   h-24  w-full`}>
                   <h3 className="mt-4 text-lg font-semibold">- </h3>
                   <h3 className="font-sm mt-4  text-neutral-400">24H Trading Volume</h3>
 
                </div>
-               <div className={` border-l-[6px] shadow-lg  border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-t-transparent border-l-neutral-400 h-24  w-full`}>
+               <div className={` border-l-[6px] shadow-lg  border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-t-transparent border-l-neutral-400 min-h-max py-2 h-24  w-full`}>
                   <h3 className="mt-4 text-lg font-semibold"> {data.header.data.market_cap_percentage.btc.toFixed(2)} % </h3>
                   <h3 className="font-sm mt-4  text-neutral-400">Bitcoin Market Cap Dominance</h3>
 
                </div>
-               <div className={` border-l-[6px]  shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-t-transparent border-l-neutral-400 h-24  w-full`}>
+               <div className={` border-l-[6px]  shadow-lg border-t-0  border-b-0 border-b-transparent rounded-lg pl-8 ${theme ? 'bg-neutral-900' : 'bg-sky-800'} border-t-transparent border-l-neutral-400 min-h-max py-2 h-24  w-full`}>
                   <h3 className="mt-4 text-lg font-semibold"> {data.header.data.active_cryptocurrencies.toLocaleString()} </h3>
                   <h3 className="font-sm mt-4  text-neutral-400"># of Coins</h3>
 

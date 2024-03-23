@@ -20,10 +20,12 @@ import UpDowntrend from '/src/utils/UpDowntrend'
 
 
 const Section1 = ({ theme,
+    isBitcoin,
     setInfo,
     searchedCoin,
     info,
     otherCoins }) => {
+
     return (
         <div className='flex flex-col gap-y-4 xl:flex-row justify-between gap-x-6 w-full  mt-8 '>
 
@@ -173,15 +175,18 @@ const Section1 = ({ theme,
                 </button>
                 <div className={`grid grid-cols-2  md:grid ${info ? 'grid' : 'hidden'} mt-6 md:mt-auto  gap-y-4 grid-rows-[7]`}>
                     <div className='flex flex-col  gap-y-1'>
-                        <p className='font-light text-neutral-300'>
+                      {!isBitcoin &&   <p className='font-light text-neutral-300'>
                             Contract
-                        </p>
+                        </p>}
                         <p className='font-light text-neutral-300'>
                             Website
                         </p>
                         <p className='font-light text-neutral-300'>
                             Explorers
                         </p>
+                       {!!isBitcoin &&  <p className='font-light text-neutral-300'>
+                            Wallets
+                        </p>}
                         <p className='font-light text-neutral-300'>
                             Community
                         </p>
@@ -198,34 +203,44 @@ const Section1 = ({ theme,
                     </div>
 
                     <div className='flex flex-col w-full gap-y-2'>
-                        <div className={`font-semibold text-sm relative  rounded-lg    ${theme ? 'bg-slate-700' : 'bg-blue-100'} h-5  w-full rounded-r-lg  `}>
+                    {!isBitcoin &&   <div className={`font-semibold text-sm relative  rounded-lg    ${theme ? 'bg-slate-700' : 'bg-blue-100'} h-5  w-full rounded-r-lg  `}>
 
-                            <p className='w-full hover:text-green-600 px-2 inline-block'>
-                                {otherCoins?.platforms?.ethereum?.slice(0, 5)}...{otherCoins?.platforms?.ethereum?.slice(-5)}
-                            </p>
-                            <FaCopy className='inline-block absolute top-0 right-16' />
+<p className='w-full hover:text-green-600 px-2 inline-block'>
+    {otherCoins?.platforms?.ethereum?.slice(0, 5)}...{otherCoins?.platforms?.ethereum?.slice(-5)}
+</p>
+<FaCopy className='inline-block absolute top-0 right-16' />
 
-                            <button className={`inline-block hover:text-green-600 text-sm rounded-r-lg  w-8 h-full ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute top-0 right-0`}>
-                                ...
+<button className={`inline-block hover:text-green-600 text-sm rounded-r-lg  w-8 h-full ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute top-0 right-0`}>
+    ...
 
-                            </button>
-                            <div>
-                                <p>
-                                    {/* {otherCoins?.platforms?.arbitrum-one} */}
-                                </p>
-                                <p>
-                                    {/* {otherCoins?.platforms?.binance-smart-chain} */}
-                                </p>
-                            </div>
-                        </div>
+</button>
+<div>
+    <p>
+        {/* {otherCoins?.platforms?.arbitrum-one} */}
+    </p>
+    <p>
+        {/* {otherCoins?.platforms?.binance-smart-chain} */}
+    </p>
+</div>
+</div>}  
 
                         <a href='#' className={`font-semibold text-left ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max hover:text-green-600 text-sm`}>
-                            pepe.vip
+                            bitcoin.org
                         </a>
-                        <a className={`font-semibold text-left   ${theme ? 'bg-slate-700' : 'bg-blue-100'} relative rounded-lg button px-2 text-sm  hover:text-green-600`}>
+                        {!!isBitcoin &&  <a href='#' className={`font-semibold text-left ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max hover:text-green-600 text-sm`}>
+                            Whitepaper
+                        </a> }
+                       {isBitcoin ?  <a className={`font-semibold text-left   ${theme ? 'bg-slate-700' : 'bg-blue-100'} relative rounded-lg button px-2 text-sm  hover:text-green-600`}>
+                            Blockchain
+                            <button className={`inline-block text-sm rounded-r-lg ml-4 w-8  ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute right-0`}>...</button>
+                        </a>:  <a className={`font-semibold text-left   ${theme ? 'bg-slate-700' : 'bg-blue-100'} relative rounded-lg button px-2 text-sm  hover:text-green-600`}>
                             Etherscan
                             <button className={`inline-block text-sm rounded-r-lg ml-4 w-8  ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute right-0`}>...</button>
-                        </a>
+                        </a>}
+                        {!!isBitcoin &&  <a className={`font-semibold text-left   ${theme ? 'bg-slate-700' : 'bg-blue-100'} relative rounded-lg button px-2 text-sm  hover:text-green-600`}>
+                            Ledger
+                            <button className={`inline-block text-sm rounded-r-lg ml-4 w-8  ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute right-0`}>...</button>
+                        </a>}
                         <p className='font-semibold  text-sm w-max '>
                             <a href="" className={`${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 hover:text-green-600`}>
                                 <FaTwitter className='inline-block' /> Twitter
@@ -242,10 +257,14 @@ const Section1 = ({ theme,
                         <p className={`font-semibold text-sm ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg px-2 w-max`}>
                             {searchedCoin.id} <FaCopy className='inline-block' />
                         </p>
-                        <button className={`font-semibold text-sm text-left  hover:text-green-600 relative ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg pl-2`}>
+                       
+                        {isBitcoin ? <button className={`font-semibold text-sm text-left  hover:text-green-600 relative ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg pl-2`}>
+                          Layer 1 (L1)
+                            <span className={`inline-block hover:text-green-600 text-sm rounded-r-lg  w-8 h-full ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute top-0 right-0`}>...</span>
+                        </button>: <button className={`font-semibold text-sm text-left  hover:text-green-600 relative ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg pl-2`}>
                             Ethereum Ecosystem
                             <span className={`inline-block hover:text-green-600 text-sm rounded-r-lg  w-8 h-full ${theme ? 'bg-slate-800' : 'bg-blue-200'} absolute top-0 right-0`}>...</span>
-                        </button>
+                        </button> }
                     </div>
                 </div>
                 <button onClick={() => setInfo(false)} className={`w-full ${info ? 'block' : 'hidden'} ${theme ? 'bg-slate-700' : 'bg-blue-100'} rounded-lg my-4  md:hidden text-center font-semibold py-2`}>
