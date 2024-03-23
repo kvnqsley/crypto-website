@@ -34,7 +34,7 @@ const CoinTable = ({ data, pageNumber, shuffleData, theme, openFavourite }) => {
 
         <div className=" w-full close mt-10 flex ">
 
-            <table className="table-fixed  ">
+            <table className="table-fixed w-auto  ">
 
 
                 {!data?.market.length ? <tbody className="text-center h-screen col-">
